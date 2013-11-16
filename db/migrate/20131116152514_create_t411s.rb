@@ -2,8 +2,8 @@ class CreateT411s < ActiveRecord::Migration
   def change
     create_table :t411s do |t|
       t.integer :awon_station_id
-      t.date :theDate
-      t.integer :theTime
+      t.date :date
+      t.integer :time
       t.float :DMnBatt
       t.float :DToPcpn
       t.float :DAvSol

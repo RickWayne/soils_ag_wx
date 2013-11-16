@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116155359) do
+ActiveRecord::Schema.define(version: 20131116162131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,8 +85,8 @@ ActiveRecord::Schema.define(version: 20131116155359) do
 
   create_table "t411s", force: true do |t|
     t.integer  "awon_station_id"
-    t.date     "theDate"
-    t.integer  "theTime"
+    t.date     "date"
+    t.integer  "time"
     t.float    "DMnBatt"
     t.float    "DToPcpn"
     t.float    "DAvSol"
@@ -119,6 +119,30 @@ ActiveRecord::Schema.define(version: 20131116155359) do
     t.float    "DTnTdew"
     t.float    "DRefET"
     t.float    "DPctClr"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "t412s", force: true do |t|
+    t.integer  "awon_station_id"
+    t.date     "date"
+    t.integer  "time"
+    t.float    "DAvTS05"
+    t.float    "DMxTS05"
+    t.float    "DTxTS05"
+    t.float    "DMnTS05"
+    t.float    "DTnTS05"
+    t.float    "DAvTS10"
+    t.float    "DMxTS10"
+    t.float    "DTxTS10"
+    t.float    "DMnTS10"
+    t.float    "DTnTS10"
+    t.float    "DAvTS50"
+    t.float    "DMxTS50"
+    t.float    "DTxTS50"
+    t.float    "DMnTS50"
+    t.float    "DTnTS50"
+    t.float    "DAvTS1m"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,0 +1,63 @@
+<h1>Listing t412s</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Awon station</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Davts05</th>
+      <th>Dmxts05</th>
+      <th>Dtxts05</th>
+      <th>Dmnts05</th>
+      <th>Dtnts05</th>
+      <th>Davts10</th>
+      <th>Dmxts10</th>
+      <th>Dtxts10</th>
+      <th>Dmnts10</th>
+      <th>Dtnts10</th>
+      <th>Davts50</th>
+      <th>Dmxts50</th>
+      <th>Dtxts50</th>
+      <th>Dmnts50</th>
+      <th>Dtnts50</th>
+      <th>Davts1m</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @t412s.each do |t412| %>
+      <tr>
+        <td><%= t412.awon_station_id %></td>
+        <td><%= t412.date %></td>
+        <td><%= t412.time %></td>
+        <td><%= t412.DAvTS05 %></td>
+        <td><%= t412.DMxTS05 %></td>
+        <td><%= t412.DTxTS05 %></td>
+        <td><%= t412.DMnTS05 %></td>
+        <td><%= t412.DTnTS05 %></td>
+        <td><%= t412.DAvTS10 %></td>
+        <td><%= t412.DMxTS10 %></td>
+        <td><%= t412.DTxTS10 %></td>
+        <td><%= t412.DMnTS10 %></td>
+        <td><%= t412.DTnTS10 %></td>
+        <td><%= t412.DAvTS50 %></td>
+        <td><%= t412.DMxTS50 %></td>
+        <td><%= t412.DTxTS50 %></td>
+        <td><%= t412.DMnTS50 %></td>
+        <td><%= t412.DTnTS50 %></td>
+        <td><%= t412.DAvTS1m %></td>
+        <td><%= link_to 'Show', t412 %></td>
+        <td><%= link_to 'Edit', edit_t412_path(t412) %></td>
+        <td><%= link_to 'Destroy', t412, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New T412', new_t412_path %>

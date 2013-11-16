@@ -69,6 +69,6 @@ class T411sController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def t411_params
-      params.require(:t411).permit(:awon_station_id, :theDate, :theTime, :DMnBatt, :DToPcpn, :DAvSol, :DAvTAir, :DMxTAir, :DTxTAir, :DMnTAir, :DTnTAir, :DAvRHum, :DMxRHum, :DTxRHum, :DMnRHum, :DTnRHum, :DAvVPre, :DAvVDef, :DPkWind, :DTkWind, :DAvWind, :DRsWind, :DRsDir, :DDvDir, :DAvPAR, :DMxWnd1, :DTxWnd1, :DMxDir1, :DAvTdew, :DMxTdew, :DTxTdew, :DMnTdew, :DTnTdew, :DRefET, :DPctClr)
+      params.require(:t411).permit(:awon_station_id, :date, :time, :DMnBatt, :DToPcpn, :DAvSol, :DAvTAir, :DMxTAir, :DTxTAir, :DMnTAir, :DTnTAir, :DAvRHum, :DMxRHum, :DTxRHum, :DMnRHum, :DTnRHum, :DAvVPre, :DAvVDef, :DPkWind, :DTkWind, :DAvWind, :DRsWind, :DRsDir, :DDvDir, :DAvPAR, :DMxWnd1, :DTxWnd1, :DMxDir1, :DAvTdew, :DMxTdew, :DTxTdew, :DMnTdew, :DTnTdew, :DRefET, :DPctClr)
     end
 end

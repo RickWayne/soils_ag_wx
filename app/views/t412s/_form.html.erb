@@ -1,0 +1,93 @@
+<%= form_for(@t412) do |f| %>
+  <% if @t412.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@t412.errors.count, "error") %> prohibited this t412 from being saved:</h2>
+
+      <ul>
+      <% @t412.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :awon_station_id %><br>
+    <%= f.number_field :awon_station_id %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :time %><br>
+    <%= f.number_field :time %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvTS05 %><br>
+    <%= f.text_field :DAvTS05 %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxTS05 %><br>
+    <%= f.text_field :DMxTS05 %>
+  </div>
+  <div class="field">
+    <%= f.label :DTxTS05 %><br>
+    <%= f.text_field :DTxTS05 %>
+  </div>
+  <div class="field">
+    <%= f.label :DMnTS05 %><br>
+    <%= f.text_field :DMnTS05 %>
+  </div>
+  <div class="field">
+    <%= f.label :DTnTS05 %><br>
+    <%= f.text_field :DTnTS05 %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvTS10 %><br>
+    <%= f.text_field :DAvTS10 %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxTS10 %><br>
+    <%= f.text_field :DMxTS10 %>
+  </div>
+  <div class="field">
+    <%= f.label :DTxTS10 %><br>
+    <%= f.text_field :DTxTS10 %>
+  </div>
+  <div class="field">
+    <%= f.label :DMnTS10 %><br>
+    <%= f.text_field :DMnTS10 %>
+  </div>
+  <div class="field">
+    <%= f.label :DTnTS10 %><br>
+    <%= f.text_field :DTnTS10 %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvTS50 %><br>
+    <%= f.text_field :DAvTS50 %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxTS50 %><br>
+    <%= f.text_field :DMxTS50 %>
+  </div>
+  <div class="field">
+    <%= f.label :DTxTS50 %><br>
+    <%= f.text_field :DTxTS50 %>
+  </div>
+  <div class="field">
+    <%= f.label :DMnTS50 %><br>
+    <%= f.text_field :DMnTS50 %>
+  </div>
+  <div class="field">
+    <%= f.label :DTnTS50 %><br>
+    <%= f.text_field :DTnTS50 %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvTS1m %><br>
+    <%= f.text_field :DAvTS1m %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

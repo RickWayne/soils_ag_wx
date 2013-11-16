@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  awon_station_id: 1
+  date: 2013-11-16
+  time: 1
+  DAvTS05: 1.5
+  DMxTS05: 1.5
+  DTxTS05: 1.5
+  DMnTS05: 1.5
+  DTnTS05: 1.5
+  DAvTS10: 1.5
+  DMxTS10: 1.5
+  DTxTS10: 1.5
+  DMnTS10: 1.5
+  DTnTS10: 1.5
+  DAvTS50: 1.5
+  DMxTS50: 1.5
+  DTxTS50: 1.5
+  DMnTS50: 1.5
+  DTnTS50: 1.5
+  DAvTS1m: 1.5
+
+two:
+  awon_station_id: 1
+  date: 2013-11-16
+  time: 1
+  DAvTS05: 1.5
+  DMxTS05: 1.5
+  DTxTS05: 1.5
+  DMnTS05: 1.5
+  DTnTS05: 1.5
+  DAvTS10: 1.5
+  DMxTS10: 1.5
+  DTxTS10: 1.5
+  DMnTS10: 1.5
+  DTnTS10: 1.5
+  DAvTS50: 1.5
+  DMxTS50: 1.5
+  DTxTS50: 1.5
+  DMnTS50: 1.5
+  DTnTS50: 1.5
+  DAvTS1m: 1.5

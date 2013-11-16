@@ -2,8 +2,8 @@
 
 one:
   awon_station_id: 1
-  theDate: 2013-11-16
-  theTime: 1
+  date: 2013-11-16
+  time: 1
   DMnBatt: 1.5
   DToPcpn: 1.5
   DAvSol: 1.5
@@ -39,8 +39,8 @@ one:
 
 two:
   awon_station_id: 1
-  theDate: 2013-11-16
-  theTime: 1
+  date: 2013-11-16
+  time: 1
   DMnBatt: 1.5
   DToPcpn: 1.5
   DAvSol: 1.5
