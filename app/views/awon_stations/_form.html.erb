@@ -1,0 +1,73 @@
+<%= form_for(@awon_station) do |f| %>
+  <% if @awon_station.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@awon_station.errors.count, "error") %> prohibited this awon_station from being saved:</h2>
+
+      <ul>
+      <% @awon_station.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :stnid %><br>
+    <%= f.number_field :stnid %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :abbrev %><br>
+    <%= f.text_field :abbrev %>
+  </div>
+  <div class="field">
+    <%= f.label :county %><br>
+    <%= f.text_field :county %>
+  </div>
+  <div class="field">
+    <%= f.label :latitude %><br>
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br>
+    <%= f.text_field :longitude %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br>
+    <%= f.check_box :status %>
+  </div>
+  <div class="field">
+    <%= f.label :wind %><br>
+    <%= f.check_box :wind %>
+  </div>
+  <div class="field">
+    <%= f.label :humidity %><br>
+    <%= f.check_box :humidity %>
+  </div>
+  <div class="field">
+    <%= f.label :has_401 %><br>
+    <%= f.check_box :has_401 %>
+  </div>
+  <div class="field">
+    <%= f.label :has_403 %><br>
+    <%= f.check_box :has_403 %>
+  </div>
+  <div class="field">
+    <%= f.label :has_411 %><br>
+    <%= f.check_box :has_411 %>
+  </div>
+  <div class="field">
+    <%= f.label :has_412 %><br>
+    <%= f.check_box :has_412 %>
+  </div>
+  <div class="field">
+    <%= f.label :has_404 %><br>
+    <%= f.check_box :has_404 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

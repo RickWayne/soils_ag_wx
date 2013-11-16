@@ -1,0 +1,93 @@
+<h1>Listing wi_mn_dets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Datestamp</th>
+      <th>Timestamp</th>
+      <th>Latitude</th>
+      <th>w980</th>
+      <th>w976</th>
+      <th>w972</th>
+      <th>w968</th>
+      <th>w964</th>
+      <th>w960</th>
+      <th>w956</th>
+      <th>w952</th>
+      <th>w948</th>
+      <th>w944</th>
+      <th>w940</th>
+      <th>w936</th>
+      <th>w932</th>
+      <th>w928</th>
+      <th>w924</th>
+      <th>w920</th>
+      <th>w916</th>
+      <th>w912</th>
+      <th>w908</th>
+      <th>w904</th>
+      <th>w900</th>
+      <th>w896</th>
+      <th>w892</th>
+      <th>w888</th>
+      <th>w884</th>
+      <th>w880</th>
+      <th>w876</th>
+      <th>w872</th>
+      <th>w868</th>
+      <th>w864</th>
+      <th>w860</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @wi_mn_dets.each do |wi_mn_det| %>
+      <tr>
+        <td><%= wi_mn_det.dateStamp %></td>
+        <td><%= wi_mn_det.timeStamp %></td>
+        <td><%= wi_mn_det.latitude %></td>
+        <td><%= wi_mn_det.w980 %></td>
+        <td><%= wi_mn_det.w976 %></td>
+        <td><%= wi_mn_det.w972 %></td>
+        <td><%= wi_mn_det.w968 %></td>
+        <td><%= wi_mn_det.w964 %></td>
+        <td><%= wi_mn_det.w960 %></td>
+        <td><%= wi_mn_det.w956 %></td>
+        <td><%= wi_mn_det.w952 %></td>
+        <td><%= wi_mn_det.w948 %></td>
+        <td><%= wi_mn_det.w944 %></td>
+        <td><%= wi_mn_det.w940 %></td>
+        <td><%= wi_mn_det.w936 %></td>
+        <td><%= wi_mn_det.w932 %></td>
+        <td><%= wi_mn_det.w928 %></td>
+        <td><%= wi_mn_det.w924 %></td>
+        <td><%= wi_mn_det.w920 %></td>
+        <td><%= wi_mn_det.w916 %></td>
+        <td><%= wi_mn_det.w912 %></td>
+        <td><%= wi_mn_det.w908 %></td>
+        <td><%= wi_mn_det.w904 %></td>
+        <td><%= wi_mn_det.w900 %></td>
+        <td><%= wi_mn_det.w896 %></td>
+        <td><%= wi_mn_det.w892 %></td>
+        <td><%= wi_mn_det.w888 %></td>
+        <td><%= wi_mn_det.w884 %></td>
+        <td><%= wi_mn_det.w880 %></td>
+        <td><%= wi_mn_det.w876 %></td>
+        <td><%= wi_mn_det.w872 %></td>
+        <td><%= wi_mn_det.w868 %></td>
+        <td><%= wi_mn_det.w864 %></td>
+        <td><%= wi_mn_det.w860 %></td>
+        <td><%= link_to 'Show', wi_mn_det %></td>
+        <td><%= link_to 'Edit', edit_wi_mn_det_path(wi_mn_det) %></td>
+        <td><%= link_to 'Destroy', wi_mn_det, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Wi mn det', new_wi_mn_det_path %>

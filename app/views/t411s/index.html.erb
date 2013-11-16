@@ -1,0 +1,95 @@
+<h1>Listing t411s</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>awon_station_id</th>
+      <th>Thedate</th>
+      <th>Thetime</th>
+      <th>Dmnbatt</th>
+      <th>Dtopcpn</th>
+      <th>Davsol</th>
+      <th>Davtair</th>
+      <th>Dmxtair</th>
+      <th>Dtxtair</th>
+      <th>Dmntair</th>
+      <th>Dtntair</th>
+      <th>Davrhum</th>
+      <th>Dmxrhum</th>
+      <th>Dtxrhum</th>
+      <th>Dmnrhum</th>
+      <th>Dtnrhum</th>
+      <th>Davvpre</th>
+      <th>Davvdef</th>
+      <th>Dpkwind</th>
+      <th>Dtkwind</th>
+      <th>Davwind</th>
+      <th>Drswind</th>
+      <th>Drsdir</th>
+      <th>Ddvdir</th>
+      <th>Davpar</th>
+      <th>Dmxwnd1</th>
+      <th>Dtxwnd1</th>
+      <th>Dmxdir1</th>
+      <th>Davtdew</th>
+      <th>Dmxtdew</th>
+      <th>Dtxtdew</th>
+      <th>Dmntdew</th>
+      <th>Dtntdew</th>
+      <th>Drefet</th>
+      <th>Dpctclr</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @t411s.each do |t411| %>
+      <tr>
+        <td><%= t411.awon_station_id %></td>
+        <td><%= t411.theDate %></td>
+        <td><%= t411.theTime %></td>
+        <td><%= t411.DMnBatt %></td>
+        <td><%= t411.DToPcpn %></td>
+        <td><%= t411.DAvSol %></td>
+        <td><%= t411.DAvTAir %></td>
+        <td><%= t411.DMxTAir %></td>
+        <td><%= t411.DTxTAir %></td>
+        <td><%= t411.DMnTAir %></td>
+        <td><%= t411.DTnTAir %></td>
+        <td><%= t411.DAvRHum %></td>
+        <td><%= t411.DMxRHum %></td>
+        <td><%= t411.DTxRHum %></td>
+        <td><%= t411.DMnRHum %></td>
+        <td><%= t411.DTnRHum %></td>
+        <td><%= t411.DAvVPre %></td>
+        <td><%= t411.DAvVDef %></td>
+        <td><%= t411.DPkWind %></td>
+        <td><%= t411.DTkWind %></td>
+        <td><%= t411.DAvWind %></td>
+        <td><%= t411.DRsWind %></td>
+        <td><%= t411.DRsDir %></td>
+        <td><%= t411.DDvDir %></td>
+        <td><%= t411.DAvPAR %></td>
+        <td><%= t411.DMxWnd1 %></td>
+        <td><%= t411.DTxWnd1 %></td>
+        <td><%= t411.DMxDir1 %></td>
+        <td><%= t411.DAvTdew %></td>
+        <td><%= t411.DMxTdew %></td>
+        <td><%= t411.DTxTdew %></td>
+        <td><%= t411.DMnTdew %></td>
+        <td><%= t411.DTnTdew %></td>
+        <td><%= t411.DRefET %></td>
+        <td><%= t411.DPctClr %></td>
+        <td><%= link_to 'Show', t411 %></td>
+        <td><%= link_to 'Edit', edit_t411_path(t411) %></td>
+        <td><%= link_to 'Destroy', t411, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New T411', new_t411_path %>

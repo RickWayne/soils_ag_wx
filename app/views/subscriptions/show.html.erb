@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @subscription.name %>
+</p>
+
+<p>
+  <strong>Subscriber:</strong>
+  <%= @subscription.subscriber_id %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @subscription.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @subscription.longitude %>
+</p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @subscription.product_id %>
+</p>
+
+<%= link_to 'Edit', edit_subscription_path(@subscription) %> |
+<%= link_to 'Back', subscriptions_path %>

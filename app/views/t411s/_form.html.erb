@@ -1,0 +1,157 @@
+<%= form_for(@t411) do |f| %>
+  <% if @t411.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@t411.errors.count, "error") %> prohibited this t411 from being saved:</h2>
+
+      <ul>
+      <% @t411.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :awon_station_id %><br>
+    <%= f.number_field :awon_station_id %>
+  </div>
+  <div class="field">
+    <%= f.label :theDate %><br>
+    <%= f.date_select :theDate %>
+  </div>
+  <div class="field">
+    <%= f.label :theTime %><br>
+    <%= f.number_field :theTime %>
+  </div>
+  <div class="field">
+    <%= f.label :DMnBatt %><br>
+    <%= f.text_field :DMnBatt %>
+  </div>
+  <div class="field">
+    <%= f.label :DToPcpn %><br>
+    <%= f.text_field :DToPcpn %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvSol %><br>
+    <%= f.text_field :DAvSol %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvTAir %><br>
+    <%= f.text_field :DAvTAir %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxTAir %><br>
+    <%= f.text_field :DMxTAir %>
+  </div>
+  <div class="field">
+    <%= f.label :DTxTAir %><br>
+    <%= f.text_field :DTxTAir %>
+  </div>
+  <div class="field">
+    <%= f.label :DMnTAir %><br>
+    <%= f.text_field :DMnTAir %>
+  </div>
+  <div class="field">
+    <%= f.label :DTnTAir %><br>
+    <%= f.text_field :DTnTAir %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvRHum %><br>
+    <%= f.text_field :DAvRHum %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxRHum %><br>
+    <%= f.text_field :DMxRHum %>
+  </div>
+  <div class="field">
+    <%= f.label :DTxRHum %><br>
+    <%= f.text_field :DTxRHum %>
+  </div>
+  <div class="field">
+    <%= f.label :DMnRHum %><br>
+    <%= f.text_field :DMnRHum %>
+  </div>
+  <div class="field">
+    <%= f.label :DTnRHum %><br>
+    <%= f.text_field :DTnRHum %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvVPre %><br>
+    <%= f.text_field :DAvVPre %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvVDef %><br>
+    <%= f.text_field :DAvVDef %>
+  </div>
+  <div class="field">
+    <%= f.label :DPkWind %><br>
+    <%= f.text_field :DPkWind %>
+  </div>
+  <div class="field">
+    <%= f.label :DTkWind %><br>
+    <%= f.text_field :DTkWind %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvWind %><br>
+    <%= f.text_field :DAvWind %>
+  </div>
+  <div class="field">
+    <%= f.label :DRsWind %><br>
+    <%= f.text_field :DRsWind %>
+  </div>
+  <div class="field">
+    <%= f.label :DRsDir %><br>
+    <%= f.text_field :DRsDir %>
+  </div>
+  <div class="field">
+    <%= f.label :DDvDir %><br>
+    <%= f.text_field :DDvDir %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvPAR %><br>
+    <%= f.text_field :DAvPAR %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxWnd1 %><br>
+    <%= f.text_field :DMxWnd1 %>
+  </div>
+  <div class="field">
+    <%= f.label :DTxWnd1 %><br>
+    <%= f.text_field :DTxWnd1 %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxDir1 %><br>
+    <%= f.text_field :DMxDir1 %>
+  </div>
+  <div class="field">
+    <%= f.label :DAvTdew %><br>
+    <%= f.text_field :DAvTdew %>
+  </div>
+  <div class="field">
+    <%= f.label :DMxTdew %><br>
+    <%= f.text_field :DMxTdew %>
+  </div>
+  <div class="field">
+    <%= f.label :DTxTdew %><br>
+    <%= f.text_field :DTxTdew %>
+  </div>
+  <div class="field">
+    <%= f.label :DMnTdew %><br>
+    <%= f.text_field :DMnTdew %>
+  </div>
+  <div class="field">
+    <%= f.label :DTnTdew %><br>
+    <%= f.text_field :DTnTdew %>
+  </div>
+  <div class="field">
+    <%= f.label :DRefET %><br>
+    <%= f.text_field :DRefET %>
+  </div>
+  <div class="field">
+    <%= f.label :DPctClr %><br>
+    <%= f.text_field :DPctClr %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

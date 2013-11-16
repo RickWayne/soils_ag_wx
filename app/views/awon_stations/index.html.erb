@@ -1,0 +1,53 @@
+<h1>Listing awon_stations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stnid</th>
+      <th>Name</th>
+      <th>Abbrev</th>
+      <th>County</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Status</th>
+      <th>Wind</th>
+      <th>Humidity</th>
+      <th>Has 401</th>
+      <th>Has 403</th>
+      <th>Has 411</th>
+      <th>Has 412</th>
+      <th>Has 404</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @awon_stations.each do |awon_station| %>
+      <tr>
+        <td><%= awon_station.stnid %></td>
+        <td><%= awon_station.name %></td>
+        <td><%= awon_station.abbrev %></td>
+        <td><%= awon_station.county %></td>
+        <td><%= awon_station.latitude %></td>
+        <td><%= awon_station.longitude %></td>
+        <td><%= awon_station.status %></td>
+        <td><%= awon_station.wind %></td>
+        <td><%= awon_station.humidity %></td>
+        <td><%= awon_station.has_401 %></td>
+        <td><%= awon_station.has_403 %></td>
+        <td><%= awon_station.has_411 %></td>
+        <td><%= awon_station.has_412 %></td>
+        <td><%= awon_station.has_404 %></td>
+        <td><%= link_to 'Show', awon_station %></td>
+        <td><%= link_to 'Edit', edit_awon_station_path(awon_station) %></td>
+        <td><%= link_to 'Destroy', awon_station, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Awon station', new_awon_station_path %>

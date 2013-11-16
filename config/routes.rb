@@ -1,4 +1,18 @@
 SoilsAgWx::Application.routes.draw do
+  resources :awon_stations
+
+  resources :wi_mn_dets
+
+  resources :products
+
+  resources :subscriptions
+
+  resources :subscribers
+
+  resources :blogs
+
+  resources :t411s
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

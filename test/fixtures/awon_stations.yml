@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  stnid: 1
+  name: MyString
+  abbrev: MyString
+  county: MyString
+  latitude: 1.5
+  longitude: 1.5
+  status: false
+  wind: false
+  humidity: false
+  has_401: false
+  has_403: false
+  has_411: false
+  has_412: false
+  has_404: false
+
+two:
+  stnid: 1
+  name: MyString
+  abbrev: MyString
+  county: MyString
+  latitude: 1.5
+  longitude: 1.5
+  status: false
+  wind: false
+  humidity: false
+  has_401: false
+  has_403: false
+  has_411: false
+  has_412: false
+  has_404: false
