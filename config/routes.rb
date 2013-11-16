@@ -1,4 +1,10 @@
 SoilsAgWx::Application.routes.draw do
+  resources :t401s
+
+  resources :t406s
+
+  resources :t403s
+
   resources :t412s
 
   resources :awon_stations

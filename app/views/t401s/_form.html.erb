@@ -1,0 +1,41 @@
+<%= form_for(@t401) do |f| %>
+  <% if @t401.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@t401.errors.count, "error") %> prohibited this t401 from being saved:</h2>
+
+      <ul>
+      <% @t401.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :awon_station_id %><br>
+    <%= f.number_field :awon_station_id %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :time %><br>
+    <%= f.number_field :time %>
+  </div>
+  <div class="field">
+    <%= f.label :M5Pcpn %><br>
+    <%= f.text_field :M5Pcpn %>
+  </div>
+  <div class="field">
+    <%= f.label :M5Pcpn2 %><br>
+    <%= f.text_field :M5Pcpn2 %>
+  </div>
+  <div class="field">
+    <%= f.label :M5Wind %><br>
+    <%= f.text_field :M5Wind %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

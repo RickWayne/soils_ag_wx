@@ -1,0 +1,89 @@
+<%= form_for(@t403) do |f| %>
+  <% if @t403.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@t403.errors.count, "error") %> prohibited this t403 from being saved:</h2>
+
+      <ul>
+      <% @t403.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :awon_station_id %><br>
+    <%= f.number_field :awon_station_id %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :time %><br>
+    <%= f.number_field :time %>
+  </div>
+  <div class="field">
+    <%= f.label :HToPcpn %><br>
+    <%= f.text_field :HToPcpn %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvSol %><br>
+    <%= f.text_field :HAvSol %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvTAir %><br>
+    <%= f.text_field :HAvTAir %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvRHum %><br>
+    <%= f.text_field :HAvRHum %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvTS05 %><br>
+    <%= f.text_field :HAvTS05 %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvTS10 %><br>
+    <%= f.text_field :HAvTS10 %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvTS50 %><br>
+    <%= f.text_field :HAvTS50 %>
+  </div>
+  <div class="field">
+    <%= f.label :HPkWind %><br>
+    <%= f.text_field :HPkWind %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvWind %><br>
+    <%= f.text_field :HAvWind %>
+  </div>
+  <div class="field">
+    <%= f.label :HRsWind %><br>
+    <%= f.text_field :HRsWind %>
+  </div>
+  <div class="field">
+    <%= f.label :HRsDir %><br>
+    <%= f.text_field :HRsDir %>
+  </div>
+  <div class="field">
+    <%= f.label :HDvDir %><br>
+    <%= f.text_field :HDvDir %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvPAR %><br>
+    <%= f.text_field :HAvPAR %>
+  </div>
+  <div class="field">
+    <%= f.label :HMxWnd1 %><br>
+    <%= f.text_field :HMxWnd1 %>
+  </div>
+  <div class="field">
+    <%= f.label :HAvTDew %><br>
+    <%= f.text_field :HAvTDew %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

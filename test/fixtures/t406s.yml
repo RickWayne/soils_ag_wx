@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  awon_station_id: 1
+  date: 2013-11-16
+  time: 1
+  HhToPcpn: 1.5
+  HhAvSol: 1.5
+  HhAvTAir: 1.5
+  HhAvRHum: 1.5
+  HhAvTS05: 1.5
+  HhAvTS10: 1.5
+  HhAvTS50: 1.5
+  HhPkWind: 1.5
+  HhAvWind: 1.5
+  HhRsWind: 1.5
+  HhRsDir: 1.5
+  HhDvDir: 1.5
+  HhAvPAR: 1.5
+  HhMxWnd1: 1.5
+  HhAvTDew: 1.5
+
+two:
+  awon_station_id: 1
+  date: 2013-11-16
+  time: 1
+  HhToPcpn: 1.5
+  HhAvSol: 1.5
+  HhAvTAir: 1.5
+  HhAvRHum: 1.5
+  HhAvTS05: 1.5
+  HhAvTS10: 1.5
+  HhAvTS50: 1.5
+  HhPkWind: 1.5
+  HhAvWind: 1.5
+  HhRsWind: 1.5
+  HhRsDir: 1.5
+  HhDvDir: 1.5
+  HhAvPAR: 1.5
+  HhMxWnd1: 1.5
+  HhAvTDew: 1.5

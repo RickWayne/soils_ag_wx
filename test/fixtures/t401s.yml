@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  awon_station_id: 1
+  date: 2013-11-16
+  time: 1
+  M5Pcpn: 1.5
+  M5Pcpn2: 1.5
+  M5Wind: 1.5
+
+two:
+  awon_station_id: 1
+  date: 2013-11-16
+  time: 1
+  M5Pcpn: 1.5
+  M5Pcpn2: 1.5
+  M5Wind: 1.5

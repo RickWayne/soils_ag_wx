@@ -1,0 +1,61 @@
+<h1>Listing t406s</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Awon station</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Hhtopcpn</th>
+      <th>Hhavsol</th>
+      <th>Hhavtair</th>
+      <th>Hhavrhum</th>
+      <th>Hhavts05</th>
+      <th>Hhavts10</th>
+      <th>Hhavts50</th>
+      <th>Hhpkwind</th>
+      <th>Hhavwind</th>
+      <th>Hhrswind</th>
+      <th>Hhrsdir</th>
+      <th>Hhdvdir</th>
+      <th>Hhavpar</th>
+      <th>Hhmxwnd1</th>
+      <th>Hhavtdew</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @t406s.each do |t406| %>
+      <tr>
+        <td><%= t406.awon_station_id %></td>
+        <td><%= t406.date %></td>
+        <td><%= t406.time %></td>
+        <td><%= t406.HhToPcpn %></td>
+        <td><%= t406.HhAvSol %></td>
+        <td><%= t406.HhAvTAir %></td>
+        <td><%= t406.HhAvRHum %></td>
+        <td><%= t406.HhAvTS05 %></td>
+        <td><%= t406.HhAvTS10 %></td>
+        <td><%= t406.HhAvTS50 %></td>
+        <td><%= t406.HhPkWind %></td>
+        <td><%= t406.HhAvWind %></td>
+        <td><%= t406.HhRsWind %></td>
+        <td><%= t406.HhRsDir %></td>
+        <td><%= t406.HhDvDir %></td>
+        <td><%= t406.HhAvPAR %></td>
+        <td><%= t406.HhMxWnd1 %></td>
+        <td><%= t406.HhAvTDew %></td>
+        <td><%= link_to 'Show', t406 %></td>
+        <td><%= link_to 'Edit', edit_t406_path(t406) %></td>
+        <td><%= link_to 'Destroy', t406, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New T406', new_t406_path %>

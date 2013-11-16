@@ -1,0 +1,37 @@
+<h1>Listing t401s</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Awon station</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>M5pcpn</th>
+      <th>M5pcpn2</th>
+      <th>M5wind</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @t401s.each do |t401| %>
+      <tr>
+        <td><%= t401.awon_station_id %></td>
+        <td><%= t401.date %></td>
+        <td><%= t401.time %></td>
+        <td><%= t401.M5Pcpn %></td>
+        <td><%= t401.M5Pcpn2 %></td>
+        <td><%= t401.M5Wind %></td>
+        <td><%= link_to 'Show', t401 %></td>
+        <td><%= link_to 'Edit', edit_t401_path(t401) %></td>
+        <td><%= link_to 'Destroy', t401, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New T401', new_t401_path %>

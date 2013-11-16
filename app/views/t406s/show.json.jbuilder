@@ -1,0 +1,1 @@
+json.extract! @t406, :awon_station_id, :date, :time, :HhToPcpn, :HhAvSol, :HhAvTAir, :HhAvRHum, :HhAvTS05, :HhAvTS10, :HhAvTS50, :HhPkWind, :HhAvWind, :HhRsWind, :HhRsDir, :HhDvDir, :HhAvPAR, :HhMxWnd1, :HhAvTDew, :created_at, :updated_at

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116162131) do
+ActiveRecord::Schema.define(version: 20131116162749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,52 @@ ActiveRecord::Schema.define(version: 20131116162131) do
     t.integer  "doy_start"
     t.integer  "doy_end"
     t.boolean  "enabled",       default: true
+  end
+
+  create_table "t403s", force: true do |t|
+    t.integer  "awon_station_id"
+    t.date     "date"
+    t.integer  "time"
+    t.float    "HToPcpn"
+    t.float    "HAvSol"
+    t.float    "HAvTAir"
+    t.float    "HAvRHum"
+    t.float    "HAvTS05"
+    t.float    "HAvTS10"
+    t.float    "HAvTS50"
+    t.float    "HPkWind"
+    t.float    "HAvWind"
+    t.float    "HRsWind"
+    t.float    "HRsDir"
+    t.float    "HDvDir"
+    t.float    "HAvPAR"
+    t.float    "HMxWnd1"
+    t.float    "HAvTDew"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "t406s", force: true do |t|
+    t.integer  "awon_station_id"
+    t.date     "date"
+    t.integer  "time"
+    t.float    "HhToPcpn"
+    t.float    "HhAvSol"
+    t.float    "HhAvTAir"
+    t.float    "HhAvRHum"
+    t.float    "HhAvTS05"
+    t.float    "HhAvTS10"
+    t.float    "HhAvTS50"
+    t.float    "HhPkWind"
+    t.float    "HhAvWind"
+    t.float    "HhRsWind"
+    t.float    "HhRsDir"
+    t.float    "HhDvDir"
+    t.float    "HhAvPAR"
+    t.float    "HhMxWnd1"
+    t.float    "HhAvTDew"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "t411s", force: true do |t|

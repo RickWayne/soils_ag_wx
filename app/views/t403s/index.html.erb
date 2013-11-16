@@ -1,0 +1,61 @@
+<h1>Listing t403s</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Awon station</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Htopcpn</th>
+      <th>Havsol</th>
+      <th>Havtair</th>
+      <th>Havrhum</th>
+      <th>Havts05</th>
+      <th>Havts10</th>
+      <th>Havts50</th>
+      <th>Hpkwind</th>
+      <th>Havwind</th>
+      <th>Hrswind</th>
+      <th>Hrsdir</th>
+      <th>Hdvdir</th>
+      <th>Havpar</th>
+      <th>Hmxwnd1</th>
+      <th>Havtdew</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @t403s.each do |t403| %>
+      <tr>
+        <td><%= t403.awon_station_id %></td>
+        <td><%= t403.date %></td>
+        <td><%= t403.time %></td>
+        <td><%= t403.HToPcpn %></td>
+        <td><%= t403.HAvSol %></td>
+        <td><%= t403.HAvTAir %></td>
+        <td><%= t403.HAvRHum %></td>
+        <td><%= t403.HAvTS05 %></td>
+        <td><%= t403.HAvTS10 %></td>
+        <td><%= t403.HAvTS50 %></td>
+        <td><%= t403.HPkWind %></td>
+        <td><%= t403.HAvWind %></td>
+        <td><%= t403.HRsWind %></td>
+        <td><%= t403.HRsDir %></td>
+        <td><%= t403.HDvDir %></td>
+        <td><%= t403.HAvPAR %></td>
+        <td><%= t403.HMxWnd1 %></td>
+        <td><%= t403.HAvTDew %></td>
+        <td><%= link_to 'Show', t403 %></td>
+        <td><%= link_to 'Edit', edit_t403_path(t403) %></td>
+        <td><%= link_to 'Destroy', t403, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New T403', new_t403_path %>
