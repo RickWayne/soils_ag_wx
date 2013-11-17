@@ -1,0 +1,48 @@
+<% content_for :title do %>
+  <%= title %>
+<% end %>
+
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style" -%>
+<% end %>
+
+<% content_for :welcome do %>
+  <%= do_welcome %>
+<% end %>
+
+<h2>Weather Station Status and Data</h2>  
+<p><%= link_to "List of stations", :action => "station_info" %>, their geographic locations, and the operational dates.</p>
+<p><%= link_to "Graphs of recent meterological data", :action => :graphs %>&nbsp;&nbsp;|&nbsp;&nbsp;<%= link_to "Graphs of soil temperatures", :action => :graphs_soiltemp %>&nbsp;&nbsp;|&nbsp;&nbsp;<%= link_to "Station status weblog", :action => :blog %> <%= @blogs && @blogs.size > 0 ? "(Last updated #{@blogs[0].date})" : ""%></p>
+
+<h3>Download Weather or Soil Data</h3>
+<%= select_date Time.now - 7.days, start_year: 1985, prefix: 'start_date' %><br/>
+<%= select_date Time.now, start_year: 1985, prefix: 'end_date' %><br/>
+<% form_tag(:controller => 'awon', :action => :download_data) do %>
+  <table>
+  <tr><td width="50%">  
+<%= station_selector_section %>
+</td>
+<td rowspan="2">
+  Arlington and Hancock stations have a continuous record in the daily and the "hourly and half-hourly" tables; hourly prior to 1999, half-hourly subsequently. Some of the other stations used "half-hourly", others "hourly".
+</td>
+</tr>
+<tr><td>
+</td>
+</table>
+<p>Clearing all checkboxes is the same as checking them all (you'll get everything).</p>
+<div id="check_boxes">
+  <%= render :partial => 'awon_check_boxes', :locals => {:rpt_type => @report_type, :ahrs => @ahrs} %>
+</div>
+<P><HR><P>
+
+<%= select_date Time.now - 7.days, start_year: 1985, prefix: 'start_date' %><br/>
+<%= select_date Time.now, start_year: 1985, prefix: 'end_date' %><br/>
+<B>Finally, </B>select whether you want to view the data in your browser or download them
+to a file, and click the "Download Data" button to obtain your data.
+
+<BR/><input TYPE="radio" NAME="format" VALUE="html" CHECKED /> View data in browser
+<BR/><input TYPE="radio" NAME="format" VALUE="csv"/> Download directly to file
+<P><input type="submit" value="Download Data">&nbsp&nbsp<input type="reset" value="Clear All Checkboxes">
+
+    <%= submit_tag 'Download' %>
+<% end %>

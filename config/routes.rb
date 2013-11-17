@@ -1,4 +1,13 @@
 SoilsAgWx::Application.routes.draw do
+  get "awon/awon_check_boxes"
+  get "awon/select_data"
+  get "awon/station_info"
+  get "awon/graphs"
+  get "awon/graphs_soiltemp"
+  get "awon/blog"
+  get "awon/awon_seven_day"
+  match "/awon", to: "awon#index", via: [:get, :post]
+  get "awon/download_data"
   get "thermal_models/index"
   get "thermal_models/degree_days"
   get "thermal_models/corn"
