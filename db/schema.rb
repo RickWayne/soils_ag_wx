@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116162749) do
+ActiveRecord::Schema.define(version: 20131116162858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,17 @@ ActiveRecord::Schema.define(version: 20131116162749) do
     t.integer  "doy_start"
     t.integer  "doy_end"
     t.boolean  "enabled",       default: true
+  end
+
+  create_table "t401s", force: true do |t|
+    t.integer  "awon_station_id"
+    t.date     "date"
+    t.integer  "time"
+    t.float    "M5Pcpn"
+    t.float    "M5Pcpn2"
+    t.float    "M5Wind"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "t403s", force: true do |t|

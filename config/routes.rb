@@ -1,4 +1,42 @@
 SoilsAgWx::Application.routes.draw do
+  get "thermal_models/index"
+  get "thermal_models/degree_days"
+  get "thermal_models/corn"
+  get "thermal_models/corn_dev"
+  get "thermal_models/ecb"
+  get "thermal_models/alfalfa"
+  get "thermal_models/corn_stalk_borer"
+  get "thermal_models/potato"
+  get "thermal_models/tree"
+  get "thermal_models/gypsy"
+  get "thermal_models/gypsyinfo"
+  get "thermal_models/scm"
+  get "thermal_models/wiDDs"
+  get "thermal_models/wiDDs_csv"
+  get "thermal_models/westernbeancutworm"
+  get "thermal_models/scm_doc"
+  get "thermal_models/remaining_dds"
+  get "thermal_models/remaining_dd_map_for"
+  get "thermal_models/frost_map"
+  match "/thermal_models", to: "thermal_models#index", via: [:get, :post]
+  get "sun_water/index"
+  get "sun_water/insol_east_us"
+  get "sun_water/insol_west_us"
+  get "sun_water/insol_model"
+  get "sun_water/et_wimn"
+  get "sun_water/et_fl"
+  get "sun_water/et_model"
+  get "sun_water/spreadsheet_download"
+  get "sun_water/spreadsheet_doc"
+  match "/sun_water", to: "sun_water#index", via: [:get, :post]
+  get "weather/index"
+  get "weather/hyd"
+  get "weather/awon"
+  get "weather/grid_temps"
+  get "weather/webcam"
+  get "navigation/index"
+  get "navigation/about"
+  match "/navigation", to: "navigation#index", via: [:get, :post]
   resources :t401s
 
   resources :t406s
@@ -20,6 +58,8 @@ SoilsAgWx::Application.routes.draw do
   resources :blogs
 
   resources :t411s
+  
+  root to: 'navigation#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,0 +1,15 @@
+<% content_for :title do %>
+ Thermal Models
+<% end %>
+
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style" -%>
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "thermal.png",{:width => "231", :height => "156", :alt => "Hot and Cold"} %>
+  <h2>Thermal Models</h2>
+  <p>Growth and development for many plants and insects is keyed to temperature. By calculating the history
+    of daily temperatures over a season, we can predict pest emergence, crop development, and other events
+    of keen interest in agriculture.</p>
+<% end %>
