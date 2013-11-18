@@ -2,10 +2,6 @@
   <%= title %>
 <% end %>
 
-<% content_for :stylesheet do %>
-  <%= stylesheet_link_tag "style" -%>
-<% end %>
-
 <% content_for :welcome do %>
   <%= do_welcome.html_safe %>
 <% end %>

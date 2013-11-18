@@ -10,7 +10,7 @@ set :repo_url, 'https://github.com/RickWayne/soils_ag_wx.git'
 # set :log_level, :debug
 # set :pty, true
 
-# set :linked_files, %w{config/database.yml}
+set :linked_files, %w{config/database.yml}
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -42,13 +42,13 @@ end
 # from https://gist.github.com/reu/665385
 # this first line must be a Cap 2 thing
 # before "deploy:setup", "db:configure"
-before  "deploy:restart", "db:symlink"
+# before  "deploy:restart", "db:yaml_symlink"
  
-namespace :db do
- 
-  desc "Make symlink for database yaml"
-  task :symlink do
-    sh "ln -nfs #{deploy_to}/shared/config/database.yml #{deploy_to}/current/config/database.yml"
-  end
-end
+# namespace :db do
+#  
+#   desc "Make symlink for database yaml"
+#   task :yaml_symlink do
+#     run "ln -nfs #{deploy_to}/shared/config/database.yml #{deploy_to}/current/config/database.yml"
+#   end
+# end
 
