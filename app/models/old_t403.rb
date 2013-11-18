@@ -1,10 +1,16 @@
-class T403 < ActiveRecord::Base
-  include Reportable 
-  belongs_to :awon_station
+class OldT403 < ActiveRecord::Base
+  establish_connection adapter: 'mysql',
+    host: '127.0.0.1',
+    username: 'wayne',
+    password: 'agem.Data',
+    database: 'aws'
+  self.to_s =~ /([\d]{3})$/
+  self.table_name = "t_#{$1}"
   def self.attr_human_readables
-    [                                                  
-      ["date","Date"],
-      ["time","Time"],
+    [
+      ["stnid","Station Number"],
+      ["theDate","Date"],
+      ["theTime","Time"],
       ["HToPcpn","Total Precipitation (mm)"],
       ["HAvSol","Average Solar Radiation (W/m2)"],
       ["HAvTAir","Average Air Temperature (Deg C)"],

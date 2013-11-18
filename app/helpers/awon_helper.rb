@@ -5,47 +5,7 @@ module AwonHelper
   def do_welcome
     str = <<-END
     #{image_tag "awon.jpg",{:width => "231", :height => "347", :alt => "weather station"}}
-    #{link_to "<h2>#{title}</h2>", :action => "index"}
-    END
-    str
-  end
-  
-  def date_selector_section
-    str = <<-END
-    Next, select the date range you want:
-    <P>
-    <table>
-    <tr>
-    <td>Starting year</td>
-
-    <td>Month</td>
-
-    <td>Day</td>
-
-    </tr>
-
-    <tr>
-      <td>
-        #{date_selectors(:first_year => 1985, :day => 1, :sep_str => '</td><td>',:id => 'date')}
-      </td>
-    </tr>
-
-    <tr>
-    <td>Ending year</td>
-
-    <td>Month</td>
-
-    <td>Day</td>
-
-    </tr>
-
-    <tr>
-      <td>
-        #{date_selectors(:first_year => 1985, :names => %w(endyear endmonth endday), :sep_str => '</td><td>')}
-      </td>
-    </tr>
-    </table>
-    
+    <h2>#{link_to "#{title}", :action => "index"}</h2>
     END
     str
   end
