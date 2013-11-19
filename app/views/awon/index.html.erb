@@ -10,7 +10,8 @@
   function report_changed(id)
   {
     $.ajax({
-      url: "<%= awon_path %>/awon_check_boxes?report_type="+id,
+      // awon path ought to work here, dammit!
+      url: "/uwex_agwx/awon/awon_check_boxes?report_type="+id,
       success: function(response) {
         $("#check_boxes").html(response);
       }
