@@ -11,9 +11,16 @@ class AwonController < ApplicationController
   end
 
   def station_info
-    connect
-    @stns = Station.find_by_sql('SELECT s.*,min(d.theDate) as first,max(d.theDate) as last FROM `stations` s, `t_411` d WHERE s.id = d.stnid group by d.stnid order by status desc,name')
+    @stns = AwonStation.all.collect { |stn| {stn.stnid => [stn]} }
+    @stns.each do |stn_hash|
+      stnid = stn_hash.keys.first
+      arr = stn_hash[stnid]
+      recs = T411.where('awon_station_id = ?',stnid).order(:date)
+      arr << recs.first.date
+      arr << recs.last.date
+    end
   end
+
   
   def graphs
   end
@@ -22,7 +29,6 @@ class AwonController < ApplicationController
   end
   
   def blog
-    connect
     @blogs = Blog.find(:all, :order => 'date desc')
   end
   
