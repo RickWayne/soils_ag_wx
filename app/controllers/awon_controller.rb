@@ -44,8 +44,8 @@ class AwonController < ApplicationController
         })
       end
       # @soil_recs = stnids.inject({}) { |hash, stnid| hash.merge({stnid => T412.find(:all,:conditions => ['date >= ? and stnid = ?',Time.now - 6.days,stnid])}) }
-      @columns = T411.attr_human_readables
-      @soil_cols = T412.attr_human_readables
+      @columns = T411.attr_human_readables.reject { |arr| arr[1] =~ /^Time/ || arr[0] == 'DMnBatt' }
+      @soil_cols = T412.attr_human_readables.reject { |arr| arr[1] =~ /^Time/ || arr[0] == 'DMnBatt' }
     end
   end
 
