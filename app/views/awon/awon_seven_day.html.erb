@@ -16,7 +16,7 @@
           <% if col[1] == "Date"%>
             <th><%=h col[1] %></th>
           <% else %>
-            <th><%=h col[1] %></th>
+            <th><%=h col[1].gsub("Deg C","Deg F") %></th>
           <% end %>
         <% end %>
       </tr>
@@ -32,7 +32,7 @@
     <table border="1" width='100%'>
       <tr>
         <% for col in @soil_cols %>
-          <th><%=h col[1] %></th>
+          <th><%=h col[1].gsub("Deg C","Deg F") %></th>
         <% end %>
       </tr>
       <% for rec in @soil_recs[stnid] %>

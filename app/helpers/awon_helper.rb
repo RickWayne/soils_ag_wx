@@ -52,7 +52,7 @@ module AwonHelper
     val = rec.send(col[0])
     if val.class == Date || val.class == DateTime
       "<td>#{h(val.strftime("%b %d"))}</td>".html_safe
-    elsif col[1] =~ /Temperature/
+    elsif col[1] =~ /Temperature/ || col[1] =~ /Soil Temp./
       temp = ((val * 9.0) / 5.0) + 32.0
       "<td>#{sprintf("%0.1f",temp)}</td>".html_safe
     else
