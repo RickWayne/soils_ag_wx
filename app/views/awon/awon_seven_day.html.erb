@@ -1,2 +1,45 @@
-<h1>Awon#awon_seven_day</h1>
-<p>Find me in app/views/awon/awon_seven_day.html.erb</p>
+<% content_for :title do %>
+  <%= title %>
+<% end %>
+
+<% content_for :welcome do %>
+    <%= do_welcome %>
+<% end %>
+
+<% if @recs && @recs.keys.size > 0 && @stns && @stns.keys.size > 0 %>
+  <% @stns.each do |stnid,stn| %>
+    <h2>Seven-Day Report for <%= (stn ? stn.name : 'No station') %></h2>
+    <table border="1" width='80%'>
+      <tr>
+        <% for col in @columns %>
+          <th><%=h col[1] %></th>
+        <% end %>
+      </tr>
+      <% for rec in @recs[stnid] %>
+        <tr>
+          <% for col in @columns %>
+            <%= col_format(rec,col) %>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+    Soil Temperatures<br/>
+    <table border="1" width='80%'>
+      <tr>
+        <% for col in @soil_cols %>
+          <th><%=h col[1] %></th>
+        <% end %>
+      </tr>
+      <% for rec in @soil_recs[stnid] %>
+        <tr>
+          <% for col in @soil_cols %>
+            <%= col_format(rec,col) %>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+    
+    <br/>
+  <% end %>
+<% end %>
+

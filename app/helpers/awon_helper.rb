@@ -49,11 +49,11 @@ module AwonHelper
   end
   
   def col_format(rec,col)
-    val = rec.send(col[1])
+    val = rec.send(col[0])
     if val.class == Date || val.class == DateTime
-      "<td width='13%'>#{h(val)}</td>"
+      "<td width='13%'>#{h(val)}</td>".html_safe
     else
-      "<td>#{h(val)}</td>"
+      "<td>#{h(val)}</td>".html_safe
     end
   end
   
