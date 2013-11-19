@@ -34,8 +34,8 @@
 
 
 <%= image_tag "grid_map.png", {:width => "109", :height => "108", :alt => "Temperature Map", :class => "left"} %>
-<!-- , :action => :grid_temps -->
-<h2><a><%= link_to "Grid-Interpolated Daily Temperatures", :controller => "weather" %></h2>
+<!--  -->
+<h2><a><%= link_to "Grid-Interpolated Daily Temperatures", :controller => "weather", :action => :grid_temps %></h2>
 <p>Working from observations made by hundreds of automated weather stations across the Upper Midwest,
    our computer model interpolates the temperatures to form rectilinear grids by latitude and longitude for daily max,
    min, and average temperature.

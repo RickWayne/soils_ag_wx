@@ -1,2 +1,12 @@
-<h1>Weather#grid_temps</h1>
-<p>Find me in app/views/weather/grid_temps.html.erb</p>
+<% @title="Grid-Interpolated Daily Temperatures"%>
+<% content_for :title do %>
+ <%= @title %>
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "grid_map.png",{:width => "231", :height => "180", :alt => "Gridded Map"} %>
+  <h2><%= @title %></h2>
+  <p></p>
+<% end %>
+
+<%= borked %>
