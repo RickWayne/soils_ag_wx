@@ -10,24 +10,6 @@ class AwonController < ApplicationController
     render :partial => 'awon_check_boxes', :layout => false
   end
 
-  def select_data
-    begin
-      @report_type = params[:report_type].to_i
-    rescue => e
-      logger.warn 'incorrect report type passed in: ' + e.to_s
-      @report_type = "411"
-    end
-    @report_types = [
-      ["Daily Weather","411"],
-      ["Daily Soil Temperatures","412"],
-      ["Hourly & Half-Hourly Weather/Soil (Current)","403"] ,
-      ["Pre-2000 Half-Hourly Weather/Soil","406"],
-      ["Five-Minute Precip/Wind","401"]
-    ]
-    @db_class = report_type(@report_type)
-    @ahrs = @db_class.attr_human_readables
-  end
-
   def station_info
     connect
     @stns = Station.find_by_sql('SELECT s.*,min(d.theDate) as first,max(d.theDate) as last FROM `stations` s, `t_411` d WHERE s.id = d.stnid group by d.stnid order by status desc,name')
@@ -125,6 +107,24 @@ class AwonController < ApplicationController
     else
       T411
     end
+  end
+
+  def select_data
+    begin
+      @report_type = params[:report_type].to_i
+    rescue => e
+      logger.warn 'incorrect report type passed in: ' + e.to_s
+      @report_type = "411"
+    end
+    @report_types = [
+      ["Daily Weather","411"],
+      ["Daily Soil Temperatures","412"],
+      ["Hourly & Half-Hourly Weather/Soil (Current)","403"] ,
+      ["Pre-2000 Half-Hourly Weather/Soil","406"],
+      ["Five-Minute Precip/Wind","401"]
+    ]
+    @db_class = report_type(@report_type)
+    @ahrs = @db_class.attr_human_readables
   end
   
   

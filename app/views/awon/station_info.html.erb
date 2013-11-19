@@ -1,2 +1,25 @@
-<h1>Awon#station_info</h1>
-<p>Find me in app/views/awon/station_info.html.erb</p>
+<% content_for :title do %>
+  <%= title %>
+<% end %>
+
+<% content_for :welcome do %>
+    <%= do_welcome %>
+<% end %>
+
+<h2>AWON Station Info</h2>
+<table border="1">
+  <tr>
+    <th>Location</th><th>Lat, Long</th><th>Wind Sensor?</th><th>Humidity?</th><th>From-To</th>
+  </tr>
+  <% for stn in @stns do %>
+    
+      <tr>
+        <td><%= status_boldness(stn) %><%= stn.name %></span></td>
+        <td><%= stn.latitude %>, <%= stn.longitude %></td>
+        <td><%= stn.wind == "T" ? "Yes" : "No" %></td>
+        <td><%= stn.humidity = "T" ? "Yes" : "No" %></td>
+        <td><%= status_boldness(stn) %><%= stn.first.to_s %> - <%= stn.last.to_s %></span></td>
+        <p></p>
+      </tr>
+  <% end %>
+</table>

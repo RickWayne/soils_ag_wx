@@ -6,13 +6,18 @@
     <%= do_welcome %>
 <% end %>
 
+<h2>Last Seven Days of Weather And Soil Temperature Data</h2>
 <% if @recs && @recs.keys.size > 0 && @stns && @stns.keys.size > 0 %>
   <% @stns.each do |stnid,stn| %>
-    <h2>Seven-Day Report for <%= (stn ? stn.name : 'No station') %></h2>
-    <table border="1" width='80%'>
+    <h2><%= (stn ? stn.name : 'No station') %></h2>
+    <table border="1" width='100%'>
       <tr>
         <% for col in @columns %>
-          <th><%=h col[1] %></th>
+          <% if col[1] == "Date"%>
+            <th width="40px"><%=h col[1] %></th>
+          <% else %>
+            <th><%=h col[1] %></th>
+          <% end %>
         <% end %>
       </tr>
       <% for rec in @recs[stnid] %>
@@ -24,7 +29,7 @@
       <% end %>
     </table>
     Soil Temperatures<br/>
-    <table border="1" width='80%'>
+    <table border="1" width='100%'>
       <tr>
         <% for col in @soil_cols %>
           <th><%=h col[1] %></th>

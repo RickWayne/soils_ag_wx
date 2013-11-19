@@ -24,6 +24,7 @@
 
 <h2>Weather Station Status and Data</h2>  
 <p><%= link_to "List of stations", :action => "station_info" %>, their geographic locations, and the operational dates.</p>
+<p><%= link_to "Last 7 days of weather and soil data", action: :awon_seven_day %></p>
 <p><%= link_to "Graphs of recent meterological data", :action => :graphs %>&nbsp;&nbsp;|&nbsp;&nbsp;<%= link_to "Graphs of soil temperatures", :action => :graphs_soiltemp %>&nbsp;&nbsp;|&nbsp;&nbsp;<%= link_to "Station status weblog", :action => :blog %> <%= @blogs && @blogs.size > 0 ? "(Last updated #{@blogs[0].date})" : ""%></p>
 
 <h3>Download Weather or Soil Data</h3>
@@ -51,8 +52,8 @@
 </div>
 <p/>
 <table>
-  <tr><td>From: </td><td><%= select_date Time.now - 7.days, prefix: 'start_date' %></td></tr>
-  <tr><td>To: </td><td><%= select_date Time.now, prefix: 'end_date' %></td></tr>
+  <tr><td>From: </td><td><%= select_date Time.now - 7.days, prefix: 'start_date', start_year: 1985 %></td></tr>
+  <tr><td>To: </td><td><%= select_date Time.now, prefix: 'end_date', start_year: 1985 %></td></tr>
 </table>
 
 <p>
