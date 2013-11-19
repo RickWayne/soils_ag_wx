@@ -7,7 +7,7 @@ module AwonHelper
     #{image_tag "awon.jpg",{:width => "231", :height => "347", :alt => "weather station"}}
     <h2>#{link_to "#{title}", :action => "index"}</h2>
     END
-    str
+    str.html_safe
   end
   
   def station_selector_section
