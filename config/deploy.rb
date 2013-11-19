@@ -39,17 +39,3 @@ namespace :deploy do
   after :finishing, 'deploy:cleanup'
 
 end
-
-# from https://gist.github.com/reu/665385
-# this first line must be a Cap 2 thing
-# before "deploy:setup", "db:configure"
-# before  "deploy:restart", "db:yaml_symlink"
- 
-# namespace :db do
-#  
-#   desc "Make symlink for database yaml"
-#   task :yaml_symlink do
-#     run "ln -nfs #{deploy_to}/shared/config/database.yml #{deploy_to}/current/config/database.yml"
-#   end
-# end
-
