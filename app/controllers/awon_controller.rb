@@ -35,12 +35,12 @@ class AwonController < ApplicationController
       end
       @recs = stnids.inject({}) do |hash, stnid|
         hash.merge({
-          stnid => T411.where('date >= ? and awon_station_id=?',Time.now - 6.days,@stns[stnid][:id])
+          stnid => T411.where('date >= ? and awon_station_id=?',Time.now - 7.days,@stns[stnid][:id])
         })
       end
       @soil_recs = stnids.inject({}) do |hash, stnid|
         hash.merge({
-          stnid => T412.where('date >= ? and awon_station_id=?',Time.now - 6.days,@stns[stnid][:id])
+          stnid => T412.where('date >= ? and awon_station_id=?',Time.now - 7.days,@stns[stnid][:id])
         })
       end
       # @soil_recs = stnids.inject({}) { |hash, stnid| hash.merge({stnid => T412.find(:all,:conditions => ['date >= ? and stnid = ?',Time.now - 6.days,stnid])}) }
