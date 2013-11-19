@@ -46,8 +46,13 @@ local during the fall and spring. In April 2011, we started archiving the
 larger images every five minutes as well.
 </P>
 
-<P>The images are stored by year, month, and day. Today's archive is 
- <%= webcam_archive_link 'here'%>; to find a given day, start <A HREF="http://alfi.soils.wisc.edu/~asig/webcam/archive/">here</A>.
+<P>The images are stored by year, month, and day. Today's archive is
+  <%
+  year_s = Date.today.year
+  month_s = sprintf("%02d",Date.today.month)
+  day_s = sprintf("%02d",Date.today.day)
+  %>
+  <a href="<%= "http://alfi.soils.wisc.edu/~asig/webcam/archive/#{year_s}/#{month_s}/#{day_s}" %>">here</a>; to find a given day, start <A HREF="http://alfi.soils.wisc.edu/~asig/webcam/archive/">here</A>.
 <H4>The Daily Movie</H4>
 <P>Also as of late August 2004, we have
 time-lapse webcam movies. (July 2012 note: Movies not working with new webcam -- soon!) You must
