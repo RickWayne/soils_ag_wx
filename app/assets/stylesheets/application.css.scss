@@ -31,7 +31,7 @@ a:hover {
 }
 
 body {
-	background: image_url('/uwex_agwx/assets/background.png');
+	background: image_url('background.png');
 	text-align: center;
 	font: 11px verdana, arial, sans-serif;
 }
@@ -42,16 +42,16 @@ body {
 }
 
 #body {
-	background: image_url('/uwex_agwx/assets/body_bg.png') repeat-y;
+	background: image_url('body_bg.png') repeat-y;
 	color: white;
 	width: 100%;
 }
 #body-top {
-	background: top left image_url('/uwex_agwx/assets/body_top.png') no-repeat;
+	background: top left image_url('body_top.png') no-repeat;
 	position: relative;
 }
 #body-bot {
-	background: bottom left image_url('/uwex_agwx/assets/body_bot.png') no-repeat;
+	background: bottom left image_url('body_bot.png') no-repeat;
 	padding-bottom: 17px;
 }
 #body-top-2 {
@@ -60,7 +60,7 @@ body {
 	left: 251px;
 	width: 903px;
 	height: 11px;
-	background: top left image_url('/uwex_agwx/assets/body_top_2.png') no-repeat;
+	background: top left image_url('body_top_2.png') no-repeat;
 }
 
 #wrapper {
@@ -83,7 +83,7 @@ h1 {
 	
 }
 #nav  a {
-	background-image:image_url('/uwex_agwx/assets/menu_unselected.png');
+	background-image:image_url('menu_unselected.png');
 	width:120px;
 	height:19px;
 	display:inline;
@@ -102,7 +102,7 @@ h1 {
 }
 
 #nav a[selected=yes] {
-  background-image:image_url('/uwex_agwx/assets/menu.png');
+  background-image:image_url('menu.png');
 }
 
 #body-bot {
@@ -165,11 +165,11 @@ h1 {
 
 .bar-lit {
 	padding-left: 6px;
-	background: 0px 4px image_url('/uwex_agwx/assets/bar_lit.gif') no-repeat;
+	background: 0px 4px image_url('bar_lit.gif') no-repeat;
 }
 .bar-drk {
 	padding-left: 6px;
-	background: 0px 4px image_url('/uwex_agwx/assets/bar_drk.gif') no-repeat;
+	background: 0px 4px image_url('bar_drk.gif') no-repeat;
 }
 
 #footer {
