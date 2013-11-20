@@ -11,7 +11,7 @@
     <p>US Insolation <%= link_to "Eastern", :action => :insol_east_us %>&nbsp;&nbsp;<%= link_to "Western", :action => :insol_west_us %></p>
     <p>ET <%= link_to "WI/MN", :action => :et_wimn %>&nbsp;&nbsp;<a href="http://alfi.soils.wisc.edu/uwex_agwx_data/et/yestFLet.gif">Florida</a></p>
     <p><a href="http://wisp.cals.wisc.edu/">Online Irrigation Scheduler</a></p>
-    <p><%= link_to "Cranberry ETs", :controller => 'cranberry '%></p>
+    <p><%= link_to "Cranberry ETs", :controller => 'cranberry'%></p>
 <% end %>
 
 <!-- Content for remainder of stuff -->
@@ -46,7 +46,7 @@
 
 <div class="fineline"></div>
 <h2>Cranberry Consumptive Use Estimates</h2>
-<p><%= link_to "This calculator", :controller => 'cranberry '%> allows cranberry growers to estimate the monthly consumptive water use of their beds. The estimate is based on the research of Bland et al. (1996, Agric. and Forest Meteorol. 81:1-12), which demonstrated well-watered cranberry ET to be just slightly higher than the "equilibrium ET." Values supplied here are derived from the University of Wisconsin-Madison estimation of the Priestley-Taylor <%= link_to 'potential evapotranspiration', :controller => 'sun_water', :action => :et_wimn %>, corrected following Bland et al. (1996)</p>
+<p><%= link_to "This calculator", :controller => 'cranberry'%> allows cranberry growers to estimate the monthly consumptive water use of their beds. The estimate is based on the research of Bland et al. (1996, Agric. and Forest Meteorol. 81:1-12), which demonstrated well-watered cranberry ET to be just slightly higher than the "equilibrium ET." Values supplied here are derived from the University of Wisconsin-Madison estimation of the Priestley-Taylor <%= link_to 'potential evapotranspiration', :controller => 'sun_water', :action => :et_wimn %>, corrected following Bland et al. (1996)</p>
 
 <div class="fineline"></div>
 <h2>Theory Behind the Models</h2>
