@@ -1,4 +1,6 @@
 SoilsAgWx::Application.routes.draw do
+  get "cranberry/index"
+  get "cranberry/summary"
   get "awon/awon_check_boxes"
   get "awon/select_data"
   get "awon/station_info"

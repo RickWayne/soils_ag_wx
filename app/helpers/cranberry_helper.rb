@@ -1,0 +1,2 @@
+module CranberryHelper
+end

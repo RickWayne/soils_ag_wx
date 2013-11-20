@@ -1,0 +1,33 @@
+<% content_for :title do %>
+  <%= @title %>
+<% end %>
+
+<% content_for :stylesheet do %>
+  <style type='text/css'>
+    #map {
+    	   width: 95%;
+    	   height: 450px;
+    	   border: 1px solid gray;
+       }
+  </style>
+<% end %>
+
+<% content_for :scripts do %>
+  <% key = (RAILS_ENV == 'development ') ? 'AIzaSyAA_Hfj1Daccy4-7VGH2YujJD1yK3AXda4' : 'AIzaSyD-Lrhc45MSTqTU8Okd1d28N8GFePgTKPw' %>
+  <script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%= key %>'></script>
+  <script src="http://gis.soils.wisc.edu/gs2/www/openlayers/OpenLayers.js"></script>
+  <script src="http://gis.soils.wisc.edu/gs2/www/openlayers/lib/proj4js-combined.js"></script>
+  <%= javascript_include_tag 'jquery-1.7.2.min','cranberry_map' %>
+<% end %>
+
+<% content_for :welcome do %>
+  <h2>Cranberry ET</h2>
+  <%= borked.html_safe %>
+  <%= image_tag "Cranb.rebecca.jpg", 
+    {:width => "130", :height => "88", :alt => "Soil Science", 
+     :style => "float:right; margin-left: 1em; margin-right: 0.5em"}%>
+     <p>This calculator allows cranberry growers to estimate the monthly consumptive water use of their beds. The estimate is based on the research of Bland et al. (1996, Agric. and Forest Meteorol. 81:1-12), which demonstrated well-watered cranberry ET to be just slightly higher than the "equilibrium ET." Values supplied here are derived from the University of Wisconsin-Madison estimation of the Priestley-Taylor <%= link_to 'potential evapotranspiration', :controller => 'sun_water', :action => :et_wimn %>, corrected following Bland et al. (1996).
+     </p>	
+     <p>&nbsp;</p>
+     <p id="summary_results"></p>
+<% end %>
