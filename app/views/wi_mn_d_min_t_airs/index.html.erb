@@ -1,0 +1,93 @@
+<h1>Listing wi_mn_d_min_t_airs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Datestamp</th>
+      <th>Timestamp</th>
+      <th>Latitude</th>
+      <th>W980</th>
+      <th>W976</th>
+      <th>W972</th>
+      <th>W968</th>
+      <th>W964</th>
+      <th>W960</th>
+      <th>W956</th>
+      <th>W952</th>
+      <th>W948</th>
+      <th>W944</th>
+      <th>W940</th>
+      <th>W936</th>
+      <th>W932</th>
+      <th>W928</th>
+      <th>W924</th>
+      <th>W920</th>
+      <th>W916</th>
+      <th>W912</th>
+      <th>W908</th>
+      <th>W904</th>
+      <th>W900</th>
+      <th>W896</th>
+      <th>W892</th>
+      <th>W888</th>
+      <th>W884</th>
+      <th>W880</th>
+      <th>W876</th>
+      <th>W872</th>
+      <th>W868</th>
+      <th>W864</th>
+      <th>W860</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @wi_mn_d_min_t_airs.each do |wi_mn_d_min_t_air| %>
+      <tr>
+        <td><%= wi_mn_d_min_t_air.dateStamp %></td>
+        <td><%= wi_mn_d_min_t_air.timeStamp %></td>
+        <td><%= wi_mn_d_min_t_air.latitude %></td>
+        <td><%= wi_mn_d_min_t_air.w980 %></td>
+        <td><%= wi_mn_d_min_t_air.w976 %></td>
+        <td><%= wi_mn_d_min_t_air.w972 %></td>
+        <td><%= wi_mn_d_min_t_air.w968 %></td>
+        <td><%= wi_mn_d_min_t_air.w964 %></td>
+        <td><%= wi_mn_d_min_t_air.w960 %></td>
+        <td><%= wi_mn_d_min_t_air.w956 %></td>
+        <td><%= wi_mn_d_min_t_air.w952 %></td>
+        <td><%= wi_mn_d_min_t_air.w948 %></td>
+        <td><%= wi_mn_d_min_t_air.w944 %></td>
+        <td><%= wi_mn_d_min_t_air.w940 %></td>
+        <td><%= wi_mn_d_min_t_air.w936 %></td>
+        <td><%= wi_mn_d_min_t_air.w932 %></td>
+        <td><%= wi_mn_d_min_t_air.w928 %></td>
+        <td><%= wi_mn_d_min_t_air.w924 %></td>
+        <td><%= wi_mn_d_min_t_air.w920 %></td>
+        <td><%= wi_mn_d_min_t_air.w916 %></td>
+        <td><%= wi_mn_d_min_t_air.w912 %></td>
+        <td><%= wi_mn_d_min_t_air.w908 %></td>
+        <td><%= wi_mn_d_min_t_air.w904 %></td>
+        <td><%= wi_mn_d_min_t_air.w900 %></td>
+        <td><%= wi_mn_d_min_t_air.w896 %></td>
+        <td><%= wi_mn_d_min_t_air.w892 %></td>
+        <td><%= wi_mn_d_min_t_air.w888 %></td>
+        <td><%= wi_mn_d_min_t_air.w884 %></td>
+        <td><%= wi_mn_d_min_t_air.w880 %></td>
+        <td><%= wi_mn_d_min_t_air.w876 %></td>
+        <td><%= wi_mn_d_min_t_air.w872 %></td>
+        <td><%= wi_mn_d_min_t_air.w868 %></td>
+        <td><%= wi_mn_d_min_t_air.w864 %></td>
+        <td><%= wi_mn_d_min_t_air.w860 %></td>
+        <td><%= link_to 'Show', wi_mn_d_min_t_air %></td>
+        <td><%= link_to 'Edit', edit_wi_mn_d_min_t_air_path(wi_mn_d_min_t_air) %></td>
+        <td><%= link_to 'Destroy', wi_mn_d_min_t_air, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Wi mn d min t air', new_wi_mn_d_min_t_air_path %>

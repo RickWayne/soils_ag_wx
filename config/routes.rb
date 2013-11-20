@@ -1,4 +1,10 @@
 SoilsAgWx::Application.routes.draw do
+  resources :wi_mn_d_min_t_airs
+
+  resources :wi_mn_d_max_t_airs
+
+  resources :wi_mn_d_ave_t_airs
+
   resources :awon_record_types
 
   resources :awon_field_descrips

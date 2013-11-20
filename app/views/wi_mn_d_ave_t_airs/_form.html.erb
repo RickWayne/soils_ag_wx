@@ -1,0 +1,153 @@
+<%= form_for(@wi_mn_d_ave_t_air) do |f| %>
+  <% if @wi_mn_d_ave_t_air.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@wi_mn_d_ave_t_air.errors.count, "error") %> prohibited this wi_mn_d_ave_t_air from being saved:</h2>
+
+      <ul>
+      <% @wi_mn_d_ave_t_air.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :dateStamp %><br>
+    <%= f.date_select :dateStamp %>
+  </div>
+  <div class="field">
+    <%= f.label :timeStamp %><br>
+    <%= f.time_select :timeStamp %>
+  </div>
+  <div class="field">
+    <%= f.label :latitude %><br>
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :w980 %><br>
+    <%= f.text_field :w980 %>
+  </div>
+  <div class="field">
+    <%= f.label :w976 %><br>
+    <%= f.text_field :w976 %>
+  </div>
+  <div class="field">
+    <%= f.label :w972 %><br>
+    <%= f.text_field :w972 %>
+  </div>
+  <div class="field">
+    <%= f.label :w968 %><br>
+    <%= f.text_field :w968 %>
+  </div>
+  <div class="field">
+    <%= f.label :w964 %><br>
+    <%= f.text_field :w964 %>
+  </div>
+  <div class="field">
+    <%= f.label :w960 %><br>
+    <%= f.text_field :w960 %>
+  </div>
+  <div class="field">
+    <%= f.label :w956 %><br>
+    <%= f.text_field :w956 %>
+  </div>
+  <div class="field">
+    <%= f.label :w952 %><br>
+    <%= f.text_field :w952 %>
+  </div>
+  <div class="field">
+    <%= f.label :w948 %><br>
+    <%= f.text_field :w948 %>
+  </div>
+  <div class="field">
+    <%= f.label :w944 %><br>
+    <%= f.text_field :w944 %>
+  </div>
+  <div class="field">
+    <%= f.label :w940 %><br>
+    <%= f.text_field :w940 %>
+  </div>
+  <div class="field">
+    <%= f.label :w936 %><br>
+    <%= f.text_field :w936 %>
+  </div>
+  <div class="field">
+    <%= f.label :w932 %><br>
+    <%= f.text_field :w932 %>
+  </div>
+  <div class="field">
+    <%= f.label :w928 %><br>
+    <%= f.text_field :w928 %>
+  </div>
+  <div class="field">
+    <%= f.label :w924 %><br>
+    <%= f.text_field :w924 %>
+  </div>
+  <div class="field">
+    <%= f.label :w920 %><br>
+    <%= f.text_field :w920 %>
+  </div>
+  <div class="field">
+    <%= f.label :w916 %><br>
+    <%= f.text_field :w916 %>
+  </div>
+  <div class="field">
+    <%= f.label :w912 %><br>
+    <%= f.text_field :w912 %>
+  </div>
+  <div class="field">
+    <%= f.label :w908 %><br>
+    <%= f.text_field :w908 %>
+  </div>
+  <div class="field">
+    <%= f.label :w904 %><br>
+    <%= f.text_field :w904 %>
+  </div>
+  <div class="field">
+    <%= f.label :w900 %><br>
+    <%= f.text_field :w900 %>
+  </div>
+  <div class="field">
+    <%= f.label :w896 %><br>
+    <%= f.text_field :w896 %>
+  </div>
+  <div class="field">
+    <%= f.label :w892 %><br>
+    <%= f.text_field :w892 %>
+  </div>
+  <div class="field">
+    <%= f.label :w888 %><br>
+    <%= f.text_field :w888 %>
+  </div>
+  <div class="field">
+    <%= f.label :w884 %><br>
+    <%= f.text_field :w884 %>
+  </div>
+  <div class="field">
+    <%= f.label :w880 %><br>
+    <%= f.text_field :w880 %>
+  </div>
+  <div class="field">
+    <%= f.label :w876 %><br>
+    <%= f.text_field :w876 %>
+  </div>
+  <div class="field">
+    <%= f.label :w872 %><br>
+    <%= f.text_field :w872 %>
+  </div>
+  <div class="field">
+    <%= f.label :w868 %><br>
+    <%= f.text_field :w868 %>
+  </div>
+  <div class="field">
+    <%= f.label :w864 %><br>
+    <%= f.text_field :w864 %>
+  </div>
+  <div class="field">
+    <%= f.label :w860 %><br>
+    <%= f.text_field :w860 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
