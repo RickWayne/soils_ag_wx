@@ -1,0 +1,37 @@
+<h1>Listing awon_field_descrips</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rec</th>
+      <th>Column num</th>
+      <th>Field name</th>
+      <th>Field abbrev</th>
+      <th>Units</th>
+      <th>Decimals</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @awon_field_descrips.each do |awon_field_descrip| %>
+      <tr>
+        <td><%= awon_field_descrip.rec_id %></td>
+        <td><%= awon_field_descrip.column_num %></td>
+        <td><%= awon_field_descrip.field_name %></td>
+        <td><%= awon_field_descrip.field_abbrev %></td>
+        <td><%= awon_field_descrip.units %></td>
+        <td><%= awon_field_descrip.decimals %></td>
+        <td><%= link_to 'Show', awon_field_descrip %></td>
+        <td><%= link_to 'Edit', edit_awon_field_descrip_path(awon_field_descrip) %></td>
+        <td><%= link_to 'Destroy', awon_field_descrip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Awon field descrip', new_awon_field_descrip_path %>

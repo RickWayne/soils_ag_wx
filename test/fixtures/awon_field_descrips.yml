@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  rec_id: 1
+  column_num: 1
+  field_name: MyString
+  field_abbrev: MyString
+  units: MyString
+  decimals: 1
+
+two:
+  rec_id: 1
+  column_num: 1
+  field_name: MyString
+  field_abbrev: MyString
+  units: MyString
+  decimals: 1

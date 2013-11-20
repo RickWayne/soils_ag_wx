@@ -1,0 +1,25 @@
+<%= form_for(@awon_record_type) do |f| %>
+  <% if @awon_record_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@awon_record_type.errors.count, "error") %> prohibited this awon_record_type from being saved:</h2>
+
+      <ul>
+      <% @awon_record_type.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :rec_id %><br>
+    <%= f.number_field :rec_id %>
+  </div>
+  <div class="field">
+    <%= f.label :rec_name %><br>
+    <%= f.text_field :rec_name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

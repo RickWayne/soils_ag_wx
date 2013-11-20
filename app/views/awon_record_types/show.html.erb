@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rec:</strong>
+  <%= @awon_record_type.rec_id %>
+</p>
+
+<p>
+  <strong>Rec name:</strong>
+  <%= @awon_record_type.rec_name %>
+</p>
+
+<%= link_to 'Edit', edit_awon_record_type_path(@awon_record_type) %> |
+<%= link_to 'Back', awon_record_types_path %>

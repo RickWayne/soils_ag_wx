@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rec:</strong>
+  <%= @awon_field_descrip.rec_id %>
+</p>
+
+<p>
+  <strong>Column num:</strong>
+  <%= @awon_field_descrip.column_num %>
+</p>
+
+<p>
+  <strong>Field name:</strong>
+  <%= @awon_field_descrip.field_name %>
+</p>
+
+<p>
+  <strong>Field abbrev:</strong>
+  <%= @awon_field_descrip.field_abbrev %>
+</p>
+
+<p>
+  <strong>Units:</strong>
+  <%= @awon_field_descrip.units %>
+</p>
+
+<p>
+  <strong>Decimals:</strong>
+  <%= @awon_field_descrip.decimals %>
+</p>
+
+<%= link_to 'Edit', edit_awon_field_descrip_path(@awon_field_descrip) %> |
+<%= link_to 'Back', awon_field_descrips_path %>

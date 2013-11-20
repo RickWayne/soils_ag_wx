@@ -1,0 +1,2 @@
+module AwonRecordTypesHelper
+end

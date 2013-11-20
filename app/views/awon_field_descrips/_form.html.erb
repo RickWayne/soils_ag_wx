@@ -1,0 +1,41 @@
+<%= form_for(@awon_field_descrip) do |f| %>
+  <% if @awon_field_descrip.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@awon_field_descrip.errors.count, "error") %> prohibited this awon_field_descrip from being saved:</h2>
+
+      <ul>
+      <% @awon_field_descrip.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :rec_id %><br>
+    <%= f.number_field :rec_id %>
+  </div>
+  <div class="field">
+    <%= f.label :column_num %><br>
+    <%= f.number_field :column_num %>
+  </div>
+  <div class="field">
+    <%= f.label :field_name %><br>
+    <%= f.text_field :field_name %>
+  </div>
+  <div class="field">
+    <%= f.label :field_abbrev %><br>
+    <%= f.text_field :field_abbrev %>
+  </div>
+  <div class="field">
+    <%= f.label :units %><br>
+    <%= f.text_field :units %>
+  </div>
+  <div class="field">
+    <%= f.label :decimals %><br>
+    <%= f.number_field :decimals %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

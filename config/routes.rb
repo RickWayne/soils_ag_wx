@@ -1,4 +1,8 @@
 SoilsAgWx::Application.routes.draw do
+  resources :awon_record_types
+
+  resources :awon_field_descrips
+
   get "cranberry/index"
   get "cranberry/summary"
   get "awon/awon_check_boxes"

@@ -1,0 +1,29 @@
+<h1>Listing awon_record_types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rec</th>
+      <th>Rec name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @awon_record_types.each do |awon_record_type| %>
+      <tr>
+        <td><%= awon_record_type.rec_id %></td>
+        <td><%= awon_record_type.rec_name %></td>
+        <td><%= link_to 'Show', awon_record_type %></td>
+        <td><%= link_to 'Edit', edit_awon_record_type_path(awon_record_type) %></td>
+        <td><%= link_to 'Destroy', awon_record_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Awon record type', new_awon_record_type_path %>
