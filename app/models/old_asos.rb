@@ -13,9 +13,9 @@ class OldAsos < ActiveRecord::Base
       where('Date >= ? and Date <= ?',Date.civil(year,1,1),Date.civil(year,12,31)).each do |old|
         station_id = stns[old.send('ID')]
         AsosDatum.create!(
-          date: old.date, nominal_time: old.nominalTime, actual_time: old.actualTime, asos_station_id: station_id,
-          t_dew: old.tdew, t_air: old.tair, windspeed: old.windspeed, pressure: old.pressure,
-          precip: old.precip, wind_dir:old.winddir
+          date: old["Date"], nominal_time: old["NominalTime"], actual_time: old["ActualTime"], asos_station_id: station_id,
+          t_dew: old["TDew"], t_air: old["TAir"], windspeed: old["WindSpeed"], pressure: old["Pressure"], precip: old["Precip"],
+          wind_dir:old["WindDir"]
           )
       end
     end
@@ -34,7 +34,8 @@ class OldAsosStation < ActiveRecord::Base
   def self.translate
     all.each do |old|
       AsosStation.create!(
-        stnid: old.stnID, state: old.stnState, name: old.stnName, type: old.stnType, latitude: old.stnLat, longitude: old.stnLong
+        stnid: old.stnID, state: old["stnState"], name: old["stnName"], type: old["stnType"],
+        latitude: old["stnLat"], longitude: old["stnLong"],
         )
     end
   end
