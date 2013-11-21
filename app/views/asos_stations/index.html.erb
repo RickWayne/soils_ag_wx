@@ -1,0 +1,37 @@
+<h1>Listing asos_stations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stnid</th>
+      <th>State</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @asos_stations.each do |asos_station| %>
+      <tr>
+        <td><%= asos_station.stnid %></td>
+        <td><%= asos_station.state %></td>
+        <td><%= asos_station.name %></td>
+        <td><%= asos_station.type %></td>
+        <td><%= asos_station.latitude %></td>
+        <td><%= asos_station.longitude %></td>
+        <td><%= link_to 'Show', asos_station %></td>
+        <td><%= link_to 'Edit', edit_asos_station_path(asos_station) %></td>
+        <td><%= link_to 'Destroy', asos_station, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Asos station', new_asos_station_path %>

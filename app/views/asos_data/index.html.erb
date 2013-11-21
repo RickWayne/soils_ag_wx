@@ -1,0 +1,45 @@
+<h1>Listing asos_data</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Nominal time</th>
+      <th>Actual time</th>
+      <th>Asos station</th>
+      <th>T dew</th>
+      <th>T air</th>
+      <th>Windspeed</th>
+      <th>Pressure</th>
+      <th>Precip</th>
+      <th>Wind dir</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @asos_data.each do |asos_datum| %>
+      <tr>
+        <td><%= asos_datum.date %></td>
+        <td><%= asos_datum.nominal_time %></td>
+        <td><%= asos_datum.actual_time %></td>
+        <td><%= asos_datum.asos_station_id %></td>
+        <td><%= asos_datum.t_dew %></td>
+        <td><%= asos_datum.t_air %></td>
+        <td><%= asos_datum.windspeed %></td>
+        <td><%= asos_datum.pressure %></td>
+        <td><%= asos_datum.precip %></td>
+        <td><%= asos_datum.wind_dir %></td>
+        <td><%= link_to 'Show', asos_datum %></td>
+        <td><%= link_to 'Edit', edit_asos_datum_path(asos_datum) %></td>
+        <td><%= link_to 'Destroy', asos_datum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Asos datum', new_asos_datum_path %>

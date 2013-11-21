@@ -1,4 +1,8 @@
 SoilsAgWx::Application.routes.draw do
+  resources :asos_stations
+
+  resources :asos_data
+
   resources :wi_mn_d_min_t_airs
 
   resources :wi_mn_d_max_t_airs

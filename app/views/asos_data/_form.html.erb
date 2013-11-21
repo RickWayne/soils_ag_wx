@@ -1,0 +1,57 @@
+<%= form_for(@asos_datum) do |f| %>
+  <% if @asos_datum.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@asos_datum.errors.count, "error") %> prohibited this asos_datum from being saved:</h2>
+
+      <ul>
+      <% @asos_datum.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :nominal_time %><br>
+    <%= f.time_select :nominal_time %>
+  </div>
+  <div class="field">
+    <%= f.label :actual_time %><br>
+    <%= f.time_select :actual_time %>
+  </div>
+  <div class="field">
+    <%= f.label :asos_station_id %><br>
+    <%= f.number_field :asos_station_id %>
+  </div>
+  <div class="field">
+    <%= f.label :t_dew %><br>
+    <%= f.text_field :t_dew %>
+  </div>
+  <div class="field">
+    <%= f.label :t_air %><br>
+    <%= f.text_field :t_air %>
+  </div>
+  <div class="field">
+    <%= f.label :windspeed %><br>
+    <%= f.text_field :windspeed %>
+  </div>
+  <div class="field">
+    <%= f.label :pressure %><br>
+    <%= f.text_field :pressure %>
+  </div>
+  <div class="field">
+    <%= f.label :precip %><br>
+    <%= f.text_field :precip %>
+  </div>
+  <div class="field">
+    <%= f.label :wind_dir %><br>
+    <%= f.text_field :wind_dir %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

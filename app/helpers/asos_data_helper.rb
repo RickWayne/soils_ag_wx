@@ -1,0 +1,2 @@
+module AsosDataHelper
+end

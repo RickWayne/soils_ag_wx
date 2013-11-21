@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @asos_datum.date %>
+</p>
+
+<p>
+  <strong>Nominal time:</strong>
+  <%= @asos_datum.nominal_time %>
+</p>
+
+<p>
+  <strong>Actual time:</strong>
+  <%= @asos_datum.actual_time %>
+</p>
+
+<p>
+  <strong>Asos station:</strong>
+  <%= @asos_datum.asos_station_id %>
+</p>
+
+<p>
+  <strong>T dew:</strong>
+  <%= @asos_datum.t_dew %>
+</p>
+
+<p>
+  <strong>T air:</strong>
+  <%= @asos_datum.t_air %>
+</p>
+
+<p>
+  <strong>Windspeed:</strong>
+  <%= @asos_datum.windspeed %>
+</p>
+
+<p>
+  <strong>Pressure:</strong>
+  <%= @asos_datum.pressure %>
+</p>
+
+<p>
+  <strong>Precip:</strong>
+  <%= @asos_datum.precip %>
+</p>
+
+<p>
+  <strong>Wind dir:</strong>
+  <%= @asos_datum.wind_dir %>
+</p>
+
+<%= link_to 'Edit', edit_asos_datum_path(@asos_datum) %> |
+<%= link_to 'Back', asos_data_path %>
