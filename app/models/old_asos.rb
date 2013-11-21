@@ -8,7 +8,7 @@ class OldAsos < ActiveRecord::Base
   
   def self.translate
     start_year = first.date.year
-    stns = AsosStation.all.inject({}) { |hash, station| hash.merge {station.stnid => station[:id]} }
+    stns = AsosStation.all.inject({}) { |hash, station| hash.merge(station.stnid => station[:id]) }
     (start_year..2013).each do |year|
       print "\n#{year}: "
       for stnid in stns.keys
