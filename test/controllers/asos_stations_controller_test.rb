@@ -18,7 +18,7 @@ class AsosStationsControllerTest < ActionController::TestCase
 
   test "should create asos_station" do
     assert_difference('AsosStation.count') do
-      post :create, asos_station: { latitude: @asos_station.latitude, longitude: @asos_station.longitude, name: @asos_station.name, state: @asos_station.state, stnid: @asos_station.stnid, type: @asos_station.type }
+      post :create, asos_station: { latitude: @asos_station.latitude, longitude: @asos_station.longitude, name: @asos_station.name, state: @asos_station.state, stn_type: @asos_station.stn_type, stnid: @asos_station.stnid }
     end
 
     assert_redirected_to asos_station_path(assigns(:asos_station))
@@ -35,7 +35,7 @@ class AsosStationsControllerTest < ActionController::TestCase
   end
 
   test "should update asos_station" do
-    patch :update, id: @asos_station, asos_station: { latitude: @asos_station.latitude, longitude: @asos_station.longitude, name: @asos_station.name, state: @asos_station.state, stnid: @asos_station.stnid, type: @asos_station.type }
+    patch :update, id: @asos_station, asos_station: { latitude: @asos_station.latitude, longitude: @asos_station.longitude, name: @asos_station.name, state: @asos_station.state, stn_type: @asos_station.stn_type, stnid: @asos_station.stnid }
     assert_redirected_to asos_station_path(assigns(:asos_station))
   end
 

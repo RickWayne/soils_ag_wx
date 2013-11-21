@@ -4,7 +4,7 @@ one:
   stnid: MyString
   state: MyString
   name: MyString
-  type: 
+  stn_type: MyString
   latitude: 1.5
   longitude: 1.5
 
@@ -12,6 +12,6 @@ two:
   stnid: MyString
   state: MyString
   name: MyString
-  type: 
+  stn_type: MyString
   latitude: 1.5
   longitude: 1.5

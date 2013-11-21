@@ -69,6 +69,6 @@ class AsosStationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def asos_station_params
-      params.require(:asos_station).permit(:stnid, :state, :name, :type, :latitude, :longitude)
+      params.require(:asos_station).permit(:stnid, :state, :name, :stn_type, :latitude, :longitude)
     end
 end

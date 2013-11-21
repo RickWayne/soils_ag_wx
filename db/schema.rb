@@ -11,10 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131120193759) do
+ActiveRecord::Schema.define(version: 20131121201143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "asos_data", force: true do |t|
+    t.date     "date"
+    t.time     "nominal_time"
+    t.time     "actual_time"
+    t.integer  "asos_station_id"
+    t.float    "t_dew"
+    t.float    "t_air"
+    t.float    "windspeed"
+    t.float    "pressure"
+    t.float    "precip"
+    t.float    "wind_dir"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "asos_stations", force: true do |t|
+    t.string   "stnid"
+    t.string   "state"
+    t.string   "name"
+    t.string   "stn_type"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "awon_field_descrips", force: true do |t|
     t.integer  "rec_id"
