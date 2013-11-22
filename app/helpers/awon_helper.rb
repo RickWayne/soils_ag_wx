@@ -44,7 +44,7 @@ module AwonHelper
   end
   
   def status_boldness(stn)
-    boldness = (stn.status == 'T' ? 'bold' : 'normal')
+    boldness = (stn.status ? 'bold' : 'normal')
     "<span style='font-weight: #{boldness}'>"
   end
   

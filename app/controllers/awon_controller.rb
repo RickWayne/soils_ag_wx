@@ -11,13 +11,16 @@ class AwonController < ApplicationController
   end
 
   def station_info
-    @stns = AwonStation.all.collect { |stn| {stn.stnid => [stn]} }
-    @stns.each do |stn_hash|
-      stnid = stn_hash.keys.first
-      arr = stn_hash[stnid]
-      recs = T411.where('awon_station_id = ?',stnid).order(:date)
-      arr << recs.first.date
-      arr << recs.last.date
+    @stns = AwonStation.all
+    @stn_dates = @stns.inject({}) do |stn_hash, stn|
+      recs = T411.where('awon_station_id = ?',stn[:id]).order(:date)
+      arr=nil
+      if recs.size > 0
+        arr=[recs.first.date,recs.last.date]
+      else
+        arr=[nil,nil]
+      end
+      stn_hash.merge(stn[:id] => arr)
     end
   end
 

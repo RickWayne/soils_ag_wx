@@ -12,13 +12,15 @@
     <th>Location</th><th>Lat, Long</th><th>Wind Sensor?</th><th>Humidity?</th><th>From-To</th>
   </tr>
   <% for stn in @stns do %>
+  <% from = @stn_dates[stn[:id]][0] %>
+  <% to = @stn_dates[stn[:id]][1]%>
     
       <tr>
-        <td><%= status_boldness(stn) %><%= stn.name %></span></td>
+        <td><%= status_boldness(stn).html_safe %><%= stn.name %></span></td>
         <td><%= stn.latitude %>, <%= stn.longitude %></td>
         <td><%= stn.wind == "T" ? "Yes" : "No" %></td>
         <td><%= stn.humidity = "T" ? "Yes" : "No" %></td>
-        <td><%= status_boldness(stn) %><%= stn.first.to_s %> - <%= stn.last.to_s %></span></td>
+        <td><%= status_boldness(stn).html_safe %><%= from %> - <%= to %></span></td>
         <p></p>
       </tr>
   <% end %>
