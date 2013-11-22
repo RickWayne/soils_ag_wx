@@ -1,4 +1,6 @@
 class AsosDataController < ApplicationController
+  skip_before_filter :verify_authenticity_token, only: [:create]
+  before_filter :authenticate, only: [:create, :update, :delete]
   before_action :set_asos_datum, only: [:show, :edit, :update, :destroy]
 
   # GET /asos_data
@@ -62,13 +64,24 @@ class AsosDataController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_asos_datum
-      @asos_datum = AsosDatum.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_asos_datum
+    @asos_datum = AsosDatum.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def asos_datum_params
-      params.require(:asos_datum).permit(:date, :nominal_time, :actual_time, :asos_station_id, :t_dew, :t_air, :windspeed, :pressure, :precip, :wind_dir)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def asos_datum_params
+    params.require(:asos_datum).permit(:date, :nominal_time, :actual_time, :asos_station_id, :t_dew, :t_air, :windspeed, :pressure, :precip, :wind_dir)
+  end
+  
+  
+  def authenticate
+    # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my static VPN address
+    request.remote_ip == '::1' || 
+      request.remote_ip == '127.0.0.1' || 
+      request.remote_ip == '128.104.33.225' || 
+      request.remote_ip == '128.104.33.224' || 
+      request.remote_ip == '146.151.214.80'
+  end
+  
 end
