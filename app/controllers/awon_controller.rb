@@ -70,9 +70,10 @@ class AwonController < ApplicationController
     use_abbrevs = ("true" == params[:use_abbrevs]) # false if missing too
     select_data # sets @report_type, @report_types, @db_class, and @ahrs
     begin
-      start_date = Date.parse(params[:start_date] || (Date.today - 6.days).to_s)
-      end_date = Date.parse(params[:end_date] || Date.today.to_s)
-    rescue
+      start_date = parse_param_date(params[:start_date]) || (Date.today - 6.days).to_s
+      end_date = parse_param_date(params[:end_date]) || Date.today.to_s
+    rescue Exception => e
+      logger.warn e.to_s
       start_date = Date.today - 6.days
       end_date = Date.today
     end
@@ -136,5 +137,15 @@ class AwonController < ApplicationController
     @ahrs = @db_class.attr_human_readables
   end
   
+  def parse_param_date(hash)
+    begin
+      year = hash["year"].to_i || Date.today.year
+      month = hash["month"].to_i || Date.today.month
+      day = hash["day"].to_i || Date.today.day
+      Date.civil(year,month,day)
+    rescue Exception => e
+      Date.today
+    end
+  end
   
 end
