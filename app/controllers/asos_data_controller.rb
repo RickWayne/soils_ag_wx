@@ -6,7 +6,13 @@ class AsosDataController < ApplicationController
   # GET /asos_data
   # GET /asos_data.json
   def index
-    @asos_data = AsosDatum.all
+    case params.require(:asos_station_id)
+    when /^([\d]+)$/
+      asos_station_id = $1.to_i
+    when /^([\w]+)$/
+      asos_station_id = AsosStation.find_by_stnid($1)[:id]
+    end
+    @asos_data = AsosDatum.where(asos_station_id: asos_station_id)
   end
 
   # GET /asos_data/1
@@ -26,7 +32,7 @@ class AsosDataController < ApplicationController
   # POST /asos_data
   # POST /asos_data.json
   def create
-    @asos_datum = AsosDatum.new(asos_datum_params)
+    @asos_datum = AsosDatum.new(asos_datum_params(asos_station))
 
     respond_to do |format|
       if @asos_datum.save
@@ -69,11 +75,41 @@ class AsosDataController < ApplicationController
     @asos_datum = AsosDatum.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def asos_datum_params
-    params.require(:asos_datum).permit(:date, :nominal_time, :actual_time, :asos_station_id, :t_dew, :t_air, :windspeed, :pressure, :precip, :wind_dir)
+  def time_from_date_and_timestamp(dt,ts)
+    ts = ts.to_i
+    hours = (ts / 10000).to_i
+    secs = (ts % 100).to_i # always zero
+    mins = ((ts % 10000) - secs) / 100
+    Time.new(dt.year,dt.month,dt.day,hours,mins,secs)
   end
   
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def asos_datum_params(asos_station)
+    p = params.require(:asos_datum).permit(
+      :date, :nominal_time, :actual_time, :asos_station_id, :t_dew, :t_air, :windspeed, :pressure, :precip, :wind_dir
+    )
+    # Date might come in as an actual date during normal editing, or YYYYDDD from McIDAS intake
+    case p[:date]
+    # ASOS intake
+    when /([\d]{4})([\d]+)$/
+      dt = Date.civil($1.to_i,1,1) + ($2.to_i - 1)
+      p[:date] = dt
+      p[:nominal_time] = time_from_date_and_timestamp(dt,p[:nominal_time])
+      p[:actual_time] = time_from_date_and_timestamp(dt,p[:actual_time])
+    # normal update or create
+    when /([\d]{4})-([\d]{2})-([\d]{2})$/
+      p[:date] = Date.parse [:date]
+    else
+      raise "Invalid date #{p[:date].inspect}"
+    end
+    p[:asos_station_id] ||= asos_station[:id]
+    p
+  end
+  
+  def asos_station
+    p = params.require(:asos_station).permit(:stnid,:latitude,:longitude)
+    AsosStation.find_by_stnid(p[:stnid]) || AsosStation.create!(p)
+  end
   
   def authenticate
     # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my static VPN address
