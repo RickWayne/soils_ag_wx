@@ -60,6 +60,16 @@ class T411sController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  # Get datestamp (in Campbell Sci format) of last-uploaded 411.
+  def last
+    date = T411.all.order('date').last.date
+    @date_str = date.strftime("%y%j")
+    respond_to  do |format|
+      format.html { render  text: @date_str }
+      format.json { render json:  @date_str }
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

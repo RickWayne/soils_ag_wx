@@ -111,13 +111,4 @@ class AsosDataController < ApplicationController
     AsosStation.find_by_stnid(p[:stnid]) || AsosStation.create!(p)
   end
   
-  def authenticate
-    # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my static VPN address
-    request.remote_ip == '::1' || 
-      request.remote_ip == '127.0.0.1' || 
-      request.remote_ip == '128.104.33.225' || 
-      request.remote_ip == '128.104.33.224' || 
-      request.remote_ip == '146.151.214.80'
-  end
-  
 end

@@ -82,6 +82,7 @@ SoilsAgWx::Application.routes.draw do
 
   resources :blogs
 
+  get "t411s/last"
   resources :t411s
   
   root to: 'navigation#index'

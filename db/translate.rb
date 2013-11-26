@@ -30,4 +30,3 @@ def migrate_rec_type(old_class,new_class,start_year=1985)
   end
 end
 
-require File.expand_path('../../config/environment', __FILE__)

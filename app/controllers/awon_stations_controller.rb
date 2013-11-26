@@ -5,6 +5,10 @@ class AwonStationsController < ApplicationController
   # GET /awon_stations.json
   def index
     @awon_stations = AwonStation.all
+    respond_to do |format|
+      format.html
+      format.json {render json: @awon_stations}
+    end
   end
 
   # GET /awon_stations/1
