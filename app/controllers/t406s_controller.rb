@@ -1,4 +1,6 @@
 class T406sController < ApplicationController
+  skip_before_filter :verify_authenticity_token, only: [:create]
+  before_filter :authenticate, only: [:create, :update, :delete]
   before_action :set_t406, only: [:show, :edit, :update, :destroy]
 
   # GET /t406s
