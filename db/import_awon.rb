@@ -14,14 +14,14 @@ require 'date'
 # PORT = 3000
 
 # Staging
-URL_PREFIX='/devel'
-HOST='agwx.soils.wisc.edu'
-PORT=80
-
-# Production
-# URL_PREFIX='/uwex_agwx'
+# URL_PREFIX='/devel'
 # HOST='agwx.soils.wisc.edu'
 # PORT=80
+
+# Production
+URL_PREFIX='/uwex_agwx'
+HOST='agwx.soils.wisc.edu'
+PORT=80
 
 
 # return the Date the str refers to, plus the next day
@@ -82,52 +82,51 @@ def post(rectype,attribs,http)
   http.request(req)
 end
 
-begin
-  # usage: either import_awon <filename> or as a filter, import_awon.rb < filename
-  if ARGV[0]
-    infile = File.open(ARGV[0],'r')
-  else
-    infile = $stdin
-  end
-  # Open the HTTP connection and keep it around
-  http = Net::HTTP::new(HOST,PORT).start
-  # Get the date of the last 411, calculate the next one as an AWON datestamp (yyjjj)
-  next_411_jd = next_jd_str(http.get("#{URL_PREFIX}/t411s/last.json").body)
-  field_descrips = {}
-  # Glom all the field_descrip recs out of the database. Make a hash of hashes, top level is rec id,
-  # then by column number, values are the field descrip record hashes (including redundant info), e.g.
-  # {401 => {4 => {
-  #                 "rec_id"=>401, "column_num"=>4, "field_name"=>"Five-Minute Precipitation",
-  #                 "field_abbrev"=>"M5Pcpn", "units"=>"mm", "decimals"=>3,
-  #                 "url"=>"http://localhost:3000/awon_field_descrips/108.json"
-  #               }
-  #         }
-  # }
-  JSON.parse(http.get("#{URL_PREFIX}/awon_field_descrips.json").body).each do |rec|
-    field_descrips[rec["rec_id"]] ||= {}
-    field_descrips[rec["rec_id"]][rec["column_num"]] = rec
-  end
-  stnids = awon_station_ids(http)
-  infile,line = seek_to_date(infile,next_411_jd)
-  # line is now either nil or the first record of new data
-  while line
-    fields = line.split(',') # e.g. 401,4751,12001,255,.508,2.157,0
-    rec = {}
-    rec_type = fields[0].to_i
-    rec['awon_station_id'] = stnids[fields[1].to_i] # We want the foreign key, not 4751 or 4781
-    rec['date'] = dates_from_jd_str(fields[2])[0]   # Convert e.g. '12001' into a date
-    rec['time'] = time_from_date_and_timestamp(rec['date'],fields[3]) # Likewise, that plus '255' becomes a Time
-    (4..fields.size-1).each do |colnum|
-      # e.g. rec['DMnBatt'] = 12.67
-      rec[field_descrips[rec_type][colnum]['field_abbrev']] = fields[colnum].to_f
+def process_awon_upload(filename)
+  puts "\nprocessing #{filename}"
+  begin
+    infile = File.open(filename,'r')
+    # Open the HTTP connection and keep it around
+    http = Net::HTTP::new(HOST,PORT).start
+    # Get the date of the last 411, calculate the next one as an AWON datestamp (yyjjj)
+    next_411_jd = next_jd_str(http.get("#{URL_PREFIX}/t411s/last.json").body)
+    field_descrips = {}
+    # Glom all the field_descrip recs out of the database. Make a hash of hashes, top level is rec id,
+    # then by column number, values are the field descrip record hashes (including redundant info), e.g.
+    # {401 => {4 => {
+    #                 "rec_id"=>401, "column_num"=>4, "field_name"=>"Five-Minute Precipitation",
+    #                 "field_abbrev"=>"M5Pcpn", "units"=>"mm", "decimals"=>3,
+    #                 "url"=>"http://localhost:3000/awon_field_descrips/108.json"
+    #               }
+    #         }
+    # }
+    JSON.parse(http.get("#{URL_PREFIX}/awon_field_descrips.json").body).each do |rec|
+      field_descrips[rec["rec_id"]] ||= {}
+      field_descrips[rec["rec_id"]][rec["column_num"]] = rec
     end
-    # Add the enclosing ActiveRecord model key
-    params = {"t#{rec_type}" => rec}
-    # Chuck it on up
-    post(rec_type,params,http)
-    line=infile.gets
+    stnids = awon_station_ids(http)
+    infile,line = seek_to_date(infile,next_411_jd)
+    # line is now either nil or the first record of new data
+    while line
+      fields = line.split(',') # e.g. 401,4751,12001,255,.508,2.157,0
+      rec = {}
+      rec_type = fields[0].to_i
+      rec['awon_station_id'] = stnids[fields[1].to_i] # We want the foreign key, not 4751 or 4781
+      rec['date'] = dates_from_jd_str(fields[2])[0]   # Convert e.g. '12001' into a date
+      rec['time'] = time_from_date_and_timestamp(rec['date'],fields[3]) # Likewise, that plus '255' becomes a Time
+      (4..fields.size-1).each do |colnum|
+        # e.g. rec['DMnBatt'] = 12.67
+        rec[field_descrips[rec_type][colnum]['field_abbrev']] = fields[colnum].to_f
+      end
+      # Add the enclosing ActiveRecord model key
+      params = {"t#{rec_type}" => rec}
+      # Chuck it on up
+      post(rec_type,params,http)
+      line=infile.gets
+      print "."
+    end
+  ensure
+    infile.close unless infile.nil? || infile == $stdin
+    http.finish unless http.nil? || !(http.started?)
   end
-ensure
-  infile.close unless infile.nil? || infile == $stdin
-  http.finish unless http.nil? || !(http.started?)
 end

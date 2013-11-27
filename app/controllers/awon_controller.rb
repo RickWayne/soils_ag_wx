@@ -36,26 +36,24 @@ class AwonController < ApplicationController
   end
   
   def awon_seven_day
-    def awon_seven_day
-      if params[:stnid] then stnids = [params[:stnid].to_i] else stnids = [4751,4781] end
-      puts stnids.inspect
-      @stns = stnids.inject({}) do |hash, stnid|
-        hash.merge({stnid => AwonStation.find_by_stnid(stnid.to_i)})
-      end
-      @recs = stnids.inject({}) do |hash, stnid|
-        hash.merge({
-          stnid => T411.where('date >= ? and awon_station_id=?',Time.now - 7.days,@stns[stnid][:id])
-        })
-      end
-      @soil_recs = stnids.inject({}) do |hash, stnid|
-        hash.merge({
-          stnid => T412.where('date >= ? and awon_station_id=?',Time.now - 7.days,@stns[stnid][:id])
-        })
-      end
-      # @soil_recs = stnids.inject({}) { |hash, stnid| hash.merge({stnid => T412.find(:all,:conditions => ['date >= ? and stnid = ?',Time.now - 6.days,stnid])}) }
-      @columns = T411.attr_human_readables.reject { |arr| arr[1] =~ /^Time/ || arr[0] == 'DMnBatt' }
-      @soil_cols = T412.attr_human_readables.reject { |arr| arr[1] =~ /Time/ || arr[0] == 'DMnBatt' }
+    if params[:stnid] then stnids = [params[:stnid].to_i] else stnids = [4751,4781] end
+    @stns = stnids.inject({}) do |hash, stnid|
+      hash.merge({stnid => AwonStation.find_by_stnid(stnid.to_i)})
     end
+    @recs = stnids.inject({}) do |hash, stnid|
+      hash.merge({
+        stnid => T411.where('date >= ? and awon_station_id=?',Time.now - 7.days,@stns[stnid][:id])
+      })
+    end
+    @soil_recs = stnids.inject({}) do |hash, stnid|
+      hash.merge({
+        stnid => T412.where('date >= ? and awon_station_id=?',Time.now - 7.days,@stns[stnid][:id])
+      })
+    end
+    logger.info "awon_seven_day:\n  @stns #{@stns.inspect}\n  @recs #{@recs.inspect}\n  @soil_recs #{@soil_recs.inspect}"
+    # @soil_recs = stnids.inject({}) { |hash, stnid| hash.merge({stnid => T412.find(:all,:conditions => ['date >= ? and stnid = ?',Time.now - 6.days,stnid])}) }
+    @columns = T411.attr_human_readables.reject { |arr| arr[1] =~ /^Time/ || arr[0] == 'DMnBatt' }
+    @soil_cols = T412.attr_human_readables.reject { |arr| arr[1] =~ /Time/ || arr[0] == 'DMnBatt' }
   end
 
   def download_data
