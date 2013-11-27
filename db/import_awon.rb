@@ -77,7 +77,7 @@ end
 # Insertion code actually does this line-by-line, which is safer, but we have to grab
 # the last-updated date (using 411s and the "last" endpoint) for this station.
 
-def get_next_411_jd_for(infile)
+def get_next_411_jd_for(infile,http)
   line = infile.gets
   return nil unless line && line =~ /^[\d]{3},([\d]{4}),/
   infile.rewind
@@ -102,7 +102,7 @@ def process_awon_upload(filename)
     # Station info
     stnids = awon_station_ids(http)
     # Get the date of the last 411 for this station, calculate the next one as an AWON datestamp (yyjjj)
-    next_411_jd = get_next_411_jd_for(infile)
+    next_411_jd = get_next_411_jd_for(infile,http)
     field_descrips = {}
     # Glom all the field_descrip recs out of the database. Make a hash of hashes, top level is rec id,
     # then by column number, values are the field descrip record hashes (including redundant info), e.g.

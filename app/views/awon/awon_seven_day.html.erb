@@ -6,20 +6,20 @@
     <%= do_welcome %>
 <% end %>
 
-<h2>Last Seven Days of Weather And Soil Temperature Data</h2>
+<h2>Weather Data</h2>
 <% if @recs && @recs.keys.size > 0 && @stns && @stns.keys.size > 0 %>
-  <% @stns.each do |stnid,stn| %>
-    <h2><%= (stn ? stn.name : 'No station') %></h2>
-    <table border="1" width='100%'>
-      <tr>
-        <% for col in @columns %>
-          <% if col[1] == "Date"%>
-            <th><%=h col[1] %></th>
-          <% else %>
-            <th><%=h col[1].gsub("Deg C","Deg F") %></th>
-          <% end %>
+  <table border="1" width='100%'>
+    <tr>
+      <% for col in @columns %>
+        <% if col[1] == "Date"%>
+          <th><%=h col[1] %></th>
+        <% else %>
+          <th><%=h col[1].gsub("Deg C","Deg F") %></th>
         <% end %>
-      </tr>
+      <% end %>
+    </tr>
+    <% @stns.each do |stnid,stn| %>
+      <tr><th colspan="<%= @columns.size %>"><%= (stn ? stn.name : 'No station') %></th></tr>
       <% for rec in @recs[stnid] %>
         <tr>
           <% for col in @columns %>
@@ -27,24 +27,26 @@
           <% end %>
         </tr>
       <% end %>
-    </table>
-    Soil Temperatures<br/>
+    <% end %>
+  </table>
+  <h2 style="margin-top:15px">Soil Temperatures</h2>
     <table border="1" width='100%'>
       <tr>
         <% for col in @soil_cols %>
           <th><%=h col[1].gsub("Deg C","Deg F") %></th>
         <% end %>
       </tr>
-      <% for rec in @soil_recs[stnid] %>
-        <tr>
-          <% for col in @soil_cols %>
-            <%= col_format(rec,col) %>
-          <% end %>
-        </tr>
-      <% end %>
+      <% @stns.each do |stnid,stn| %>
+        <tr><th colspan="<%= @soil_cols.size %>"><%= (stn ? stn.name : 'No station') %></th></tr>
+        <% for rec in @soil_recs[stnid] %>
+          <tr>
+            <% for col in @soil_cols %>
+              <%= col_format(rec,col) %>
+            <% end %>
+          </tr>
+        <% end %>
+        <% end %>
     </table>
     
-    <br/>
-  <% end %>
 <% end %>
 
