@@ -1,7 +1,11 @@
 require 'net/http'
 require 'json'
+require 'date'
 
-URL_PREFIX = '/devel'
+# URL_PREFIX = '/devel'
+URL_PREFIX=''
+HOST = 'localhost'
+PORT = 3000
 
 # return the Date the str refers to, plus the next day
 def dates_from_jd_str(jd_str)
@@ -41,20 +45,23 @@ end
 
 def awon_station_ids
   stn_ids = {}
-  JSON.parse(Net::HTTP.get('agwx.soils.wisc.edu',"#{URL_PREFIX}/awon_stations.json")).each do |rec|
+  JSON.parse(Net::HTTP.get(HOST,"#{URL_PREFIX}/awon_stations.json")).each do |rec|
     stn_ids[rec["stnid"]] = rec["id"]
   end
   stn_ids
 end
 
+def connection(rectype)
+  endpoint="#{URL_PREFIX}/t#{rectype}s.json"
+  req = Net::HTTP::Post.new(endpoint,initheader = {'Content-Type' =>'application/json'})
+  Net::HTTP::new(HOST,PORT).start
+end
+
 def post(rectype,attribs)
-  # endpoint="#{URL_PREFIX}/t#{rectype}s.json"
-  # req = Net::HTTP::Post.new(endpoint,initheader = {'Content-Type' =>'application/json'})
-  # req.body = attribs
-  # Net::HTTP::new('agwx.soils.wisc.edu',80).start {|http| http.request(req)}
-  uri = URI("http://agwx.soils.wisc.edu/#{URL_PREFIX}/t#{rectype}s.json")
-  res = Net::HTTP.post_form(uri, attribs)
-  puts res.body
+  endpoint="#{URL_PREFIX}/t#{rectype}s.json"
+  req = Net::HTTP::Post.new(endpoint,initheader = {'Content-Type' =>'application/json'})
+  req.body = attribs.to_json
+  Net::HTTP::new(HOST,PORT).start {|http| http.request(req)}
 end
 
 begin
@@ -63,9 +70,9 @@ begin
   else
     infile = $stdin
   end
-  next_411_jd = next_jd_str(Net::HTTP.get('agwx.soils.wisc.edu',"#{URL_PREFIX}/t411s/last.json"))
+  next_411_jd = next_jd_str(Net::HTTP.get(HOST,"#{URL_PREFIX}/t411s/last.json"))
   field_descrips = {}
-  JSON.parse(Net::HTTP.get('agwx.soils.wisc.edu',"#{URL_PREFIX}/awon_field_descrips.json")).each do |rec|
+  JSON.parse(Net::HTTP.get(HOST,"#{URL_PREFIX}/awon_field_descrips.json")).each do |rec|
     field_descrips[rec["rec_id"]] ||= {}
     field_descrips[rec["rec_id"]][rec["column_num"]] = rec
   end
@@ -74,14 +81,15 @@ begin
   begin
     fields = line.split(',') # e.g. 401,4751,12001,255,.508,2.157,0
     rec = {}
-    rectype = fields[0].to_i
+    rec_type = fields[0].to_i
     rec['awon_station_id'] = stnids[fields[1].to_i]
     rec['date'] = dates_from_jd_str(fields[2])[0]
     rec['time'] = time_from_date_and_timestamp(rec['date'],fields[3])
     (4..fields.size-1).each do |colnum|
-      rec[field_descrips[rectype][colnum]['field_abbrev']] = fields[colnum].to_f
+      rec[field_descrips[rec_type][colnum]['field_abbrev']] = fields[colnum].to_f
     end
-    puts post(rectype,rec).inspect
+    params = {"t#{rec_type}" => rec}
+    post(rec_type,params)
     exit
   end while (line=infile.gets)
 ensure
