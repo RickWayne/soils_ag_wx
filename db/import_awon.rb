@@ -68,9 +68,20 @@ end
 def awon_station_ids(http)
   stn_ids = {}
   JSON.parse(http.get("#{URL_PREFIX}/awon_stations.json").body).each do |rec|
-    stn_ids[rec["stnid"]] = rec["id"]
+    stn_ids[rec["stnid"]] = rec
   end
   stn_ids
+end
+
+# Ugh. Read the first line of the data file and detect what station ID we're using.
+# Insertion code actually does this line-by-line, which is safer, but we have to grab
+# the last-updated date (using 411s and the "last" endpoint) for this station.
+
+def get_next_411_jd_for(infile)
+  line = infile.gets
+  return nil unless line && line =~ /^[\d]{3},([\d]{4}),/
+  infile.rewind
+  next_jd_str(http.get("#{URL_PREFIX}/t411s/last.json?stnid=#{$1}").body)
 end
 
 # Given a record type (401,403,406,411, or 412), the attributes to set,
@@ -88,8 +99,10 @@ def process_awon_upload(filename)
     infile = File.open(filename,'r')
     # Open the HTTP connection and keep it around
     http = Net::HTTP::new(HOST,PORT).start
-    # Get the date of the last 411, calculate the next one as an AWON datestamp (yyjjj)
-    next_411_jd = next_jd_str(http.get("#{URL_PREFIX}/t411s/last.json").body)
+    # Station info
+    stnids = awon_station_ids(http)
+    # Get the date of the last 411 for this station, calculate the next one as an AWON datestamp (yyjjj)
+    next_411_jd = get_next_411_jd_for(infile)
     field_descrips = {}
     # Glom all the field_descrip recs out of the database. Make a hash of hashes, top level is rec id,
     # then by column number, values are the field descrip record hashes (including redundant info), e.g.
@@ -104,14 +117,13 @@ def process_awon_upload(filename)
       field_descrips[rec["rec_id"]] ||= {}
       field_descrips[rec["rec_id"]][rec["column_num"]] = rec
     end
-    stnids = awon_station_ids(http)
     infile,line = seek_to_date(infile,next_411_jd)
     # line is now either nil or the first record of new data
     while line
       fields = line.split(',') # e.g. 401,4751,12001,255,.508,2.157,0
       rec = {}
       rec_type = fields[0].to_i
-      rec['awon_station_id'] = stnids[fields[1].to_i] # We want the foreign key, not 4751 or 4781
+      rec['awon_station_id'] = stnids[fields[1].to_i]["id"] # We want the foreign key, not 4751 or 4781
       rec['date'] = dates_from_jd_str(fields[2])[0]   # Convert e.g. '12001' into a date
       rec['time'] = time_from_date_and_timestamp(rec['date'],fields[3]) # Likewise, that plus '255' becomes a Time
       (4..fields.size-1).each do |colnum|
