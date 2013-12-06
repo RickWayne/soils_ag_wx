@@ -1,0 +1,93 @@
+<h1>Listing wi_mn_d_ave_vaprs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Datestamp</th>
+      <th>Timestamp</th>
+      <th>Latitude</th>
+      <th>W980</th>
+      <th>W976</th>
+      <th>W972</th>
+      <th>W968</th>
+      <th>W964</th>
+      <th>W960</th>
+      <th>W956</th>
+      <th>W952</th>
+      <th>W948</th>
+      <th>W944</th>
+      <th>W940</th>
+      <th>W936</th>
+      <th>W932</th>
+      <th>W928</th>
+      <th>W924</th>
+      <th>W920</th>
+      <th>W916</th>
+      <th>W912</th>
+      <th>W908</th>
+      <th>W904</th>
+      <th>W900</th>
+      <th>W896</th>
+      <th>W892</th>
+      <th>W888</th>
+      <th>W884</th>
+      <th>W880</th>
+      <th>W876</th>
+      <th>W872</th>
+      <th>W868</th>
+      <th>W864</th>
+      <th>W860</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @wi_mn_d_ave_vaprs.each do |wi_mn_d_ave_vapr| %>
+      <tr>
+        <td><%= wi_mn_d_ave_vapr.dateStamp %></td>
+        <td><%= wi_mn_d_ave_vapr.timeStamp %></td>
+        <td><%= wi_mn_d_ave_vapr.latitude %></td>
+        <td><%= wi_mn_d_ave_vapr.w980 %></td>
+        <td><%= wi_mn_d_ave_vapr.w976 %></td>
+        <td><%= wi_mn_d_ave_vapr.w972 %></td>
+        <td><%= wi_mn_d_ave_vapr.w968 %></td>
+        <td><%= wi_mn_d_ave_vapr.w964 %></td>
+        <td><%= wi_mn_d_ave_vapr.w960 %></td>
+        <td><%= wi_mn_d_ave_vapr.w956 %></td>
+        <td><%= wi_mn_d_ave_vapr.w952 %></td>
+        <td><%= wi_mn_d_ave_vapr.w948 %></td>
+        <td><%= wi_mn_d_ave_vapr.w944 %></td>
+        <td><%= wi_mn_d_ave_vapr.w940 %></td>
+        <td><%= wi_mn_d_ave_vapr.w936 %></td>
+        <td><%= wi_mn_d_ave_vapr.w932 %></td>
+        <td><%= wi_mn_d_ave_vapr.w928 %></td>
+        <td><%= wi_mn_d_ave_vapr.w924 %></td>
+        <td><%= wi_mn_d_ave_vapr.w920 %></td>
+        <td><%= wi_mn_d_ave_vapr.w916 %></td>
+        <td><%= wi_mn_d_ave_vapr.w912 %></td>
+        <td><%= wi_mn_d_ave_vapr.w908 %></td>
+        <td><%= wi_mn_d_ave_vapr.w904 %></td>
+        <td><%= wi_mn_d_ave_vapr.w900 %></td>
+        <td><%= wi_mn_d_ave_vapr.w896 %></td>
+        <td><%= wi_mn_d_ave_vapr.w892 %></td>
+        <td><%= wi_mn_d_ave_vapr.w888 %></td>
+        <td><%= wi_mn_d_ave_vapr.w884 %></td>
+        <td><%= wi_mn_d_ave_vapr.w880 %></td>
+        <td><%= wi_mn_d_ave_vapr.w876 %></td>
+        <td><%= wi_mn_d_ave_vapr.w872 %></td>
+        <td><%= wi_mn_d_ave_vapr.w868 %></td>
+        <td><%= wi_mn_d_ave_vapr.w864 %></td>
+        <td><%= wi_mn_d_ave_vapr.w860 %></td>
+        <td><%= link_to 'Show', wi_mn_d_ave_vapr %></td>
+        <td><%= link_to 'Edit', edit_wi_mn_d_ave_vapr_path(wi_mn_d_ave_vapr) %></td>
+        <td><%= link_to 'Destroy', wi_mn_d_ave_vapr, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Wi mn d ave vapr', new_wi_mn_d_ave_vapr_path %>

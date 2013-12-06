@@ -1,4 +1,6 @@
 SoilsAgWx::Application.routes.draw do
+  resources :wi_mn_d_ave_vaprs
+
   resources :asos_stations
 
   resources :asos_data

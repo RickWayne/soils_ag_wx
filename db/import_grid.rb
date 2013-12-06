@@ -3,7 +3,7 @@ require 'agwx_grids'
 
 include AgwxGrids
 
-grid_classes = {'TAvg' => WiMnDAveTAir, 'TMin' => WiMnDMinTAir, 'TMax' => WiMnDMaxTAir, 'ET' => WiMnDet }
+grid_classes = {'TAvg' => WiMnDAveTAir, 'TMin' => WiMnDMinTAir, 'TMax' => WiMnDMaxTAir, 'ET' => WiMnDet, 'VAvg' => WiMnDAveVapr }
 
 def date_for(year,doy)
   Date.civil(year,1,1) + doy - 1
