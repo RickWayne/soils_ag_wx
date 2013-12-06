@@ -9,6 +9,9 @@ gem 'pg'
 # Use MySQL for sucking old data off Molly
 gem 'mysql'
 
+# Use agwx_grids for uploading data from text grids to database
+gem 'agwx_grids'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
