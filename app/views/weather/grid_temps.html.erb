@@ -11,18 +11,4 @@
 
 <p>By interpolating daily temperature and humidity observations at airports, we can offer gridded temperatures (in degrees Celsius) and water vapor pressures across the region.</p>
 
-<%= form_tag action: :get_grid do %>
-<%= select_tag :latitude, options_for_select(latitudes) %> <label for="latitude">Latitude</label>
-<%= select_tag :longitude, options_for_select(longitudes) %><label for="longitude">East longitude</label><br/>
-<% keys = @grid_classes.keys.sort; keys.each do |param| %>
-  <%= radio_button_tag 'param', param, param == keys[0] %> <%= param %><br/>
-<% end %>
-<%= date_select :grid_date, :start_date, start_year: 2000, default: 7.days.ago %> Start date<br/>
-<%= date_select :grid_date, :end_date,   start_year: 2000, default: 1.day.ago, end_year: Time.now.year %> End date<br/>
-<%= radio_button_tag 'format', 'html', true %> View in browser&nbsp;<%= radio_button_tag 'format', 'csv' %> Download as CSV<br/>
-
-
-
-
-<%= submit_tag "Get Temperature/Vapor-Pressure Series "%>
-<% end %>
+<%= render partial: "partials/grid_selector" %>

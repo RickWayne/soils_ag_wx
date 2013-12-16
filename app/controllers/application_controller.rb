@@ -14,6 +14,19 @@ class ApplicationController < ActionController::Base
       request.remote_ip == '146.151.214.80'
   end
   
+  def get_grid
+    @param = params[:param] # I just loved writing that
+    @start_date,@end_date = parse_dates 'grid_date'
+    @latitude = params[:latitude].to_f
+    @longitude = params[:longitude].to_f
+    grid_class = grid_classes[params[:param]]
+    puts grid_class.to_s + " is the grid class"
+    @data = grid_class.daily_series(@start_date,@end_date,@longitude,@latitude)
+    respond_to do |format|
+      format.html
+      format.csv { render text: to_csv(@data,params[:param]) }
+    end
+  end
   
   private
   def set_tab_selected

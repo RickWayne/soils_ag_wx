@@ -1,10 +1,16 @@
 class WiMnDetsController < ApplicationController
   before_action :set_wi_mn_det, only: [:show, :edit, :update, :destroy]
+  
+  include GridController
 
   # GET /wi_mn_dets
   # GET /wi_mn_dets.json
+  
+  def grid_classes
+    GRID_CLASSES.reject { |key,val| key != 'ET' }
+  end
   def index
-    @wi_mn_dets = WiMnDet.all
+    @grid_classes = grid_classes
   end
 
   # GET /wi_mn_dets/1
