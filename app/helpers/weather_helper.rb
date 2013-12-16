@@ -1,4 +1,5 @@
 module WeatherHelper
+  include AgwxGrids
   def todays_hyd_link
     yesterday = 1.days.ago
     year = yesterday.year
@@ -23,5 +24,14 @@ module WeatherHelper
     end
     "<a href='http://alfi.soils.wisc.edu/~asig/webcam/archive/" +
       "#{year}/#{month}/#{day}/#{movie}'#{tag_opt_str}>#{title}</a>"
+  end
+  
+  # FIXME: Magic Numbers!
+  def latitudes
+    (42.0..50.0).step(0.4).collect {|lat| [lat,lat] }
+  end
+  
+  def longitudes
+    (-98.0..-86.0).step(0.4).collect {|longi| [longi,longi]}
   end
 end

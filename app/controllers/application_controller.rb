@@ -42,4 +42,12 @@ class ApplicationController < ActionController::Base
       @tab_selected = {}
     end
   end
+  
+  def parse_dates(param_name)
+    p = params[param_name] # e.g. "grid_date"
+    [
+      Date.civil(p["start_date(1i)"].to_i,p["start_date(2i)"].to_i,p["start_date(3i)"].to_i),
+      Date.civil(p["end_date(1i)"].to_i,p["end_date(2i)"].to_i,p["end_date(3i)"].to_i)
+    ]
+  end
 end

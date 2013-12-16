@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# Fill the WiMnDAveTAirs grid with 2002 data (clone of import_grid.rb)
+
+min_path = File.join(File.dirname(__FILE__),'WIMNTMin2002')
+WiMnDAveTAir.import_grid(min_path,2002)
