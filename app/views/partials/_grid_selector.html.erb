@@ -1,6 +1,6 @@
 <%= form_tag action: :get_grid do %>
-<%= select_tag :latitude, options_for_select(latitudes) %> <label for="latitude">Latitude</label>
-<%= select_tag :longitude, options_for_select(longitudes) %><label for="longitude">East longitude</label><br/>
+<%= select_tag :latitude, options_for_select(latitudes) %> <label for="latitude"> Latitude</label>
+<%= select_tag :longitude, options_for_select(longitudes) %><label for="longitude"> West longitude</label><br/>
 <% if (keys = @grid_classes.keys.sort).size > 1 %>
   <% keys.each do |param| %>
     <%= radio_button_tag 'param', param, param == keys[0] %> <%= param %><br/>
