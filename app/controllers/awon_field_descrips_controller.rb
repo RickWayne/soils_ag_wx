@@ -1,5 +1,7 @@
 class AwonFieldDescripsController < ApplicationController
   before_action :set_awon_field_descrip, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate, only: [:create, :update, :delete]
+  
 
   # GET /awon_field_descrips
   # GET /awon_field_descrips.json

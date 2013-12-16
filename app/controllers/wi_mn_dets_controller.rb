@@ -1,5 +1,6 @@
 class WiMnDetsController < ApplicationController
   before_action :set_wi_mn_det, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate, only: [:create, :update, :delete]
   
   include GridController
 

@@ -1,5 +1,7 @@
 class SubscribersController < ApplicationController
   before_action :set_subscriber, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate, only: [:create, :update, :delete]
+  
 
   # GET /subscribers
   # GET /subscribers.json

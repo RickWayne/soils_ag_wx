@@ -1,5 +1,7 @@
 class WiMnDMaxTAirsController < ApplicationController
   before_action :set_wi_mn_d_max_t_air, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate, only: [:create, :update, :delete]
+  
 
   # GET /wi_mn_d_max_t_airs
   # GET /wi_mn_d_max_t_airs.json

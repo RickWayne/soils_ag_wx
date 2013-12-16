@@ -1,5 +1,7 @@
 class AsosStationsController < ApplicationController
   before_action :set_asos_station, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate, only: [:create, :update, :delete]
+  
 
   # GET /asos_stations
   # GET /asos_stations.json
