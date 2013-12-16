@@ -16,7 +16,7 @@ class WeatherController < ApplicationController
   end
   
   def grid_temps
-    @grid_classes = weather_grid_classes
+    @grid_classes = grid_classes
   end
   
 
