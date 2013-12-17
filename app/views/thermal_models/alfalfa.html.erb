@@ -12,11 +12,10 @@
 <h2><%= @title %></h2>
 
 <center>
-  <a href="http://alfi.soils.wisc.edu/uwex_agwx_data/ddgifs/WIMNDDSine48_1.png">
-    <IMG SRC="http://alfi.soils.wisc.edu/uwex_agwx_data/ddgifs/WIMNDDSine48_1.png" ALT="Yesterday's Sine 48 Alfalfa Weevil DD Map" height="400" width="480">
+  <%= ddgif_image_link('WIMNDDSine48_1.png',"Yesterday's Sine 48 Alfalfa Weevil DD Map") %>
   </a> 
 </center> 
-<a href="http://alfi.soils.wisc.edu/uwex_agwx_data/ddgifs/WIMNDDSine48_1_bw.png"> Download the Image in Black and White</a>
+<%= ddgif_url(' Download the Image in Black and White','WIMNDDSine48_1_bw.png') %>
 <p/>
   
 <div class="fineline"/></div>
