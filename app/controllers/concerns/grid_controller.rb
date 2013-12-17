@@ -1,3 +1,4 @@
+require 'csv'
 module GridController
   include AgwxGrids
   GRID_CLASSES = {

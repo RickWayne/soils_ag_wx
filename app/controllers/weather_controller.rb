@@ -1,5 +1,4 @@
 require 'grid_controller'
-require 'csv'
 class WeatherController < ApplicationController
   include GridController
   def index

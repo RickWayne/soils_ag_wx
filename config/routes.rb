@@ -63,6 +63,7 @@ SoilsAgWx::Application.routes.draw do
   get "weather/webcam"
   post "weather/get_grid"
   post "wi_mn_dets/get_grid"
+  post "thermal_models/get_dds"
   get "navigation/index"
   get "navigation/about"
   match "/navigation", to: "navigation#index", via: [:get, :post]

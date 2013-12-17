@@ -12,6 +12,9 @@ gem 'mysql'
 # Use agwx_grids for uploading data from text grids to database
 gem 'agwx_grids', '>= 0.0.6'
 
+# Use agwx_biophys for degree days and the like
+gem 'agwx_biophys'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
