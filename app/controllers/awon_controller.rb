@@ -127,8 +127,8 @@ class AwonController < ApplicationController
     @report_types = [
       ["Daily Weather","411"],
       ["Daily Soil Temperatures","412"],
-      ["Hourly & Half-Hourly Weather/Soil (Current)","403"] ,
-      ["Pre-2000 Half-Hourly Weather/Soil","406"],
+      ["Hourly & Half-Hourly Weather/Soil (Current)","406"] ,
+      ["Pre-2000 Half-Hourly Weather/Soil","403"],
       ["Five-Minute Precip/Wind","401"]
     ]
     @db_class = report_type(@report_type)
