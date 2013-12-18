@@ -52,8 +52,8 @@
 </div>
 <p/>
 <table>
-  <tr><td>From: </td><td><%= select_date Time.now - 7.days, prefix: 'start_date', start_year: 1985 %></td></tr>
-  <tr><td>To: </td><td><%= select_date Time.now, prefix: 'end_date', start_year: 1985 %></td></tr>
+  <tr><td>From: </td><td><%= select_date Time.now - 8.days, prefix: 'start_date', start_year: 1985 %></td></tr>
+  <tr><td>To: </td><td><%= select_date Time.now - 1.day, prefix: 'end_date', start_year: 1985 %></td></tr>
 </table>
 
 <p>
