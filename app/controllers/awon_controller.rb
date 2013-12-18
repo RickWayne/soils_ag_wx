@@ -82,7 +82,7 @@ class AwonController < ApplicationController
       end
     end
         
-    @results = @db_class.find(:all,:conditions => ['awon_station_id = ? and date >= ? and date <= ?',stnid,start_date,end_date])
+    @results = @db_class.where(['awon_station_id = ? and date >= ? and date <= ?',stnid,start_date,end_date]).order(:date,:time)
     respond_to do |format|
       format.html do
         text = @db_class.csv_header(use_abbrevs,@ahrs) + "<br/>"
