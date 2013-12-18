@@ -7,6 +7,7 @@ class ThermalModelsController < ApplicationController
   end
 
   def degree_days
+    @dd_methods = %w(Simple Modified Sine)
   end
 
   def corn
@@ -40,7 +41,6 @@ class ThermalModelsController < ApplicationController
   end
 
   def wiDDs
-    @dd_methods = %w(Simple Modified Sine)
   end
 
   def wiDDs_csv
@@ -67,7 +67,7 @@ class ThermalModelsController < ApplicationController
     @latitude = params[:latitude].to_f
     @longitude = params[:longitude].to_f
     @base_temp = params[:base_temp].to_f
-    @upper_temp = params[:upper_temp] ? params[:upper_temp].to_f : nil
+    @upper_temp = params[:upper_temp] == 'None' ? nil: params[:upper_temp].to_f
     mins = WiMnDMinTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
     maxes = WiMnDMaxTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
     dd_accum = 0.0

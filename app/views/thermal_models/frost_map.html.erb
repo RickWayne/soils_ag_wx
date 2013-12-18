@@ -1,2 +1,24 @@
-<h1>ThermalModels#frost_map</h1>
-<p>Find me in app/views/thermal_models/frost_map.html.erb</p>
+<% @title = "Earliest, Median, And Latest Day of First Frost "%>
+<% content_for :title do %>
+  <%= @title %>
+<% end %>
+
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style" -%>
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "frost_maps/frost_median_doy_map.gif",{:width => "231", :height => "156", :alt => "Hot and Cold"} %>
+  <h2><%= @title %></h2>
+  <p>First frost days from our historical dataset</p>
+<% end %>
+
+<h2>Day of Year of First Frost</h2>
+<p>Analyzing our <%= Date.today.year - 1997 %>-year gridded temperature dataset, we can map the day of first frost,
+	defined as the first day after July 1 where the minimum temperature is below 32 F. (See our <%= link_to "day-of-year calendar", "http://alfi.soils.wisc.edu/cgi-bin/asig/doyCal.rb"%>.)</p>
+<p>The first map shows the median DOY of first frost; for each map location, half the years were earlier than this date,
+	half later. The second and third map show the earliest DOY of frost in the dataset, and the latest, respectively.</p>
+	
+<%= image_tag "frost_maps/frost_median_doy_map.gif" %><br/>
+<%= image_tag "frost_maps/frost_min_doy_map.gif" %><br/>
+<%= image_tag "frost_maps/frost_max_doy_map.gif" %><br/>
