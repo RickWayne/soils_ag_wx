@@ -9,7 +9,7 @@
     <% border = (mday % 5 == 0) ? "border-bottom: 4px solid black" : ""%>
     <tr style="<%= border %>">
       <% @cal_matrix.row_to_s(mday).each_with_index do |doy,ii| %>
-      <% color = (ii % 2 == 0) ? "yellow" : "medium-grey"%>
+      <% color = (ii % 2 == 1) ? "yellow" : "medium-grey"%>
         <td style="background-color:<%= color %>"><%= doy %></td>
       <% end %>
     </tr>
