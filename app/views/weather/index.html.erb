@@ -1,5 +1,5 @@
 <% content_for :title do %>
-  Weather Observations (under reconstruction!)
+  Weather Observations
 <% end %>
 
 <% content_for :welcome do %>
@@ -9,9 +9,6 @@
 <% end %>
 
 <!-- content for remainder of page -->
-<p>
-  Some wide-ranging changes to our Web infrastructure have broken many of our products. We're working as fast as we can to put them right.
-</p>
 <a href="http://alfi.soils.wisc.edu/cgi-bin/asig/HYDAccessPage.rb#today"><%= image_tag "opu.png", {:width=>"109", :height => "95", :alt => "HYD Report screenshot", :class =>"left"} %>
 <h2>HYD Reports</h2></a>
 <p>We offer online access to NWS HYD reports -- daily weather summaries of temperature and
@@ -59,6 +56,12 @@
     Today's Photo Archive
   </a>
   </p>
+  <div class="fineline"></div>
+
+
+<%= image_tag "440px-Petaluma_and_Santa_Rosa_Railroad_Co._Calendar.jpg", {:width => "109", :height => "108", :alt => "Day-of-Year Calendar", :class => "left"} %>
+<h2><a><%= link_to "Day-of-Year Calendar", controller: "weather", action: :doycal %></h2>
+<p>Handy day-of-year calendar for any of the previous 50 and subsequent 50 years</p>
 
 
 	

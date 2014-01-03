@@ -1,0 +1,28 @@
+<% content_for :title do %>
+  Weather Observations
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "440px-Petaluma_and_Santa_Rosa_Railroad_Co._Calendar.jpg", {:width => "231", :height => "231", :alt => "Calendar"} %>
+  <h2>1-Century Day-Of-Year Calendar</h2>
+  <p style="font-size:5px">Image courtesy <a href="http://en.wikipedia.org/wiki/File:Petaluma_and_Santa_Rosa_Railroad_Co._Calendar.jpg">Wikimedia Commons</a></p>
+<% end %>
+
+<% content_for :header_script do %>
+function update_grid(year) {  
+  jQuery.ajax({
+    url: "doycal_grid",
+    type: "GET",
+    data: {"year" : year},
+    dataType: "html",
+    success: function(data) {
+      jQuery("#grid").html(data);
+    }
+  });
+}
+<% end %>
+<% midyear = Date.today.year %>
+<%= select_tag "year", options_for_select((midyear + 50).downto(midyear-50).collect {|year| [year,year]}, Date.today.year),  :onchange => "update_grid(this.value)" %>
+<div id="grid">
+  <%= render partial: "doycal_grid", locals: { cal_matrix: @cal_matrix } %>
+</div>

@@ -1,0 +1,21 @@
+<% months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" ] %>
+<table border="1">
+  <tr>
+    <% for month in months %>
+      <th><%= month %></th>
+    <% end %>
+  </tr>
+  <% 1.upto 31 do |mday| %>
+    <tr>
+      <% @cal_matrix.row_to_s(mday).each_with_index do |doy,ii| %>
+      <% color = (ii % 2 == 0) ? "yellow" : "medium-grey"%>
+        <td style="background-color:<%= color %>"><%= doy %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  <tr>
+    <% for month in months %>
+      <th><%= month %></th>
+    <% end %>
+  </tr>
+</table>

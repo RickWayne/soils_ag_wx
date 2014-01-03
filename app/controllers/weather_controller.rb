@@ -18,7 +18,20 @@ class WeatherController < ApplicationController
     @grid_classes = grid_classes
   end
   
-
   def webcam
   end
+  
+  def doycal
+    date = params[:year] ? Date.civil(params[:year].to_i,1,1) : Date.today
+    @cal_matrix = CalMatrix.new(date)
+    @year = date.year
+  end
+  
+  def doycal_grid
+    date = params[:year] ? Date.civil(params[:year].to_i,1,1) : Date.today
+    @cal_matrix = CalMatrix.new(date)
+    @year = date.year
+    render partial: "doycal_grid"
+  end
+  
 end
