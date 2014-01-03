@@ -1,22 +1,22 @@
 <% months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" ] %>
-<table border="1" style="border-left:3px solid black;border-right:3px solid black;border-top:3px solid black;border-bottom:3px solid black">
+<table border="1" style="border-left:3px solid black;border-right:3px solid black;border-top:3px solid black;border-bottom:3px solid black;font-size:16px">
   <tr style="border: 3px solid black">
     <% for month in months %>
-      <th><%= month %></th>
+      <th style="padding:2px"><%= month %></th>
     <% end %>
   </tr>
   <% 1.upto 31 do |mday| %>
     <% border = (mday % 5 == 0) ? "border-bottom: 4px solid black" : ""%>
     <tr style="<%= border %>">
-      <% @cal_matrix.row_to_s(mday).each_with_index do |doy,ii| %>
-      <% color = (ii % 2 == 1) ? "yellow" : "medium-grey"%>
-        <td style="background-color:<%= color %>"><%= doy %></td>
+      <% @cal_matrix.row_to_s(mday).each_with_index do |doy,column| %>
+      <% weight = (column == 0) ? "bold" : "normal" %>
+        <td style="background-color:<%= calendar_grid_color(mday,column,Date.today) %>; font-weight:<%= weight %>;padding:2px"><%= doy %></td>
       <% end %>
     </tr>
   <% end %>
   <tr style="border: 3px solid black">
     <% for month in months %>
-      <th><%= month %></th>
+      <th style="padding:2px"><%= month %></th>
     <% end %>
   </tr>
 </table>

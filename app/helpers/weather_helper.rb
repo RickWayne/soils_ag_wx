@@ -34,4 +34,14 @@ module WeatherHelper
   def longitudes
     (-98.0..-86.0).step(0.4).collect {|longi| [longi,longi]}
   end
+  
+  def calendar_grid_color(mday,column,today=Date.today)
+    if mday == today.mday && column + 1 == today.month
+      "aqua"
+    elsif (column % 2) == 1
+      "yellow"
+    else
+      "light-grey"
+    end
+  end
 end
