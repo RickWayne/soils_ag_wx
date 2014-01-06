@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2014-01-03
+  stn: MyString
+  county: MyString
+  name: MyString
+  max_temp: 1.5
+  min_temp: 1.5
+  pcpn: 1.5
+  new_snow: 1.5
+  snow_depth: 1.5
+
+two:
+  date: 2014-01-03
+  stn: MyString
+  county: MyString
+  name: MyString
+  max_temp: 1.5
+  min_temp: 1.5
+  pcpn: 1.5
+  new_snow: 1.5
+  snow_depth: 1.5

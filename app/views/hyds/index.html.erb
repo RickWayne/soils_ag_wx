@@ -1,0 +1,43 @@
+<h1>Listing hyds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Stn</th>
+      <th>County</th>
+      <th>Name</th>
+      <th>Max temp</th>
+      <th>Min temp</th>
+      <th>Pcpn</th>
+      <th>New snow</th>
+      <th>Snow depth</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @hyds.each do |hyd| %>
+      <tr>
+        <td><%= hyd.date %></td>
+        <td><%= hyd.stn %></td>
+        <td><%= hyd.county %></td>
+        <td><%= hyd.name %></td>
+        <td><%= hyd.max_temp %></td>
+        <td><%= hyd.min_temp %></td>
+        <td><%= hyd.pcpn %></td>
+        <td><%= hyd.new_snow %></td>
+        <td><%= hyd.snow_depth %></td>
+        <td><%= link_to 'Show', hyd %></td>
+        <td><%= link_to 'Edit', edit_hyd_path(hyd) %></td>
+        <td><%= link_to 'Destroy', hyd, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Hyd', new_hyd_path %>

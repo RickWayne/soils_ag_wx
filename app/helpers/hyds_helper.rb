@@ -1,0 +1,2 @@
+module HydsHelper
+end

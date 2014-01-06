@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @hyd.date %>
+</p>
+
+<p>
+  <strong>Stn:</strong>
+  <%= @hyd.stn %>
+</p>
+
+<p>
+  <strong>County:</strong>
+  <%= @hyd.county %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @hyd.name %>
+</p>
+
+<p>
+  <strong>Max temp:</strong>
+  <%= @hyd.max_temp %>
+</p>
+
+<p>
+  <strong>Min temp:</strong>
+  <%= @hyd.min_temp %>
+</p>
+
+<p>
+  <strong>Pcpn:</strong>
+  <%= @hyd.pcpn %>
+</p>
+
+<p>
+  <strong>New snow:</strong>
+  <%= @hyd.new_snow %>
+</p>
+
+<p>
+  <strong>Snow depth:</strong>
+  <%= @hyd.snow_depth %>
+</p>
+
+<%= link_to 'Edit', edit_hyd_path(@hyd) %> |
+<%= link_to 'Back', hyds_path %>

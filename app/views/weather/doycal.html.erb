@@ -26,7 +26,7 @@ function update_grid(year) {
   The bold numbers down the left edge represent the day of month
 (and, for January, also the day of year). Follow the day-of-month row
 across to the appropriate month column to find day-of-year. Today's DOY is 
-highlighted in aqua.
+highlighted in <span style="background-color:aqua">aqua</span>.
 </p><%= select_tag "year", options_for_select((midyear + 50).downto(midyear-50).collect {|year| [year,year]}, Date.today.year),  :onchange => "update_grid(this.value)" %>
 <div id="grid">
   <%= render partial: "doycal_grid", locals: { cal_matrix: @cal_matrix } %>

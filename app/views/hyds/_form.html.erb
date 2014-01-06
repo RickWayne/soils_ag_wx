@@ -1,0 +1,53 @@
+<%= form_for(@hyd) do |f| %>
+  <% if @hyd.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hyd.errors.count, "error") %> prohibited this hyd from being saved:</h2>
+
+      <ul>
+      <% @hyd.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :stn %><br>
+    <%= f.text_field :stn %>
+  </div>
+  <div class="field">
+    <%= f.label :county %><br>
+    <%= f.text_field :county %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :max_temp %><br>
+    <%= f.text_field :max_temp %>
+  </div>
+  <div class="field">
+    <%= f.label :min_temp %><br>
+    <%= f.text_field :min_temp %>
+  </div>
+  <div class="field">
+    <%= f.label :pcpn %><br>
+    <%= f.text_field :pcpn %>
+  </div>
+  <div class="field">
+    <%= f.label :new_snow %><br>
+    <%= f.text_field :new_snow %>
+  </div>
+  <div class="field">
+    <%= f.label :snow_depth %><br>
+    <%= f.text_field :snow_depth %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
