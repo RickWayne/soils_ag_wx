@@ -4,7 +4,7 @@ MADISON_POPUP_URL = '/geoserver/wms?REQUEST=GetFeatureInfo&EXCEPTIONS=applicatio
 class HeartbeatController < ApplicationController
   def index
     # @sections = ['awon','asos','hyd','dd','et','insol','ping','webapps']
-    @sections = ['awon','asos','webapps','et']
+    @sections = ['awon','asos','webapps','et','asos_grids']
     @rraf_image_url = RRAF_IMAGE_URL
     @madison_popup_url = MADISON_POPUP_URL
   end
@@ -38,6 +38,14 @@ class HeartbeatController < ApplicationController
     # Have to specify the date for this, otherwise it defaults to a Time -- may need to fix that
     @et_res = {'44.0,-92.0' => WiMnDet.hasYesterday(['latitude = ? and w920 is not null',44.0],Date.today - 1)}
     render partial: 'et'
+  end
+  
+  def asos_grids
+    @asos_grid_res = 
+      [WiMnDAveTAir,WiMnDMinTAir,WiMnDMaxTAir,WiMnDAveVapr].inject({}) do |hash,grid_class|
+        hash.merge( {grid_class.to_s => grid_class.hasYesterday(['latitude = ? and w920 is not null',44.0],Date.today - 1)} )
+      end
+    render partial: 'asos_grids'
   end
 
   def insol

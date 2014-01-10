@@ -8,6 +8,7 @@ SoilsAgWx::Application.routes.draw do
   get "heartbeat/insol"
   get "heartbeat/ping"
   get "heartbeat/webapps"
+  get "heartbeat/asos_grids"
   match "/heartbeat", to: "heartbeat#index", via: [:get, :post]
   resources :hyds
 
