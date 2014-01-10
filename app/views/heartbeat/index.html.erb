@@ -12,7 +12,6 @@
     $(document).ready(function() {
       var sections = <%= @sections.inspect.html_safe %>;
       for (ii=0; ii<sections.length; ii++) {
-        alert(sections[ii]);
         show_section(sections[ii]); // This should show up, no?  
       }
     });

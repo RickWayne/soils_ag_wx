@@ -9,7 +9,10 @@ module HeartbeatHelper
   end
   
   def result_span(key,value)
-    color = value ? "green" : "red"
-    "<span style='color:#{color}'>#{key}</span>"
+    if value
+      "<span style='padding:1px;color:white;background-color:green'>#{key}</span>"
+    else
+      "<span style='padding:1px;color:black;background-color:#F0A0A0'>#{key}</span>"    
+    end
   end
 end

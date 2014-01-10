@@ -14,13 +14,15 @@ module Assessable
     end
     
     def yesterday_for(when_from=nil)
+      return 1.day.ago unless when_from
       case when_from
-      when nil
-        1.day.ago
-      when when_from.class == Time
+      when Time
         when_from - 24 * 3600
-      when when_from.class == Date || when_from.class == DateTime
+      when Date, DateTime
         when_from - 1
+      else
+        puts "something else: got a #{when_from.class}"
+        1.day.ago
       end
     end
     
