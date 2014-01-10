@@ -61,14 +61,12 @@ class HeartbeatController < ApplicationController
         h = Net::HTTP.new(addr_hash[:server],80)
         resp = h.get(addr_hash[:url])
       rescue Exception => e
-        puts e.to_s
+        logger.warn "Heartbeat#webapps: " + e.to_s
         code = 500
       end
-      puts 'webabbs ***********************'
-      puts "#{key}: #{resp.code.inspect}"
       hash.merge({key => resp.code.to_i == 200})
     end
     render partial: 'webapps'
   end
-  # HA HA I AM POOPING!
+  
 end
