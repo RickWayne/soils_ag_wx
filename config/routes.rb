@@ -1,4 +1,14 @@
 SoilsAgWx::Application.routes.draw do
+  get "heartbeat/index"
+  get "heartbeat/awon"
+  get "heartbeat/asos"
+  get "heartbeat/hyd"
+  get "heartbeat/dd"
+  get "heartbeat/et"
+  get "heartbeat/insol"
+  get "heartbeat/ping"
+  get "heartbeat/webapps"
+  match "/heartbeat", to: "heartbeat#index", via: [:get, :post]
   resources :hyds
 
   resources :wi_mn_d_ave_vaprs
