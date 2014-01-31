@@ -1,4 +1,6 @@
 SoilsAgWx::Application.routes.draw do
+  resources :degree_day_stations
+
   get "heartbeat/index"
   get "heartbeat/awon"
   get "heartbeat/asos"
@@ -58,6 +60,9 @@ SoilsAgWx::Application.routes.draw do
   get "thermal_models/remaining_dds"
   get "thermal_models/remaining_dd_map_for"
   get "thermal_models/frost_map"
+  get "thermal_models/many_degree_days_for_date"
+  post "thermal_models/get_dds_many_locations"
+  get "thermal_models/get_dds_many_locations"
   match "/thermal_models", to: "thermal_models#index", via: [:get, :post]
   get "sun_water/index"
   get "sun_water/insol_east_us"

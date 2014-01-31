@@ -1,1 +1,38 @@
-<%= result_table("web apps",@webapp_results)%>
+<script type="text/javascript">
+function show_app(key,url)
+{
+  alert(url);
+  $.ajax({
+    url: url,
+    async:false,
+    statusCode: {
+      200: function() {
+        alert("got 200 back for "+key);
+      }
+    },
+    success: function(response) {
+      $("#"+key).html("<span style='color:green'>"+key+"></span>");
+    },
+    function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR));
+            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+     }
+  });
+}
+
+$(document).ready(function() {
+  <% for (key, url) in @urls %>
+    show_app("<%= key %>","<%= url %>");
+  <% end %>
+});
+  
+</script>
+
+<h4>Webapps:</h4>
+<table>
+  <tr>
+    <% for (key, url) in @urls %>
+      <td id="<%= key %>"><%= key %>: Waiting...</td>
+    <% end %>
+  </tr>
+</table>

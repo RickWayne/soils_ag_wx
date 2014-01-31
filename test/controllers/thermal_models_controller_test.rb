@@ -95,5 +95,15 @@ class ThermalModelsControllerTest < ActionController::TestCase
     get :frost_map
     assert_response :success
   end
+  
+  test "should get get_dds" do
+    [:json, :csv, :html].each do |format|
+      get :get_dds, 
+        grid_date: {"start_date(1i)" => 2011, "start_date(2i)" => 1, "start_date(3i)" => 1,
+        "end_date(1i)" => 2011, "end_date(2i)" => 1, "end_date(3i)" => 1},
+        method: 'Simple', latitude: 44.2, longitude: -89.2, format: format
+      assert_response :success
+    end
+  end
 
 end

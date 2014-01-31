@@ -10,5 +10,5 @@ module ThermalModelsHelper
   def ddgif_url(link_text,image_file)
     link_to link_text, "http://agwx.soils.wisc.edu/soils-agwx-assets/uwex_agwx/images/ddgifs/#{image_file}"
   end
-  
+
 end

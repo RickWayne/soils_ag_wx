@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Abbrev:</strong>
+  <%= @degree_day_station.abbrev %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @degree_day_station.name %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @degree_day_station.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @degree_day_station.longitude %>
+</p>
+
+<%= link_to 'Edit', edit_degree_day_station_path(@degree_day_station) %> |
+<%= link_to 'Back', degree_day_stations_path %>

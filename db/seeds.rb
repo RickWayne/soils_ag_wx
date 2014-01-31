@@ -10,3 +10,4 @@
 
 min_path = File.join(File.dirname(__FILE__),'WIMNTMin2002')
 WiMnDAveTAir.import_grid(min_path,2002)
+

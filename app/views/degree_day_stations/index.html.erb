@@ -1,0 +1,33 @@
+<h1>Listing degree_day_stations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Abbrev</th>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @degree_day_stations.each do |degree_day_station| %>
+      <tr>
+        <td><%= degree_day_station.abbrev %></td>
+        <td><%= degree_day_station.name %></td>
+        <td><%= degree_day_station.latitude %></td>
+        <td><%= degree_day_station.longitude %></td>
+        <td><%= link_to 'Show', degree_day_station %></td>
+        <td><%= link_to 'Edit', edit_degree_day_station_path(degree_day_station) %></td>
+        <td><%= link_to 'Destroy', degree_day_station, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Degree day station', new_degree_day_station_path %>

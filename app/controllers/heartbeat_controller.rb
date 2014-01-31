@@ -57,24 +57,34 @@ class HeartbeatController < ApplicationController
   end
 
   def webapps
-    apps = {
-      'wisp'      => { server: 'wisp.cals.wisc.edu',  url: '/'},
+    @apps = {
+      # 'wisp'      => { server: 'wisp.cals.wisc.edu',  url: '/'},
       '590 page'       => { server: 'gis.soils.wisc.edu',  url: '/app/maps'},
       'RRAF page'      => { server: 'gis.soils.wisc.edu',  url: '/app/events/runoff_forecast'},
       'RRAF Map Tile'  => { server: 'gis.soils.wisc.edu',  url: RRAF_IMAGE_URL},
       'RRAF Popup'     => { server: 'gis.soils.wisc.edu',  url: MADISON_POPUP_URL},
     }
-    @webapp_results = apps.inject({}) do |hash,(key,addr_hash)|
-      begin
-        h = Net::HTTP.new(addr_hash[:server],80)
-        resp = h.get(addr_hash[:url])
-      rescue Exception => e
-        logger.warn "Heartbeat#webapps: " + e.to_s
-        code = 500
-      end
-      hash.merge({key => resp.code.to_i == 200})
+    @urls = @apps.inject({}) do |hash,(key,param_hash)|
+      puts "*********************"
+      puts hash.inspect
+      puts key.inspect
+      puts param_hash.inspect
+      hash.merge({key => "http://#{param_hash[:server]}/#{param_hash[:url]}"})
+      # {'wisp' => 'http://wisp.cals.wisc.edu//', '590 page' => etc.}
     end
-    render partial: 'webapps'
+    
+    # @webapp_results = apps.inject({}) do |hash,(key,addr_hash)|
+    #   begin
+    #     h = Net::HTTP.new(addr_hash[:server],80)
+    #     resp = h.get(addr_hash[:url])
+    #     raise "resp nil" unless resp
+    #   rescue Exception => e
+    #     logger.warn "Heartbeat#webapps: " + e.to_s
+    #     code = 500
+    #   end
+    #   hash.merge({key => resp.code.to_i == 200})
+    # end
+    # render partial: 'webapps', layout: 'application.html.erb'
   end
   
 end

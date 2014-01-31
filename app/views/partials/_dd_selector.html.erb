@@ -13,6 +13,6 @@
 <%= text_field_tag  :base_temp, 50, {size: 3 }%> Lower threshold temperature (Degrees F):<br/>
 <%= text_field_tag  :upper_temp, 'None', {size: 3} %> Upper threshold (F)<br/>
 <%= check_box_tag :seven_day %> Report only last 7 days of accumulated values<br/>
-<%= radio_button_tag 'format', 'html', true %> View in browser&nbsp;<%= radio_button_tag 'format', 'csv' %> Download as CSV<br/>
+<%= radio_button_tag 'format', 'html', true %> View in browser&nbsp;<%= radio_button_tag 'format', 'csv' %> Download as CSV&nbsp;<%= radio_button_tag 'format', 'json' %> Download as JSON<br/>
 <%= submit_tag "Get Data Series "%>
 <% end %>

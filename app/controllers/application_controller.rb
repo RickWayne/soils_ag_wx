@@ -56,8 +56,9 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def parse_dates(param_name)
-    p = params[param_name] # e.g. "grid_date"
+  def parse_dates(p)
+    # p is e.g. the result from params["grid_date"]
+    puts p.inspect
     [
       Date.civil(p["start_date(1i)"].to_i,p["start_date(2i)"].to_i,p["start_date(3i)"].to_i),
       Date.civil(p["end_date(1i)"].to_i,p["end_date(2i)"].to_i,p["end_date(3i)"].to_i)

@@ -1,0 +1,41 @@
+<% content_for :title do %>
+ Degree Day Results
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "thermal.png", {:width => "231", :height => "231", :alt => "Contour map"} %>
+  <h2>Thermal Model Accumulations For Multiple Locations</h2>
+  <p></p>
+<% end %>
+
+<%
+  # Extract the method info from the data and put into a set of table headers
+  # "DBQ" => {"1" => {"params" => {"method" => "Simple","base" => "50.0"},"date" => "2012-10-31","data" => 3476.0}}
+  def methods_to_headers(data)
+    puts data.inspect
+    name = data.keys.first # 'DBQ'
+    method = base = upper = nil
+    data[name].keys.sort.inject("") do |str, ii|
+      method = data[name][ii]['params']['method']
+      base = data[name][ii]['params']['base']
+      upper = data[name][ii]['params']['upper']
+      upper ||= "None"
+      str + "<th>#{method} B=#{base} U=#{upper}</th>"
+    end
+  end
+  
+  def data_cells(location,locn_data)
+    locn_data.keys.sort.inject("") do |str, ii|
+      data = locn_data[ii]["data"]
+      str + "<td>#{data}</td>"
+      # str + "<td>#{locn_data[ii]["data"]}</td>"
+    end
+  end
+%>
+
+<table border="1">
+  <tr><th>Location</th><%= methods_to_headers(@data).html_safe %></tr>
+  <% for location in @data.keys.sort %>
+  <tr><td><%= location %></td><%= data_cells(location,@data[location]).html_safe%></tr>
+  <% end %>
+</table>
