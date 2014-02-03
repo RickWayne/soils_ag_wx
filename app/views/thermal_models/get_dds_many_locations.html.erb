@@ -17,8 +17,8 @@
     method = base = upper = nil
     data[name].keys.sort.inject("") do |str, ii|
       method = data[name][ii]['params']['method']
-      base = data[name][ii]['params']['base']
-      upper = data[name][ii]['params']['upper']
+      base = data[name][ii]['params']['base_temp']
+      upper = data[name][ii]['params']['upper_temp']
       upper ||= "None"
       str + "<th>#{method} B=#{base} U=#{upper}</th>"
     end

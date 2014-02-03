@@ -8,19 +8,29 @@
     param_set = $('#param_set_template').clone();
     last_added_set += 1;
     id_or_name = 'method_params[' + last_added_set +']';
-    param_set.attr('id','param_set_' + last_added_set);
+    param_set_id = 'param_set_' + last_added_set;
+    param_set.attr('id',param_set_id);
     param_set.show();
-    names = ['method','base','upper','start_date','end_date'];
+    // Set the "onclick" attribute of the first child, which is the '-' button
+    param_set.children().eq(0).attr('onclick',"remove_this('" + param_set_id + "');");
+    names = ['method','base_temp','upper_temp','start_date(1i)','start_date(2i)','start_date(3i)','end_date(1i)','end_date(2i)','end_date(3i)'];
     for (ii=0; ii < names.length; ii++) {
-      param_set.children().eq(ii).attr('name','method_params[' + last_added_set +'][' + names[ii] + ']');
-      param_set.children().eq(ii).attr('id','method_params[' + last_added_set +'][' + names[ii] + ']');
+      param_set.children().eq(ii+1).attr('name','method_params[' + last_added_set +'][' + names[ii] + ']');
+      param_set.children().eq(ii+1).attr('id','method_params[' + last_added_set +'][' + names[ii] + ']');
     }
+    
     param_set.appendTo('#all_param_sets');
+    // Can't seem to get datepicker working
     // $('#' + id_or_name + '[start_date]').datepicker();
-    $('#method_params[4][start_date]').datepicker();
+    // $('#method_params[4][start_date]').datepicker();
   }
   function remove_last_param_set() {
     target = $('#param_set_' + last_added_set);
+    target.remove();
+    last_added_set -= 1;
+  }
+  function remove_this(id) {
+    target = $('#'+id);
     target.remove();
     last_added_set -= 1;
   }
@@ -32,76 +42,73 @@
 <% end %>
 
 <% content_for :welcome do %>
-  <%= image_tag "thermal.png", {:width => "231", :height => "231", :alt => "Contour map"} %>
+  <%= image_tag "thermal.png", {:width => "231", :height => "231", :alt => "Heat and cold"} %>
   <h2>Thermal Model Accumulations For Multiple Locations</h2>
   <p></p>
 <% end %>
 <%= form_tag action: :get_dds_many_locations do %>
-  <%= select_tag :locations, options_from_collection_for_select(@stations,:id,:name), {multiple: true, size: @stations.size} %>
-  <!-- <input name="locations[DBQ][latitude]" value="42.0"></input>
-  <input size="4" name="locations[DBQ][longitude]" value="-89.2"></input><br/>
-  <input size="4" name="locations[OSH][latitude]" value="44.0"></input>
-  <input size="4" name="locations[OSH][longitude]" value="-87.2"></input><br/> -->
-  
-  <div id="all_param_sets">
+<div id="all_param_sets">
     <div id='param_set_1'>
+      <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_1');", title: 'Remove this degree-day set', 
+        align: 'middle', style: 'margin-bottom: 0.5em'%>
       <select name="method_params[1][method]">
         <option value="Simple" selected="1">Simple</option>
         <option value="Sine">Sine</option>
-        <option value="ModB">ModB</option>
+        <option value="Modified">ModB</option>
       </select>&nbsp;
-      Base:  <input size="4" name="method_params[1][base]" value="50.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[1][upper]"></input>&nbsp;
+      Base:  <input size="4" name="method_params[1][base_temp]" value="50.0"></input>&nbsp;
+      Upper: <input size="4" name="method_params[1][upper_temp]"></input>&nbsp;
       From <%= date_select "method_params[1]", :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
-      to <%= date_select "method_params[1]", :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %><br/>
+      to <%= date_select "method_params[1]", :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
     </div>
 
     <div id='param_set_2'>
+      <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_2');", title: 'Remove this degree-day set', 
+        align: 'middle', style: 'margin-bottom: 0.5em'%>
       <select name="method_params[2][method]">
         <option value="Simple" selected="1">Simple</option>
         <option value="Sine" selected="1">Sine</option>
-        <option value="ModB">ModB</option>
+        <option value="Modified">ModB</option>
       </select>&nbsp;
-      Base:  <input size="4" name="method_params[2][base]" value="40.0"></input>&nbsp;
-      Upper:  <input size="4" name="method_params[2][upper]"/>&nbsp;
-      From <%= date_select "method_params[2][start_date]", start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
-      to <%= date_select "method_params[2][start_date]",   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %><br/>
+      Base:  <input size="4" name="method_params[2][base_temp]" value="40.0"></input>&nbsp;
+      Upper:  <input size="4" name="method_params[2][upper_temp]"/>&nbsp;
+      From <%= date_select "method_params[2]", :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
+      to <%= date_select "method_params[2]", :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
+      <br/>
     </div>
     <div id='param_set_3'>
+      <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_3');", title: 'Remove this degree-day set', 
+        align: 'middle', style: 'margin-bottom: 0.5em'%>
       <select name="method_params[3][method]">
         <option value="Simple" selected="1">Simple</option>
         <option value="Sine">Sine</option>
-        <option value="ModB" selected="1">ModB</option>
+        <option value="Modified" selected="1">ModB</option>
       </select>&nbsp;
-      Base:  <input size="4" name="method_params[3][base]" value="55.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[3][upper]" value="75.0"></input>&nbsp;
-      From <%= date_select "method_params[3][start_date]", start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
-      to <%= date_select "method_params[3][start_date]",   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %><br/>
+      Base:  <input size="4" name="method_params[3][base_temp]" value="55.0"></input>&nbsp;
+      Upper: <input size="4" name="method_params[3][upper_temp]" value="75.0"></input>&nbsp;
+      From <%= date_select "method_params[3]", :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
+      to <%= date_select "method_params[3]", :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
     </div>
   </div>
-  <button type="button" onclick="add_param_set();">Add Another Degree-Day Set</button>
-  <button type="button" onclick="remove_last_param_set();">Remove Last-Added Degree-Day Set</button>
+  <%= image_tag 'add_button.png', onclick: "add_param_set();", title: 'Add another degree-day set', align: 'middle'%>
   <br/>
-  <%= date_select :grid_date, :start_date, start_year: 2000, default: Date.civil(2012,1,1) %> Biofix (start) date<br/>
-  <!-- date_select :grid_date, :start_date, start_year: 2000, default: Date.civil(Date.today.year,1,1) -->
-  <%= date_select :grid_date, :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %> End date<br/>
-  <%= text_field_tag  :base_temp, 50, {size: 3 }%> Lower threshold temperature (Degrees F):<br/>
-  <%= text_field_tag  :upper_temp, 'None', {size: 3} %> Upper threshold (F)<br/>
-  
+  <p>Locations (all <%= @stations.size %> locations are selected by default; scroll the list and use Ctrl-click to select a subset of them)</p>
+  <%= select_tag :locations, options_from_collection_for_select(@stations,:id,:name), {multiple: true, size: 10} %><br/>
+  <br/>
   <%= radio_button_tag 'format', 'html', true %> View in browser&nbsp;<%= radio_button_tag 'format', 'json' %> Download as JSON<br/>
-  
-  <%= submit_tag %>
+  <br/>
+  <%= submit_tag 'Get Degree-Day Data'%>
 <% end %>
 
 <div id='param_set_template'>
+  <%= image_tag 'delete_button.png', title: 'Remove this degree-day set', align: 'middle', style: 'margin-bottom: 0.5em'%>
   <select>
     <option value="Simple">Simple</option>
     <option value="Sine">Sine</option>
-    <option value="ModB">ModB</option>
+    <option value="Modified">ModB</option>
   </select>&nbsp;
   Base: <input size="4" value="50"/>&nbsp;
-  Upper: <input size="4" value="70">&nbsp;
-  Start: <input size="8"/>&nbsp;
-  <!-- From <%= date_select :grid_date, :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp; -->
-  to <%= date_select :grid_date, :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %><br/>
+  Upper: <input size="4" value="86">&nbsp;
+  From <%= date_select :grid_date, :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
+  to <%= date_select :grid_date, :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
 </div>

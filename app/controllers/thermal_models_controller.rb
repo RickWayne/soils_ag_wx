@@ -70,7 +70,7 @@ class ThermalModelsController < ApplicationController
     @upper_temp = params[:upper_temp] == 'None' ? nil: params[:upper_temp].to_f
     mins = WiMnDMinTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
     maxes = WiMnDMaxTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
-    @data = calc_dd_series_for(@method,@start_date,@end_date,@longitude,@latitude,@base_temp,@upper_temp,mins,maxes,params[:seven_day])
+    @data = calc_dd_series_for(@method,@start_date,@end_date,@longitude,@latitude,mins,maxes,@base_temp,@upper_temp)
     if params[:seven_day]
       if (all_dates = @data.keys.sort) && all_dates.size > 6
         @data = all_dates[-7..-1].inject({}) {|hash,date| hash.merge({date => @data[date]})}
@@ -91,6 +91,7 @@ class ThermalModelsController < ApplicationController
   end
   
   def locations_for(ids)
+    puts "locations_for: #{ids.inspect}"
     ids = ids.collect { |id| id.to_i }
     DegreeDayStation.all.select { |stn| ids.include? stn[:id]  }.inject({}) {|hash,stn| hash.merge({stn.abbrev => {'longitude' => stn.longitude, 'latitude' => stn.latitude }})}
   end
@@ -104,25 +105,22 @@ class ThermalModelsController < ApplicationController
   end
   def get_dds_many_locations
     @locations = locations_for(params[:locations])
-    # @start_date,@end_date = parse_dates 'grid_date'
-    min_max_series = @locations.inject({}) do |min_max_series_hash, (name,coords)|
-      min_max_series_hash.merge(
-        name => 
-        { mins: WiMnDMinTAir.daily_series(@start_date,@end_date,coords['longitude'].to_f,coords['latitude'].to_f),
-          maxes: WiMnDMaxTAir.daily_series(@start_date,@end_date,coords['longitude'].to_f,coords['latitude'].to_f),
-        }
-      )
-    end
+    min_max_series = {}
     @data = @locations.inject({}) do |data_for_all_locations, (name,coords)|
       data_for_all_methods_one_location = params[:method_params].inject({}) do |single_location_data_hash, (key,method_params)|
         puts method_params.inspect
         start_date,end_date = parse_dates method_params
+        # if we've already retrieved the min/max data, don't query it again
+        min_max_series[name] ||= { 
+          mins: WiMnDMinTAir.daily_series(start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f),
+          maxes: WiMnDMaxTAir.daily_series(start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f),
+        }
         dd_series = calc_dd_series_for(
           method_params['method'],
           start_date,end_date,
           coords['longitude'].to_f,coords['latitude'].to_f,
-          method_params['base'].to_f,method_params['upper'],
-          min_max_series[name][:mins],min_max_series[name][:maxes]
+          min_max_series[name][:mins],min_max_series[name][:maxes],
+          method_params['base_temp'].to_f , method_params['upper_temp'].to_f
         )
         last_date = dd_series.keys.max
         dd_accum = dd_series[last_date]
@@ -132,7 +130,7 @@ class ThermalModelsController < ApplicationController
       data_for_all_locations.merge({name => data_for_all_methods_one_location})
     end
     # {'DBQ' => 
-    #   {'1' => { 'params' =>  { 'method' =>  'Simple',  'base' =>  40,  'upper' =>  70},  'date' =>  @end_date,  'data' =>  dd_accum}}
+    #   {'1' => { 'params' =>  { 'method' =>  'Simple',  'base_temp' =>  40,  'upper_temp' =>  70},  'date' =>  @end_date,  'data' =>  dd_accum}}
     # }
     respond_to do |format|
       format.html
@@ -141,7 +139,10 @@ class ThermalModelsController < ApplicationController
   end
 
   private
-  def calc_dd_series_for(method,start_date,end_date,longitude,latitude,base_temp,upper_temp,mins,maxes)
+  def calc_dd_series_for(method,start_date,end_date,longitude,latitude,mins,maxes,base_temp,upper_temp)
+    puts "******************** calc_dd_series_for ***********************"
+    [method,start_date,end_date,longitude,latitude,base_temp,upper_temp].each { |prm| print "#{prm.inspect}, " }
+    puts "\n*******************************************"
     dd_accum = 0.0
     data = mins.inject({}) do |hash,(date,min)|
       min = to_fahrenheit(min)
