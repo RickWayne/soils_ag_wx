@@ -91,25 +91,52 @@ class ThermalModelsController < ApplicationController
   end
   
   def locations_for(ids)
-    puts "locations_for: #{ids.inspect}"
     ids = ids.collect { |id| id.to_i }
     DegreeDayStation.all.select { |stn| ids.include? stn[:id]  }.inject({}) {|hash,stn| hash.merge({stn.abbrev => {'longitude' => stn.longitude, 'latitude' => stn.latitude }})}
   end
   
-  def parse_dd_mult_dates(start,finish)
-    puts "start: #{start.inspect}"
+  def format_for(date_param)
+    # if nil passed in, silently ignore, setting up exception later
+    if (date_param || '') =~ /^[\d]{2}\/[\d]{2}\/[\d]{4}$/ # It came from the calendar date input
+      '%m/%d/%Y'
+    elsif date_param =~ /^[\d]{2}\/[\d]{2}$/ # Just month and year
+      '%m/%d'
+    end
+    # otherwise, silently pass nil back, also setting up exception
+  end
+  
+  def date_for(date_param,default)
+    if date_param # could just let the rescue clause work, but we'll trade a little code for efficiency
+      begin
+        Date.strptime(date_param,format_for(date_param))
+      rescue Exception => e
+        logger.warn e.to_s + "\n#{date_param}"
+        flash[:warning] = "Invalid date #{date_param}"
+        default
+      end
+    else
+      default
+    end
+  end
+  
+  # parse the incoming start and end dates. If either is missing, use a sensible default (start of year and today). If the
+  # year part of the date is missing, fill in with the current year.
+  def parse_dd_mult_dates(p)
     [
-      Date.civil(start["(1i)"].to_i,start["(2i)"].to_i,start["(3i)"].to_i),
-      Date.civil(finish["(1i)"].to_i,finish["(2i)"].to_i,finish["(3i)"].to_i)
+      date_for(p['start_date'],Date.civil(Date.today.year,1,1)),
+      date_for(p['end_date'],Date.today)
     ]
   end
+  
   def get_dds_many_locations
     @locations = locations_for(params[:locations])
     min_max_series = {}
     @data = @locations.inject({}) do |data_for_all_locations, (name,coords)|
       data_for_all_methods_one_location = params[:method_params].inject({}) do |single_location_data_hash, (key,method_params)|
-        puts method_params.inspect
-        start_date,end_date = parse_dates method_params
+        # puts method_params.inspect
+        start_date,end_date = parse_dd_mult_dates method_params
+        base_temp = (method_params['base_temp'] || '50.0').to_f
+        upper_temp = (method_params['upper_temp'] || '86.0').to_f # Note that this sets upper for simple and sine, which are ignored
         # if we've already retrieved the min/max data, don't query it again
         min_max_series[name] ||= { 
           mins: WiMnDMinTAir.daily_series(start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f),
@@ -120,13 +147,12 @@ class ThermalModelsController < ApplicationController
           start_date,end_date,
           coords['longitude'].to_f,coords['latitude'].to_f,
           min_max_series[name][:mins],min_max_series[name][:maxes],
-          method_params['base_temp'].to_f , method_params['upper_temp'].to_f
+          base_temp , upper_temp
         )
         last_date = dd_series.keys.max
         dd_accum = dd_series[last_date]
         single_location_data_hash.merge({key => { "params" =>  method_params, "date" =>  last_date, "data" =>  dd_accum}})
       end
-      puts "location #{name}, #{data_for_all_methods_one_location.inspect}"
       data_for_all_locations.merge({name => data_for_all_methods_one_location})
     end
     # {'DBQ' => 
@@ -134,15 +160,12 @@ class ThermalModelsController < ApplicationController
     # }
     respond_to do |format|
       format.html
-      format.json {puts "json"; render text: @data.to_json}
+      format.json {render text: @data.to_json}
     end
   end
 
   private
   def calc_dd_series_for(method,start_date,end_date,longitude,latitude,mins,maxes,base_temp,upper_temp)
-    puts "******************** calc_dd_series_for ***********************"
-    [method,start_date,end_date,longitude,latitude,base_temp,upper_temp].each { |prm| print "#{prm.inspect}, " }
-    puts "\n*******************************************"
     dd_accum = 0.0
     data = mins.inject({}) do |hash,(date,min)|
       min = to_fahrenheit(min)

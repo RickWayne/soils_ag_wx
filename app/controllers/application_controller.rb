@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
     @latitude = params[:latitude].to_f
     @longitude = params[:longitude].to_f
     grid_class = grid_classes[params[:param]]
-    puts grid_class.to_s + " is the grid class"
     @data = grid_class.daily_series(@start_date,@end_date,@longitude,@latitude)
     respond_to do |format|
       format.html
@@ -58,7 +57,6 @@ class ApplicationController < ActionController::Base
   
   def parse_dates(p)
     # p is e.g. the result from params["grid_date"]
-    puts p.inspect
     [
       Date.civil(p["start_date(1i)"].to_i,p["start_date(2i)"].to_i,p["start_date(3i)"].to_i),
       Date.civil(p["end_date(1i)"].to_i,p["end_date(2i)"].to_i,p["end_date(3i)"].to_i)

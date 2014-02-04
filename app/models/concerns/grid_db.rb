@@ -31,7 +31,6 @@ module GridDB
     
     def daily_series(start_date,end_date,longitude,latitude)
       longitude *= -1 if longitude > 0
-      logger.info "\ndaily_series: #{start_date},#{end_date},#{longitude},#{latitude}"; $stdout.flush
       self.where(
         '"dateStamp" >= ? and "dateStamp" <= ? and latitude = ?',start_date,end_date,nearest_latitude(latitude)
         ).inject({}) { |hash,rec| hash.merge({rec["dateStamp"] => rec[longitude_col(longitude)]}) }

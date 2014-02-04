@@ -12,7 +12,6 @@
   # Extract the method info from the data and put into a set of table headers
   # "DBQ" => {"1" => {"params" => {"method" => "Simple","base" => "50.0"},"date" => "2012-10-31","data" => 3476.0}}
   def methods_to_headers(data)
-    puts data.inspect
     name = data.keys.first # 'DBQ'
     method = base = upper = nil
     data[name].keys.sort.inject("") do |str, ii|

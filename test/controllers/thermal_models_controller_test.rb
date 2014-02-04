@@ -106,4 +106,35 @@ class ThermalModelsControllerTest < ActionController::TestCase
     end
   end
 
+  def format_for(arg)
+    @controller.send :format_for, arg
+  end
+  
+  test "format_for" do
+    assert_equal('%m/%d', format_for('02/04'))
+    assert_equal('%m/%d/%Y', format_for('02/04/2010'))
+    assert_nil(format_for('fnord'))
+    assert_nil(format_for('2010-04-01'))
+  end
+  
+  def date_for(date_param,default)
+    @controller.send :date_for, date_param, default
+  end
+  
+  def date_for_returns_default(date_param)
+    default = 'Wooja is a great default value'
+    assert_equal(default, date_for(date_param,default))
+  end
+  
+  test "date_for" do
+    date_for_returns_default("snookers")
+    date_for_returns_default("2014-01-01")
+    feb_1_this_year = Date.parse("#{Date.today.year}-02-01")
+    assert_equal(2, feb_1_this_year.month)
+    assert_equal(1, feb_1_this_year.day)
+    assert_equal(feb_1_this_year,date_for('02/01','Should not return default value'))
+    feb_1_2000 = Date.civil(2000,2,1)
+    assert_equal(feb_1_2000, date_for('02/01/2000','Should not return default value'))
+  end
+    
 end

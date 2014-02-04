@@ -2,8 +2,27 @@
  Degree Day Calculator
 <% end %>
 
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag 'jquery.ui.datepicker' %>
+<% end %>
+
 <% content_for :header_script do %>
-  var last_added_set = 3;
+  var NUM_INITIAL_PARAM_SETS = 6
+  var last_added_set = NUM_INITIAL_PARAM_SETS; // FRAGILE! Count of default wired-in param_set_n divs below
+  var year = 2012;
+  start_date = new Date(year,0,1);
+  end_date = new Date(year,9,31);
+  
+  // set up the date pickers for a param set
+  function set_up_datepickers(set_number) {
+    jquery_selector = '#' + 'method_params\\[' + set_number + '\\]\\[start_date\\]';
+    $( jquery_selector ).datepicker();
+    $( jquery_selector ).datepicker("setDate",start_date);
+    jquery_selector = jquery_selector.replace('start_date','end_date')
+    $( jquery_selector ).datepicker();
+    $( jquery_selector ).datepicker("setDate",end_date);
+  }
+  // Clone the param set template and add it to the end of our list
   function add_param_set() {
     param_set = $('#param_set_template').clone();
     last_added_set += 1;
@@ -13,16 +32,14 @@
     param_set.show();
     // Set the "onclick" attribute of the first child, which is the '-' button
     param_set.children().eq(0).attr('onclick',"remove_this('" + param_set_id + "');");
-    names = ['method','base_temp','upper_temp','start_date(1i)','start_date(2i)','start_date(3i)','end_date(1i)','end_date(2i)','end_date(3i)'];
+    // Now go through each of the data parameters and set their names for Rails (and their ids, for...i dunno why)
+    names = ['method','base_temp','upper_temp','start_date','end_date'];
     for (ii=0; ii < names.length; ii++) {
       param_set.children().eq(ii+1).attr('name','method_params[' + last_added_set +'][' + names[ii] + ']');
       param_set.children().eq(ii+1).attr('id','method_params[' + last_added_set +'][' + names[ii] + ']');
     }
-    
     param_set.appendTo('#all_param_sets');
-    // Can't seem to get datepicker working
-    // $('#' + id_or_name + '[start_date]').datepicker();
-    // $('#method_params[4][start_date]').datepicker();
+    set_up_datepickers(last_added_set);
   }
   function remove_last_param_set() {
     target = $('#param_set_' + last_added_set);
@@ -34,9 +51,32 @@
     target.remove();
     last_added_set -= 1;
   }
+  // Turn off upper temp threshold input for Simple and Sine, on for Modified
+  function set_upper_thresh(select) {
+    method = select.value
+    // Name of the select element is e.g. "method_params[1][method]", we want method_params[1][upper_temp]
+    selector = "input[name='" + select.name.replace('[method]','[upper_temp]') + "']";
+    if (method == 'Simple' || method == 'Sine') {
+      $( selector ).prop('disabled',true);
+      $( selector ).val(null);
+    } else {
+      if (method == 'Modified') {
+        $( selector ).prop('disabled',false);
+      } else {
+        alert('Illegal method (not "Simple, Sine, or Modified"), please alert the website administrator.');
+      }
+    }
+    
+  }
   function set_up_elements() {
+    // Select all the locations by default
     $('#locations option').prop('selected', true);
+    // Hide the template that we use for additional DD columns
     $('#param_set_template').hide();
+    // Date pickers for defaults
+    for (ii=1; ii<= NUM_INITIAL_PARAM_SETS; ii++) {
+      set_up_datepickers(ii);
+    }
   }
   $(document).ready(set_up_elements);
 <% end %>
@@ -46,49 +86,100 @@
   <h2>Thermal Model Accumulations For Multiple Locations</h2>
   <p></p>
 <% end %>
+<p>This form allows you to view or download multiple degree-day accumulations for up to 20 locations in Wisconsin. It defaults to a set of commonly-used parameters, but you may replace those with your own. For each set, you can select the method, the base temperature (and for the "modified" method, the upper-threshold temperature), and the date range. Click the "<strong>-</strong>" button to remove an existing set, and the "<strong>+</strong>" button to add a new one.</p>
+<p>
+<ul>
+  <li>The "Simple" method returns the daily average temperature [(max - min) / 2.0] minus base temperature, with a floor of 0</li>
+  <li>The "Sine" method calculates a sinewave approximation of the temperature</li>
+  <li>The "Modified" method coerces the min and max temperature to lie within the base and upper threshold values before performing a "Simple" calculation.</li>
+</ul>
+
+See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
+</p>
 <%= form_tag action: :get_dds_many_locations do %>
 <div id="all_param_sets">
+  <p>Note: Upper threshold temperature is only valid for "Modified" method</p>
     <div id='param_set_1'>
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_1');", title: 'Remove this degree-day set', 
         align: 'middle', style: 'margin-bottom: 0.5em'%>
-      <select name="method_params[1][method]">
-        <option value="Simple" selected="1">Simple</option>
+      <select name="method_params[1][method]" onchange="set_upper_thresh(this);">
+        <option value="Simple">Simple</option>
         <option value="Sine">Sine</option>
-        <option value="Modified">ModB</option>
+        <option value="Modified" selected="1">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[1][base_temp]" value="50.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[1][upper_temp]"></input>&nbsp;
-      From <%= date_select "method_params[1]", :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
-      to <%= date_select "method_params[1]", :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
+      Upper: <input size="4" name="method_params[1][upper_temp]" value="86.0"></input>&nbsp;
+      From <input size="8"  id="method_params[1][start_date]" name="method_params[1][start_date]"/>&nbsp;
+      To <input size="8"  id="method_params[1][end_date]" name="method_params[1][end_date]"/>&nbsp;
     </div>
 
     <div id='param_set_2'>
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_2');", title: 'Remove this degree-day set', 
         align: 'middle', style: 'margin-bottom: 0.5em'%>
-      <select name="method_params[2][method]">
-        <option value="Simple" selected="1">Simple</option>
+      <select name="method_params[2][method]" onchange="set_upper_thresh(this);">
+        <option value="Simple">Simple</option>
         <option value="Sine" selected="1">Sine</option>
-        <option value="Modified">ModB</option>
+        <option value="Modified">Modified</option>
       </select>&nbsp;
-      Base:  <input size="4" name="method_params[2][base_temp]" value="40.0"></input>&nbsp;
-      Upper:  <input size="4" name="method_params[2][upper_temp]"/>&nbsp;
-      From <%= date_select "method_params[2]", :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
-      to <%= date_select "method_params[2]", :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
+      Base:  <input size="4" name="method_params[2][base_temp]" value="48.0"></input>&nbsp;
+      Upper:  <input size="4" name="method_params[2][upper_temp]" disabled/>&nbsp;
+      From <input size="8"  id="method_params[2][start_date]" name="method_params[2][start_date]"/>&nbsp;
+      To <input size="8"  id="method_params[2][end_date]" name="method_params[2][end_date]"/>&nbsp;
       <br/>
     </div>
     <div id='param_set_3'>
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_3');", title: 'Remove this degree-day set', 
         align: 'middle', style: 'margin-bottom: 0.5em'%>
-      <select name="method_params[3][method]">
+      <select name="method_params[3][method]" onchange="set_upper_thresh(this);">
         <option value="Simple" selected="1">Simple</option>
         <option value="Sine">Sine</option>
-        <option value="Modified" selected="1">ModB</option>
+        <option value="Modified">Modified</option>
       </select>&nbsp;
-      Base:  <input size="4" name="method_params[3][base_temp]" value="55.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[3][upper_temp]" value="75.0"></input>&nbsp;
-      From <%= date_select "method_params[3]", :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
-      to <%= date_select "method_params[3]", :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
+      Base:  <input size="4" name="method_params[3][base_temp]" value="40.0"></input>&nbsp;
+      Upper: <input size="4" name="method_params[3][upper_temp]" disabled></input>&nbsp;
+      From <input size="8"  id="method_params[3][start_date]" name="method_params[3][start_date]"/>&nbsp;
+      To <input size="8"  id="method_params[3][end_date]" name="method_params[3][end_date]"/>&nbsp;
     </div>
+    <div id='param_set_4'>
+      <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_4');", title: 'Remove this degree-day set', 
+        align: 'middle', style: 'margin-bottom: 0.5em'%>
+      <select name="method_params[4][method]" onchange="set_upper_thresh(this);">
+        <option value="Simple" selected="1">Simple</option>
+        <option value="Sine">Sine</option>
+        <option value="Modified">Modified</option>
+      </select>&nbsp;
+      Base:  <input size="4" name="method_params[4][base_temp]" value="41.0"></input>&nbsp;
+      Upper: <input size="4" name="method_params[4][upper_temp]" disabled></input>&nbsp;
+      From <input size="8"  id="method_params[4][start_date]" name="method_params[4][start_date]"/>&nbsp;
+      To <input size="8"  id="method_params[4][end_date]" name="method_params[4][end_date]"/>&nbsp;
+    </div>
+    <div id='param_set_5'>
+      <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_5');", title: 'Remove this degree-day set', 
+        align: 'middle', style: 'margin-bottom: 0.5em'%>
+      <select name="method_params[5][method]" onchange="set_upper_thresh(this);">
+        <option value="Simple" selected="1">Simple</option>
+        <option value="Sine">Sine</option>
+        <option value="Modified">Modified</option>
+      </select>&nbsp;
+      Base:  <input size="4" name="method_params[5][base_temp]" value="43.0"></input>&nbsp;
+      Upper: <input size="4" name="method_params[5][upper_temp]" disabled></input>&nbsp;
+      From <input size="8"  id="method_params[5][start_date]" name="method_params[5][start_date]"/>&nbsp;
+      To <input size="8"  id="method_params[5][end_date]" name="method_params[5][end_date]"/>&nbsp;
+    </div>
+    <div id='param_set_6'>
+      <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_6');", title: 'Remove this degree-day set', 
+        align: 'middle', style: 'margin-bottom: 0.5em'%>
+      <select name="method_params[6][method]" onchange="set_upper_thresh(this);">
+        <option value="Simple" selected="1">Simple</option>
+        <option value="Sine">Sine</option>
+        <option value="Modified">Modified</option>
+      </select>&nbsp;
+      Base:  <input size="4" name="method_params[6][base_temp]" value="52.0"></input>&nbsp;
+      Upper: <input size="4" name="method_params[6][upper_temp]" disabled></input>&nbsp;
+      From <input size="8"  id="method_params[6][start_date]" name="method_params[6][start_date]"/>&nbsp;
+      To <input size="8"  id="method_params[6][end_date]" name="method_params[6][end_date]"/>&nbsp;
+    </div>
+    
   </div>
   <%= image_tag 'add_button.png', onclick: "add_param_set();", title: 'Add another degree-day set', align: 'middle'%>
   <br/>
@@ -102,13 +193,13 @@
 
 <div id='param_set_template'>
   <%= image_tag 'delete_button.png', title: 'Remove this degree-day set', align: 'middle', style: 'margin-bottom: 0.5em'%>
-  <select>
+  <select onchange="set_upper_thresh(this);">
     <option value="Simple">Simple</option>
     <option value="Sine">Sine</option>
-    <option value="Modified">ModB</option>
+    <option value="Modified">Modified</option>
   </select>&nbsp;
   Base: <input size="4" value="50"/>&nbsp;
-  Upper: <input size="4" value="86">&nbsp;
-  From <%= date_select :grid_date, :start_date, start_year: 2000, default: Date.civil(2012,1,1) %>&nbsp;
-  to <%= date_select :grid_date, :end_date,   start_year: 2000, default: Date.civil(2012,10,31), end_year: Time.now.year %>
+  Upper: <input size="4" value="86" disabled>&nbsp; <!-- Starts disabled, for Simple -->
+  From <input size="8"/>&nbsp; <!-- Start Date -->
+  To <input size="8"/>&nbsp; <!-- End Date -->
 </div>
