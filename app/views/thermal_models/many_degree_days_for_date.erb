@@ -9,9 +9,9 @@
 <% content_for :header_script do %>
   var NUM_INITIAL_PARAM_SETS = 6
   var last_added_set = NUM_INITIAL_PARAM_SETS; // FRAGILE! Count of default wired-in param_set_n divs below
-  var year = 2012;
+  var year = 2012; // FIXME: Date.today.year for production!
   start_date = new Date(year,0,1);
-  end_date = new Date(year,9,31);
+  end_date = new Date(year,9,31); // FIXME: Date.today for production!
   
   // set up the date pickers for a param set
   function set_up_datepickers(set_number) {
@@ -109,8 +109,8 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
       </select>&nbsp;
       Base:  <input size="4" name="method_params[1][base_temp]" value="50.0"></input>&nbsp;
       Upper: <input size="4" name="method_params[1][upper_temp]" value="86.0"></input>&nbsp;
-      From <input size="8"  id="method_params[1][start_date]" name="method_params[1][start_date]"/>&nbsp;
-      To <input size="8"  id="method_params[1][end_date]" name="method_params[1][end_date]"/>&nbsp;
+      From <input size="10"  id="method_params[1][start_date]" name="method_params[1][start_date]"/>&nbsp;
+      To <input size="10"  id="method_params[1][end_date]" name="method_params[1][end_date]"/>&nbsp;
     </div>
 
     <div id='param_set_2'>
@@ -123,8 +123,8 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
       </select>&nbsp;
       Base:  <input size="4" name="method_params[2][base_temp]" value="48.0"></input>&nbsp;
       Upper:  <input size="4" name="method_params[2][upper_temp]" disabled/>&nbsp;
-      From <input size="8"  id="method_params[2][start_date]" name="method_params[2][start_date]"/>&nbsp;
-      To <input size="8"  id="method_params[2][end_date]" name="method_params[2][end_date]"/>&nbsp;
+      From <input size="10"  id="method_params[2][start_date]" name="method_params[2][start_date]"/>&nbsp;
+      To <input size="10"  id="method_params[2][end_date]" name="method_params[2][end_date]"/>&nbsp;
       <br/>
     </div>
     <div id='param_set_3'>
@@ -137,8 +137,8 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
       </select>&nbsp;
       Base:  <input size="4" name="method_params[3][base_temp]" value="40.0"></input>&nbsp;
       Upper: <input size="4" name="method_params[3][upper_temp]" disabled></input>&nbsp;
-      From <input size="8"  id="method_params[3][start_date]" name="method_params[3][start_date]"/>&nbsp;
-      To <input size="8"  id="method_params[3][end_date]" name="method_params[3][end_date]"/>&nbsp;
+      From <input size="10"  id="method_params[3][start_date]" name="method_params[3][start_date]"/>&nbsp;
+      To <input size="10"  id="method_params[3][end_date]" name="method_params[3][end_date]"/>&nbsp;
     </div>
     <div id='param_set_4'>
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_4');", title: 'Remove this degree-day set', 
@@ -150,8 +150,8 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
       </select>&nbsp;
       Base:  <input size="4" name="method_params[4][base_temp]" value="41.0"></input>&nbsp;
       Upper: <input size="4" name="method_params[4][upper_temp]" disabled></input>&nbsp;
-      From <input size="8"  id="method_params[4][start_date]" name="method_params[4][start_date]"/>&nbsp;
-      To <input size="8"  id="method_params[4][end_date]" name="method_params[4][end_date]"/>&nbsp;
+      From <input size="10"  id="method_params[4][start_date]" name="method_params[4][start_date]"/>&nbsp;
+      To <input size="10"  id="method_params[4][end_date]" name="method_params[4][end_date]"/>&nbsp;
     </div>
     <div id='param_set_5'>
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_5');", title: 'Remove this degree-day set', 
@@ -163,8 +163,8 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
       </select>&nbsp;
       Base:  <input size="4" name="method_params[5][base_temp]" value="43.0"></input>&nbsp;
       Upper: <input size="4" name="method_params[5][upper_temp]" disabled></input>&nbsp;
-      From <input size="8"  id="method_params[5][start_date]" name="method_params[5][start_date]"/>&nbsp;
-      To <input size="8"  id="method_params[5][end_date]" name="method_params[5][end_date]"/>&nbsp;
+      From <input size="10"  id="method_params[5][start_date]" name="method_params[5][start_date]"/>&nbsp;
+      To <input size="10"  id="method_params[5][end_date]" name="method_params[5][end_date]"/>&nbsp;
     </div>
     <div id='param_set_6'>
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_6');", title: 'Remove this degree-day set', 
@@ -176,8 +176,8 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
       </select>&nbsp;
       Base:  <input size="4" name="method_params[6][base_temp]" value="52.0"></input>&nbsp;
       Upper: <input size="4" name="method_params[6][upper_temp]" disabled></input>&nbsp;
-      From <input size="8"  id="method_params[6][start_date]" name="method_params[6][start_date]"/>&nbsp;
-      To <input size="8"  id="method_params[6][end_date]" name="method_params[6][end_date]"/>&nbsp;
+      From <input size="10"  id="method_params[6][start_date]" name="method_params[6][start_date]"/>&nbsp;
+      To <input size="10"  id="method_params[6][end_date]" name="method_params[6][end_date]"/>&nbsp;
     </div>
     
   </div>
@@ -200,6 +200,6 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
   </select>&nbsp;
   Base: <input size="4" value="50"/>&nbsp;
   Upper: <input size="4" value="86" disabled>&nbsp; <!-- Starts disabled, for Simple -->
-  From <input size="8"/>&nbsp; <!-- Start Date -->
-  To <input size="8"/>&nbsp; <!-- End Date -->
+  From <input size="10"/>&nbsp; <!-- Start Date -->
+  To <input size="10"/>&nbsp; <!-- End Date -->
 </div>
