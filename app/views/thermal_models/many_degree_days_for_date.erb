@@ -7,7 +7,8 @@
 <% end %>
 
 <% content_for :header_script do %>
-  var NUM_INITIAL_PARAM_SETS = 6
+  var NUM_INITIAL_PARAM_SETS = 6;
+  var DISABLED_COLOR = "color:#B0B0B0";
   var last_added_set = NUM_INITIAL_PARAM_SETS; // FRAGILE! Count of default wired-in param_set_n divs below
   var year = 2012; // FIXME: Date.today.year for production!
   start_date = new Date(year,0,1);
@@ -57,11 +58,16 @@
     // Name of the select element is e.g. "method_params[1][method]", we want method_params[1][upper_temp]
     selector = "input[name='" + select.name.replace('[method]','[upper_temp]') + "']";
     if (method == 'Simple' || method == 'Sine') {
+      // alert(selector);
       $( selector ).prop('disabled',true);
       $( selector ).val(null);
+      
+      $( selector.replace('input','span') ).fadeTo(200,0.2);
+      
     } else {
       if (method == 'Modified') {
         $( selector ).prop('disabled',false);
+        $( selector.replace('input','span') ).fadeTo(200,0.99);
       } else {
         alert('Illegal method (not "Simple, Sine, or Modified"), please alert the website administrator.');
       }
@@ -98,7 +104,6 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
 </p>
 <%= form_tag action: :get_dds_many_locations do %>
 <div id="all_param_sets">
-  <p>Note: Upper threshold temperature is only valid for "Modified" method</p>
     <div id='param_set_1'>
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_1');", title: 'Remove this degree-day set', 
         align: 'middle', style: 'margin-bottom: 0.5em'%>
@@ -108,7 +113,7 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
         <option value="Modified" selected="1">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[1][base_temp]" value="50.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[1][upper_temp]" value="86.0"></input>&nbsp;
+      <span name="method_params[1][upper_temp]">Upper: </span><input size="4" name="method_params[1][upper_temp]" value="86.0"></input>&nbsp;
       From <input size="10"  id="method_params[1][start_date]" name="method_params[1][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[1][end_date]" name="method_params[1][end_date]"/>&nbsp;
     </div>
@@ -122,7 +127,7 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[2][base_temp]" value="48.0"></input>&nbsp;
-      Upper:  <input size="4" name="method_params[2][upper_temp]" disabled/>&nbsp;
+      <span name="method_params[2][upper_temp]" style="opacity:0.2">Upper:  </span><input size="4" name="method_params[2][upper_temp]" disabled/>&nbsp;
       From <input size="10"  id="method_params[2][start_date]" name="method_params[2][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[2][end_date]" name="method_params[2][end_date]"/>&nbsp;
       <br/>
@@ -136,7 +141,7 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[3][base_temp]" value="40.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[3][upper_temp]" disabled></input>&nbsp;
+      <span name="method_params[3][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[3][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[3][start_date]" name="method_params[3][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[3][end_date]" name="method_params[3][end_date]"/>&nbsp;
     </div>
@@ -149,7 +154,7 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[4][base_temp]" value="41.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[4][upper_temp]" disabled></input>&nbsp;
+      <span name="method_params[4][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[4][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[4][start_date]" name="method_params[4][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[4][end_date]" name="method_params[4][end_date]"/>&nbsp;
     </div>
@@ -162,7 +167,7 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[5][base_temp]" value="43.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[5][upper_temp]" disabled></input>&nbsp;
+      <span name="method_params[5][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[5][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[5][start_date]" name="method_params[5][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[5][end_date]" name="method_params[5][end_date]"/>&nbsp;
     </div>
@@ -175,7 +180,7 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[6][base_temp]" value="52.0"></input>&nbsp;
-      Upper: <input size="4" name="method_params[6][upper_temp]" disabled></input>&nbsp;
+      <span name="method_params[6][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[6][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[6][start_date]" name="method_params[6][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[6][end_date]" name="method_params[6][end_date]"/>&nbsp;
     </div>
