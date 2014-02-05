@@ -17,9 +17,20 @@
     data[name].keys.sort.inject("") do |str, ii|
       method = data[name][ii]['params']['method']
       base = data[name][ii]['params']['base_temp']
-      upper = data[name][ii]['params']['upper_temp']
-      upper ||= "None"
-      str + "<th>#{method} B=#{base} U=#{upper}</th>"
+      if method == 'Modified' # only one for which there IS an upper
+        upper = data[name][ii]['params']['upper_temp']
+        if upper.nil? || upper == ''
+          upper_str = "<br/>U=86.0"
+        else
+          upper_str = "<br/>U=#{upper}"
+        end
+      else
+        upper_str = ''
+      end
+      start_date = data[name][ii]['params']['start_date'][0..4]
+      end_date = data[name][ii]['params']['end_date'] || Date.today.strftime("%m/%d")
+      end_date = end_date[0..4]
+      str + "<th>#{method}<br/>B=#{base}#{upper_str}<br/>#{start_date} to #{end_date}</th>"
     end
   end
   
@@ -32,9 +43,17 @@
   end
 %>
 
+<h2>Degree-Day Accumulations</h2>
+<p>For information on saving a personalized version of this report, click <a href="#permalink">here</a>.</p>
 <table border="1">
   <tr><th>Location</th><%= methods_to_headers(@data).html_safe %></tr>
   <% for location in @data.keys.sort %>
   <tr><td><%= location %></td><%= data_cells(location,@data[location]).html_safe%></tr>
   <% end %>
 </table>
+<br/>
+<a name="permalink"></a><h3>Saving Your Personalized Degree-Day Report</h3>
+<p>
+  If you would like to bookmark this customized report, you can save all your DD specifications; the date ranges will have their years redacted so that the link never goes out of date.
+<h4><%= link_to "Right-click and bookmark this permalink", @permalink.merge(controller: "thermal_models") %></h4>
+</p>

@@ -158,6 +158,7 @@ class ThermalModelsController < ApplicationController
     # {'DBQ' => 
     #   {'1' => { 'params' =>  { 'method' =>  'Simple',  'base_temp' =>  40,  'upper_temp' =>  70},  'date' =>  @end_date,  'data' =>  dd_accum}}
     # }
+    @permalink = permalink(params)
     respond_to do |format|
       format.html
       format.json {render text: @data.to_json}
@@ -165,9 +166,38 @@ class ThermalModelsController < ApplicationController
   end
 
   private
+  
+  # For permalinks, strip off a date's year if it's the current year, so that the param always works in future
+  def strip_year_if_current(date_str)
+    return nil unless date_str && date_str != ''
+    if date_str =~ /([\d]{2}\/[\d]{2})\/([\d]{4})$/ # ends with a year
+      month_day = $1
+      year = $2.to_i
+      return nil if Date.strptime(date_str,'%m/%d/%Y') == Date.today # Don't bother with "today" dates, always default instead
+      return month_day if (year == Date.today.year)
+    end
+    date_str # Otherwise, just leave it unchanged
+  end
+  
+  # Prep a series of incoming parameters so that it's suitable for a permanent bookmark.
+  def permalink(params)
+    params.delete('authenticity_token')
+    params.delete('commit')
+    params.delete('utf8')
+    params['method_params'].each do |key,m_params|
+      m_params['start_date'] = strip_year_if_current(m_params['start_date'])
+      m_params['end_date'] = strip_year_if_current(m_params['end_date'])
+    end
+    params
+  end
+  
   def calc_dd_series_for(method,start_date,end_date,longitude,latitude,mins,maxes,base_temp,upper_temp)
     dd_accum = 0.0
     data = mins.inject({}) do |hash,(date,min)|
+      if min.nil? || maxes[date].nil?
+        puts "#{date}, #{longitude}, #{latitude}, #{mins.inspect}, #{maxes[date].inspect}"
+        raise 'cannot continue, nil min or max'
+      end
       min = to_fahrenheit(min)
       max = to_fahrenheit(maxes[date])
       case method

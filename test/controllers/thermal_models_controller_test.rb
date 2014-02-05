@@ -136,5 +136,25 @@ class ThermalModelsControllerTest < ActionController::TestCase
     feb_1_2000 = Date.civil(2000,2,1)
     assert_equal(feb_1_2000, date_for('02/01/2000','Should not return default value'))
   end
-    
+  
+  def strip_year_if_current(date)
+    date = date.strftime("%m/%d/%Y") if (date && date.class == Date)
+    @controller.send :strip_year_if_current, date
+  end
+  
+  test "strip_year_if_current" do
+    assert_nil(strip_year_if_current(nil))
+    assert_nil strip_year_if_current(Date.today)
+    # Fails if run on New Year's Eve
+    tmrw = Date.today + 1
+    expected = sprintf("%02d/%02d",tmrw.month,tmrw.day)
+    fail if tmrw.year != Date.today.year
+    assert_equal(expected, strip_year_if_current(tmrw))
+    next_year = Date.today + 366
+    expected = next_year.strftime("%m/%d/%Y")
+    assert_equal(expected, strip_year_if_current(next_year))
+    last_year = Date.today - 366
+    expected = last_year.strftime("%m/%d/%Y")
+    assert_equal(expected, strip_year_if_current(last_year))
+  end
 end

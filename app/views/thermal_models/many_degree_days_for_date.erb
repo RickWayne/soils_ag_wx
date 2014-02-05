@@ -10,9 +10,10 @@
   var NUM_INITIAL_PARAM_SETS = 6;
   var DISABLED_COLOR = "color:#B0B0B0";
   var last_added_set = NUM_INITIAL_PARAM_SETS; // FRAGILE! Count of default wired-in param_set_n divs below
-  var year = 2012; // FIXME: Date.today.year for production!
+  today = new Date();
+  var year = today.getFullYear();
   start_date = new Date(year,0,1);
-  end_date = new Date(year,9,31); // FIXME: Date.today for production!
+  end_date = today;
   
   // set up the date pickers for a param set
   function set_up_datepickers(set_number) {
@@ -41,6 +42,7 @@
     }
     param_set.appendTo('#all_param_sets');
     set_up_datepickers(last_added_set);
+    return(id_or_name);
   }
   function remove_last_param_set() {
     target = $('#param_set_' + last_added_set);
@@ -92,7 +94,9 @@
   <h2>Thermal Model Accumulations For Multiple Locations</h2>
   <p></p>
 <% end %>
-<p>This form allows you to view or download multiple degree-day accumulations for up to 20 locations in Wisconsin. It defaults to a set of commonly-used parameters, but you may replace those with your own. For each set, you can select the method, the base temperature (and for the "modified" method, the upper-threshold temperature), and the date range. Click the "<strong>-</strong>" button to remove an existing set, and the "<strong>+</strong>" button to add a new one.</p>
+<h2>Multiway Degree-Day Calculator</h2>
+<%= render partial: 'partials/degree_days_explained' %>
+<p>This form allows you to view or download multiple degree-day accumulations for up to <%= @stations.size %> locations in Wisconsin. It defaults to a set of commonly-used parameters, but you may replace those with your own. For each set, you can select the method, the base temperature (and for the "modified" method, the upper-threshold temperature), and the date range. Click the "<strong>-</strong>" button to remove an existing set, and the "<strong>+</strong>" button to add a new one.</p>
 <p>
 <ul>
   <li>The "Simple" method returns the daily average temperature [(max - min) / 2.0] minus base temperature, with a floor of 0</li>
@@ -100,6 +104,7 @@
   <li>The "Modified" method coerces the min and max temperature to lie within the base and upper threshold values before performing a "Simple" calculation.</li>
 </ul>
 
+<%= render partial: 'partials/degree_day_table'%>
 See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
 </p>
 <%= form_tag action: :get_dds_many_locations do %>
@@ -149,8 +154,8 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
       <%= image_tag 'delete_button.png', onclick: "remove_this('param_set_4');", title: 'Remove this degree-day set', 
         align: 'middle', style: 'margin-bottom: 0.5em'%>
       <select name="method_params[4][method]" onchange="set_upper_thresh(this);">
-        <option value="Simple" selected="1">Simple</option>
-        <option value="Sine">Sine</option>
+        <option value="Simple">Simple</option>
+        <option value="Sine" selected="1">Sine</option>
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[4][base_temp]" value="41.0"></input>&nbsp;

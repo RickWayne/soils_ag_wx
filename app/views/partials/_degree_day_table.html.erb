@@ -1,0 +1,153 @@
+<p>Note: These parameters are usually specific for a particular crop and pest. 
+  Make sure you are using the right ones for your particular situation. Some values 
+  for common pests in our area are listed below.</p>
+	<table width="100%" border="1">
+		<tr>
+			<th>Pest</th>
+			<th>Method</th>
+			<th>Base Temp</th>
+			<th>Upper Temp</th>
+			<th>Biofix</th>
+		</tr>
+		<tr>
+			<td><a href="http://www.datcp.state.wi.us/arm/agriculture/crops/applescab/applescab.jsp">Apple Scab</a></td>
+			<td>Simple</td>
+			<td>32F</td>
+			<td>None</td>
+			<td>Bud break</td>
+		</tr>
+		<tr>
+			<td><!-- <a href="http://128.104.239.6/scout/field_pdfs/ALTOC.pdf" >Alfalfa Weevil </a>--> 
+				Alfalfa Weevil (<%= link_to "DD Map", :action => :alfalfa %>)</td>
+			<td>Sine</td>
+			<td>48F</td>
+			<td>86F</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Black Cutworm</td>
+			<td>Sine</td>
+			<td>50.7F</td>
+			<td>86.0F</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><!-- <a href="http://128.104.239.6/scout/colecrops/cabmaggot.htm" >-->Cabbage Maggot<!-- </a>--></td>
+			<td>Simple</td>
+			<td>43F</td>
+			<td>None</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td><!-- <a href="http://128.104.239.6/scout/potato/col_pot_beetle.htm" >-->Colorado Potato Beetle<!-- </a>--></td>
+			<td>Simple</td>
+			<td>52F</td>
+			<td>None</td>
+			<td>When eggs are first scouted</td>
+		</tr>
+		<tr>
+			<td>Common Asparagus Beetle</td>
+			<td>Simple</td>
+			<td>50F</td>
+			<td>None</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Corn plant development (<%= link_to 'DD Map', :action => :corn_dev %>)
+			</td>
+			<td>Modified</td>
+			<td>50F</td>
+			<td>86F</td>
+			<td>Emergence</td>
+		</tr>
+		<tr>
+			<td><!-- <a href="http://128.104.239.6/scout/sweet_corn/cornrootwm.htm" >-->Corn Rootworm Adults<!-- </a>--></td>
+			<td>Simple</td>
+			<td>50F</td>
+			<td>None</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Cranberry plant development<!-- (<a href="http://alfi.soils.wisc.edu/uwex_agwx_data/cranberry/crandd.html">DD Map</a>)-->
+			</td>
+			<td>Modified</td>
+			<td>45F</td>
+			<td>86F</td>
+			<td>Ice off</td>
+		</tr>
+		<tr>
+			<td>European Corn Borer (<%= link_to 'DD Map', :action => :ecb %>)<BR />
+				(<!-- <a href="http://128.104.239.6/scout/sweet_corn/eurocornbor.htm" >-->Sweet corn,<!-- </a>-->
+				<!-- <a href="http://128.104.239.6/scout/field_pdfs/3fieldcorn.pdf" >--> Field corn<!-- </a>-->)</td>
+			<td>Modified</td>
+			<td>50F</td>
+			<td>86F</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Seedcorn Maggot (<%= link_to 'DD Map', :action => :scm %>)<BR /></td>
+			<td>Sine</td>
+			<td>39F</td>
+			<td>84F</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Fleabeetles<BR />(<!-- <a href="http://128.104.239.6/scout/beet/fleabee.htm" >-->Beet, <!-- </a>-->
+				<!-- <a href="http://128.104.239.6/scout/colecrops/fleabeetle.htm" >-->Cole crops, <!-- </a>-->
+				<!-- <a href="http://128.104.239.6/scout/potato/potato_fleabee.htm" >-->Potato<!-- </a>-->)
+			</td>
+			<td>Simple</td>
+			<td>50F</td>
+			<td>None</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td><!-- <a href="http://128.104.239.6/scout/colecrops/impcabworm.htm" >-->Imported Cabbageworm<!-- </a>--></td>
+			<td>Simple</td>
+			<td>50F</td>
+			<td>None</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td><!-- <a href="http://128.104.239.6/scout/onion/onionmag.htm" >-->Onion Maggot<!-- </a>--></td>
+			<td>Simple</td>
+			<td>40F</td>
+			<td>None</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td><!-- <a href="http://128.104.239.6/news/update/includes/ininc%5Fsqvinebr.htm"> -->Squash Vine Borer<!--</a>--></td>
+			<td>Simple</td>
+			<td>50F</td>
+			<td>None</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Stalk Borer (<%= link_to 'DD Map', :action => :corn_stalk_borer %>)<BR />
+				(<!-- <a href="http://128.104.239.6/scout/sweet_corn/stlkborer.htm" >-->Sweet Corn, <!-- </a>-->
+				<!-- <a href="http://128.104.239.6/scout/field_pdfs/3fieldcorn.pdf" >-->Field Corn, <!-- </a>-->
+				<!-- <a href="http://128.104.239.6/scout/potato/com_stalk_borer.htm" >-->Potato, <!-- </a>-->
+				<!-- <a href="http://128.104.239.6/scout/snap_bean/com_stlkbor.htm" >-->Snap Bean<!-- </a>-->)
+			</td>
+			<td>Sine</td>
+			<td>41F</td>
+			<td>86F</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Tree and shrub pests (<%= link_to 'DD Map', :action => :tree %>)
+			</td>
+			<td>Modified</td>
+			<td>50F</td>
+			<td>86F</td>
+			<td>January 1</td>
+		</tr>
+		<tr>
+			<td>Western Bean Cutworm (<%= link_to 'More information', :action => :westernbeancutworm %>)
+			</td>
+			<td>Simple</td>
+			<td>50F</td>
+			<td></td>
+			<td>May 1</td>
+		</tr>
+	</table>
