@@ -27,6 +27,10 @@
     <%= f.label :longitude %><br>
     <%= f.text_field :longitude %>
   </div>
+  <div class="field">
+    <%= f.label :region %><br>
+    <%= f.select :region_id, @regions.map { |r| [r.name, r.id] } %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129232014) do
+ActiveRecord::Schema.define(version: 20140206190229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20140129232014) do
     t.float    "longitude"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "region_id"
   end
 
   create_table "hyds", force: true do |t|
@@ -119,6 +120,21 @@ ActiveRecord::Schema.define(version: 20140129232014) do
     t.boolean  "subscribable"
     t.integer  "default_doy_start"
     t.integer  "default_doy_end"
+  end
+
+  create_table "regions", force: true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "spatial_ref_sys", id: false, force: true do |t|
+    t.integer "srid",                   null: false
+    t.string  "auth_name", limit: 256
+    t.integer "auth_srid"
+    t.string  "srtext",    limit: 2048
+    t.string  "proj4text", limit: 2048
   end
 
   create_table "subscribers", force: true do |t|

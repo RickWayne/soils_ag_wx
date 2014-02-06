@@ -88,11 +88,12 @@ class ThermalModelsController < ApplicationController
   
   def many_degree_days_for_date
     @stations = DegreeDayStation.all
+    @regions = Region.all
   end
   
   def locations_for(ids)
     ids = ids.collect { |id| id.to_i }
-    DegreeDayStation.all.select { |stn| ids.include? stn[:id]  }.inject({}) {|hash,stn| hash.merge({stn.abbrev => {'longitude' => stn.longitude, 'latitude' => stn.latitude }})}
+    DegreeDayStation.all.select { |stn| ids.include? stn[:id]  }.inject({}) {|hash,stn| hash.merge({stn.abbrev => {'longitude' => stn.longitude, 'latitude' => stn.latitude, 'region' => stn.region }})}
   end
   
   def format_for(date_param)
@@ -128,10 +129,28 @@ class ThermalModelsController < ApplicationController
     ]
   end
   
+  # Add a level of hierarchy atop the passed-in hash based on a block passed in.
+  # So if you pass in {"4" => {:foo => 'bar', :baz => 'blah}, "5" => {:foo => 'bar', :baz => 'zing'}, "6'" => {:foo => 'woof', :baz => 'blah}}
+  # and a block of {|thing| thing[:foo]},
+  # you should get
+  # {
+  #    'bar' =>  { "4" => {:foo => 'bar', :baz => 'blah}, "5" => {:foo => 'bar', :baz => 'zing'} },
+  #    'woof' => { "6'" => {:foo => 'woof', :baz => 'blah} }
+  # }
+  def group_by(hash)
+    hash.inject({}) do |ret_hash,(key,el)|
+      group_key = yield el
+      prev_for_group = ret_hash[group_key] || {}
+      group = {key => el}.merge(prev_for_group)
+      ret_hash.merge(group_key => group)
+    end
+  end
+  
+  
   def get_dds_many_locations
-    @locations = locations_for(params[:locations])
+    locns_table = locations_for(params[:locations])
     min_max_series = {}
-    @data = @locations.inject({}) do |data_for_all_locations, (name,coords)|
+    @data = locns_table.inject({}) do |data_for_all_locations, (name,coords)|
       data_for_all_methods_one_location = params[:method_params].inject({}) do |single_location_data_hash, (key,method_params)|
         # puts method_params.inspect
         start_date,end_date = parse_dd_mult_dates method_params
@@ -155,6 +174,7 @@ class ThermalModelsController < ApplicationController
       end
       data_for_all_locations.merge({name => data_for_all_methods_one_location})
     end
+    @locations = group_by(locns_table) {|stn| stn['region'] }
     # {'DBQ' => 
     #   {'1' => { 'params' =>  { 'method' =>  'Simple',  'base_temp' =>  40,  'upper_temp' =>  70},  'date' =>  @end_date,  'data' =>  dd_accum}}
     # }

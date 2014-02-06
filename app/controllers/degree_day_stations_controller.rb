@@ -15,10 +15,12 @@ class DegreeDayStationsController < ApplicationController
   # GET /degree_day_stations/new
   def new
     @degree_day_station = DegreeDayStation.new
+    @regions = Region.all
   end
 
   # GET /degree_day_stations/1/edit
   def edit
+    @regions = Region.all
   end
 
   # POST /degree_day_stations
@@ -69,6 +71,6 @@ class DegreeDayStationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def degree_day_station_params
-      params.require(:degree_day_station).permit(:abbrev, :name, :latitude, :longitude)
+      params.require(:degree_day_station).permit(:abbrev, :name, :latitude, :longitude, :region_id)
     end
 end

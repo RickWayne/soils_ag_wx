@@ -1,3 +1,15 @@
+<% @title = "Degree Day Stations" %>
+<% content_for :title do
+    @title
+   end %>
+
+<% content_for :welcome do %>
+  <h2><%= @title %></h2>
+  <p>Maintain the list of degree day stations.</p>
+<% end %>
+
+<h2><%= @title %></h2>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -18,6 +30,11 @@
 <p>
   <strong>Longitude:</strong>
   <%= @degree_day_station.longitude %>
+</p>
+
+<p>
+  <strong>Region:</strong>
+  <%= @degree_day_station.region %>
 </p>
 
 <%= link_to 'Edit', edit_degree_day_station_path(@degree_day_station) %> |

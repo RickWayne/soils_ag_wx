@@ -1,4 +1,15 @@
-<h1>Listing degree_day_stations</h1>
+<% @title = "Degree Day Stations" %>
+<% content_for :title do
+    @title
+   end %>
+
+<% content_for :welcome do %>
+  <h2><%= @title %></h2>
+  <p>Maintain the list of degree day stations.</p>
+<% end %>
+
+<h2><%= @title %></h2>
+
 
 <table>
   <thead>
@@ -7,6 +18,7 @@
       <th>Name</th>
       <th>Latitude</th>
       <th>Longitude</th>
+      <th>Region</th>
       <th></th>
       <th></th>
       <th></th>
@@ -20,6 +32,7 @@
         <td><%= degree_day_station.name %></td>
         <td><%= degree_day_station.latitude %></td>
         <td><%= degree_day_station.longitude %></td>
+        <td><%= degree_day_station.region %></td>
         <td><%= link_to 'Show', degree_day_station %></td>
         <td><%= link_to 'Edit', edit_degree_day_station_path(degree_day_station) %></td>
         <td><%= link_to 'Destroy', degree_day_station, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -1,4 +1,15 @@
-<h1>Editing degree_day_station</h1>
+<% @title = "Degree Day Stations" %>
+<% content_for :title do
+    @title
+   end %>
+
+<% content_for :welcome do %>
+  <h2><%= @title %></h2>
+  <p>Maintain the list of degree day stations.</p>
+<% end %>
+
+<h2><%= @title %></h2>
+<h2>Edit station</h2>
 
 <%= render 'form' %>
 

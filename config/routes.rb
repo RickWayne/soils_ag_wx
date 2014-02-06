@@ -1,4 +1,6 @@
 SoilsAgWx::Application.routes.draw do
+  resources :regions
+
   resources :degree_day_stations
 
   get "heartbeat/index"

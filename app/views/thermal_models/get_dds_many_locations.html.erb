@@ -44,16 +44,20 @@
 %>
 
 <h2>Degree-Day Accumulations</h2>
-<p>For information on saving a personalized version of this report, click <a href="#permalink">here</a>.</p>
+<p><a href="#permalink">Save a personalized version of this report</a>.</p>
 <table border="1">
-  <tr><th>Location</th><%= methods_to_headers(@data).html_safe %></tr>
-  <% for location in @data.keys.sort %>
-  <tr><td><%= location %></td><%= data_cells(location,@data[location]).html_safe%></tr>
+  <tr><th>Region</th><th>Location</th><%= methods_to_headers(@data).html_safe %></tr>
+  <% for region in @locations.keys.sort %>
+    <% locations = @locations[region] %>
+    <tr><td rowspan="<%= locations.keys.size %>"><%= region %></td>
+    <% locations.each do |abbrev,locn_info| %>
+      <td><%= abbrev %></td><%= data_cells(abbrev,@data[abbrev]).html_safe %></tr><tr><!--  -->
+    <% end %>
   <% end %>
 </table>
 <br/>
 <a name="permalink"></a><h3>Saving Your Personalized Degree-Day Report</h3>
 <p>
   If you would like to bookmark this customized report, you can save all your DD specifications; the date ranges will have their years redacted so that the link never goes out of date.
-<h4><%= link_to "Right-click and bookmark this permalink", @permalink.merge(controller: "thermal_models") %></h4>
+<h4><%= link_to "Bookmark this link", @permalink.merge(controller: "thermal_models") %></h4>
 </p>

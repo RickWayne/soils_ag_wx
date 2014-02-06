@@ -95,17 +95,13 @@
   <p></p>
 <% end %>
 <h2>Multiway Degree-Day Calculator</h2>
-<%= render partial: 'partials/degree_days_explained' %>
-<p>This form allows you to view or download multiple degree-day accumulations for up to <%= @stations.size %> locations in Wisconsin. It defaults to a set of commonly-used parameters, but you may replace those with your own. For each set, you can select the method, the base temperature (and for the "modified" method, the upper-threshold temperature), and the date range. Click the "<strong>-</strong>" button to remove an existing set, and the "<strong>+</strong>" button to add a new one.</p>
+<p>View or download multiple degree-day accumulations for up to <%= @stations.size %> locations in Wisconsin. The report defaults to a set of commonly-used parameters; you may replace those with your own. For each set, select the method, the base temperature (and for the "modified" method, the upper-threshold temperature), and the date range. Click the "<strong>-</strong>" button to remove an existing set, and the "<strong>+</strong>" button to add a new one. (<a href="#dds">More on degree days</a>.)</p>
 <p>
 <ul>
-  <li>The "Simple" method returns the daily average temperature [(max - min) / 2.0] minus base temperature, with a floor of 0</li>
-  <li>The "Sine" method calculates a sinewave approximation of the temperature</li>
-  <li>The "Modified" method coerces the min and max temperature to lie within the base and upper threshold values before performing a "Simple" calculation.</li>
+  <li>"Simple": the daily average temperature [(max - min) / 2.0] minus base temperature, with a floor of 0</li>
+  <li>"Sine": calculates a sinewave approximation of the temperature</li>
+  <li>"Modified": coerces min and max to within the base and upper threshold values, then performs a "Simple" calculation.</li>
 </ul>
-
-<%= render partial: 'partials/degree_day_table'%>
-See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
 </p>
 <%= form_tag action: :get_dds_many_locations do %>
 <div id="all_param_sets">
@@ -194,7 +190,7 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
   <%= image_tag 'add_button.png', onclick: "add_param_set();", title: 'Add another degree-day set', align: 'middle'%>
   <br/>
   <p>Locations (all <%= @stations.size %> locations are selected by default; scroll the list and use Ctrl-click to select a subset of them)</p>
-  <%= select_tag :locations, options_from_collection_for_select(@stations,:id,:name), {multiple: true, size: 10} %><br/>
+  <%= select_tag :locations, option_groups_from_collection_for_select(@regions,:degree_day_stations,:name,:id,:name), {multiple: true, size: 10} %><br/>
   <br/>
   <%= radio_button_tag 'format', 'html', true %> View in browser&nbsp;<%= radio_button_tag 'format', 'json' %> Download as JSON<br/>
   <br/>
@@ -213,3 +209,9 @@ See "Degree-Days: The Calculation and Use of Heat Units in Pest management".
   From <input size="10"/>&nbsp; <!-- Start Date -->
   To <input size="10"/>&nbsp; <!-- End Date -->
 </div>
+<p/>
+<hr/>
+<a name="dds"></a>
+<h3>More information on Degree Days</h3>
+<%= render partial: 'partials/degree_days_explained' %>
+<%= render partial: 'partials/degree_day_table'%>

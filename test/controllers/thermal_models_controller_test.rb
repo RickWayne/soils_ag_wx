@@ -157,4 +157,75 @@ class ThermalModelsControllerTest < ActionController::TestCase
     expected = last_year.strftime("%m/%d/%Y")
     assert_equal(expected, strip_year_if_current(last_year))
   end
+  
+  test "permalink" do
+    today_str = Date.today.strftime("%m/%d/%Y")
+    yesterday_str = (Date.today - 1).strftime("%m/%d/%Y")
+    params = {
+      "utf8"=>"✓", "authenticity_token"=>"7kGTwOe88ix4w72X8jeYIybxL20uIjwhqYyZEA8F3G8=", 
+      "locations"=>["16"], "commit"=>"Get Degree-Day Data",
+      "method_params"=> {
+        "3"=>{"method"=>"Simple", "base_temp"=>"40.0", "start_date"=>"01/01/2014", "end_date"=>today_str},
+        "4"=>{"method"=>"Simple", "base_temp"=>"40.0", "start_date"=>"01/01/2014", "end_date"=>yesterday_str}
+      }
+    }
+    perma_params = @controller.send :permalink, params
+    assert_equal(Hash, perma_params.class)
+    assert(perma_params.keys.size > 0)
+    # permalink() should delete all of these keys
+    assert_nil(perma_params["utf8"])
+    assert_nil(perma_params["authenticity_token"])
+    assert_nil(perma_params["commit"])
+    # structure should still be correct
+    assert(mp3 = perma_params["method_params"]["3"])
+    assert_equal(Hash,mp3.class)
+    assert_equal("Simple", mp3["method"])
+    # start dates should have their year redacted
+    assert_nil(mp3["start_date"] =~ /[\d]{2}\/[\d]{2}\/[\d]{4}$/)
+    assert_equal(0,mp3["start_date"] =~ /[\d]{2}\/[\d]{2}$/,"start date for '3' should have been two-digit month/year")
+    # end_date for "3" should be gone, since it's today's date
+    assert_nil(mp3["end_date"])
+    # "4" should still have a date, but its year should have been redacted
+    mp4end = perma_params["method_params"]["4"]["end_date"]
+    assert_nil(mp4end =~ /[\d]{2}\/[\d]{2}\/[\d]{4}$/)
+    assert_equal(0,mp4end =~ /[\d]{2}\/[\d]{2}$/,"end date for '4' should have been two-digit month/year")
+  end
+  
+  # HAK HAK HAAAAK! This merely duplicates the method in the controller, 'cause I couldn't figure out how to call it.
+  def group_by(hash)
+    hash.inject({}) do |ret_hash,(key,el)|
+      group_key = yield el
+      prev_for_group = ret_hash[group_key] || {}
+      group = {key => el}.merge(prev_for_group)
+      ret_hash.merge(group_key => group)
+    end
+  end
+  
+  def compare_hashes(expected,actual)
+    ret = true
+    expected.keys.sort.each do |key|
+      # assert(actual[key],"actual does not contain #{key}: #{actual.inspect}")
+      if (expected[key].class == Hash)
+        ret &&= compare_hashes(expected[key],actual[key])
+      else
+        ret &&= expected[key] == actual[key]
+      end
+    end
+    assert ret
+  end
+  
+  test "group_by" do
+    hash =  {
+      '4' => {:foo => 'bar', :baz => 'blah'},
+      '5' => {:foo => 'bar', :baz => 'zing'},
+      '6' => {:foo => 'woof', :baz => 'blah'}
+    }
+    expected = {
+       'bar' =>  { '4' => {:foo => 'bar', :baz => 'blah'}, '5' => {:foo => 'bar', :baz => 'zing'} },
+       'woof' => { '6' => {:foo => 'woof', :baz => 'blah'} }
+    }
+    actual = group_by(hash) {|h| h[:foo]}
+    compare_hashes(expected, actual)
+  end
+  
 end
