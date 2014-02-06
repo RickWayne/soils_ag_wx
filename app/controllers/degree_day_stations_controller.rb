@@ -15,7 +15,7 @@ class DegreeDayStationsController < ApplicationController
   # GET /degree_day_stations/new
   def new
     @degree_day_station = DegreeDayStation.new
-    @regions = Region.all
+    @regions = Region.sort_south_to_north(Region.all)
   end
 
   # GET /degree_day_stations/1/edit

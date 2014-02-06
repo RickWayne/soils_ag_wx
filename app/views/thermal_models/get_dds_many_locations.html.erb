@@ -47,7 +47,7 @@
 <p><a href="#permalink">Save a personalized version of this report</a>.</p>
 <table border="1">
   <tr><th>Region</th><th>Location</th><%= methods_to_headers(@data).html_safe %></tr>
-  <% for region in @locations.keys.sort %>
+  <% for region in Region.sort_south_to_north(@locations.keys) %>
     <% locations = @locations[region] %>
     <tr><td rowspan="<%= locations.keys.size %>"><%= region %></td>
     <% locations.each do |abbrev,locn_info| %>

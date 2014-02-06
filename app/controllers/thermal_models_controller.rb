@@ -88,7 +88,7 @@ class ThermalModelsController < ApplicationController
   
   def many_degree_days_for_date
     @stations = DegreeDayStation.all
-    @regions = Region.all
+    @regions = Region.sort_south_to_north(Region.all)
   end
   
   def locations_for(ids)
