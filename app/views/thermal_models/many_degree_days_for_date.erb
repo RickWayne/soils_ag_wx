@@ -35,7 +35,7 @@
     // Set the "onclick" attribute of the first child, which is the '-' button
     param_set.children().eq(0).attr('onclick',"remove_this('" + param_set_id + "');");
     // Now go through each of the data parameters and set their names for Rails (and their ids, for...i dunno why)
-    names = ['method','base_temp','upper_temp','start_date','end_date'];
+    names = ['method','base_temp','upper_temp_label','upper_temp','start_date','end_date'];
     for (ii=0; ii < names.length; ii++) {
       param_set.children().eq(ii+1).attr('name','method_params[' + last_added_set +'][' + names[ii] + ']');
       param_set.children().eq(ii+1).attr('id','method_params[' + last_added_set +'][' + names[ii] + ']');
@@ -64,12 +64,13 @@
       $( selector ).prop('disabled',true);
       $( selector ).val(null);
       
-      $( selector.replace('input','span') ).fadeTo(200,0.2);
+      $( selector.replace('input','label').replace('upper_temp','upper_temp_label') ).fadeTo(200,0.2);
       
     } else {
       if (method == 'Modified') {
         $( selector ).prop('disabled',false);
-        $( selector.replace('input','span') ).fadeTo(200,0.99);
+        console.log(selector.replace('input','label').replace('upper_temp','upper_temp_label'));
+        $( selector.replace('input','label').replace('upper_temp','upper_temp_label') ).fadeTo(200,0.99);
       } else {
         alert('Illegal method (not "Simple, Sine, or Modified"), please alert the website administrator.');
       }
@@ -114,7 +115,7 @@
         <option value="Modified" selected="1">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[1][base_temp]" value="50.0"></input>&nbsp;
-      <span name="method_params[1][upper_temp]">Upper: </span><input size="4" name="method_params[1][upper_temp]" value="86.0"></input>&nbsp;
+      <label name="method_params[1][upper_temp_label]">Upper: </label><input size="4" name="method_params[1][upper_temp]" value="86.0"></input>&nbsp;
       From <input size="10"  id="method_params[1][start_date]" name="method_params[1][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[1][end_date]" name="method_params[1][end_date]"/>&nbsp;
     </div>
@@ -128,7 +129,7 @@
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[2][base_temp]" value="48.0"></input>&nbsp;
-      <span name="method_params[2][upper_temp]" style="opacity:0.2">Upper:  </span><input size="4" name="method_params[2][upper_temp]" disabled/>&nbsp;
+      <label name="method_params[2][upper_temp_label]" style="opacity:0.2">Upper:  </label><input size="4" name="method_params[2][upper_temp]" disabled/>&nbsp;
       From <input size="10"  id="method_params[2][start_date]" name="method_params[2][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[2][end_date]" name="method_params[2][end_date]"/>&nbsp;
       <br/>
@@ -142,7 +143,7 @@
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[3][base_temp]" value="40.0"></input>&nbsp;
-      <span name="method_params[3][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[3][upper_temp]" disabled></input>&nbsp;
+      <label name="method_params[3][upper_temp_label]" style="opacity:0.2">Upper: </label><input size="4" name="method_params[3][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[3][start_date]" name="method_params[3][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[3][end_date]" name="method_params[3][end_date]"/>&nbsp;
     </div>
@@ -155,7 +156,7 @@
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[4][base_temp]" value="41.0"></input>&nbsp;
-      <span name="method_params[4][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[4][upper_temp]" disabled></input>&nbsp;
+      <label name="method_params[4][upper_temp_label]" style="opacity:0.2">Upper: </label><input size="4" name="method_params[4][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[4][start_date]" name="method_params[4][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[4][end_date]" name="method_params[4][end_date]"/>&nbsp;
     </div>
@@ -168,7 +169,7 @@
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[5][base_temp]" value="43.0"></input>&nbsp;
-      <span name="method_params[5][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[5][upper_temp]" disabled></input>&nbsp;
+      <label name="method_params[5][upper_temp_label]" style="opacity:0.2">Upper: </label><input size="4" name="method_params[5][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[5][start_date]" name="method_params[5][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[5][end_date]" name="method_params[5][end_date]"/>&nbsp;
     </div>
@@ -181,7 +182,7 @@
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[6][base_temp]" value="52.0"></input>&nbsp;
-      <span name="method_params[6][upper_temp]" style="opacity:0.2">Upper: </span><input size="4" name="method_params[6][upper_temp]" disabled></input>&nbsp;
+      <label name="method_params[6][upper_temp_label]" style="opacity:0.2">Upper: </label><input size="4" name="method_params[6][upper_temp]" disabled></input>&nbsp;
       From <input size="10"  id="method_params[6][start_date]" name="method_params[6][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[6][end_date]" name="method_params[6][end_date]"/>&nbsp;
     </div>
@@ -205,7 +206,7 @@
     <option value="Modified">Modified</option>
   </select>&nbsp;
   Base: <input size="4" value="50"/>&nbsp;
-  Upper: <input size="4" value="86" disabled>&nbsp; <!-- Starts disabled, for Simple -->
+  <label name="method_params[5][upper_temp_label]" style="opacity:0.2">Upper: </label><input size="4" disabled>&nbsp; <!-- Starts disabled, for Simple -->
   From <input size="10"/>&nbsp; <!-- Start Date -->
   To <input size="10"/>&nbsp; <!-- End Date -->
 </div>
