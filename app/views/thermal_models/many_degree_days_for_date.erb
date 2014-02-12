@@ -59,7 +59,7 @@
     method = select.value
     // Name of the select element is e.g. "method_params[1][method]", we want method_params[1][upper_temp]
     selector = "input[name='" + select.name.replace('[method]','[upper_temp]') + "']";
-    if (method == 'Simple' || method == 'Sine') {
+    if (method == 'Simple') {
       // alert(selector);
       $( selector ).prop('disabled',true);
       $( selector ).val(null);
@@ -67,8 +67,9 @@
       $( selector.replace('input','label').replace('upper_temp','upper_temp_label') ).fadeTo(200,0.2);
       
     } else {
-      if (method == 'Modified') {
+      if (method == 'Modified' || method == 'Sine') {
         $( selector ).prop('disabled',false);
+        $( selector ).prop('value','86.0');
         console.log(selector.replace('input','label').replace('upper_temp','upper_temp_label'));
         $( selector.replace('input','label').replace('upper_temp','upper_temp_label') ).fadeTo(200,0.99);
       } else {
@@ -96,14 +97,21 @@
   <p></p>
 <% end %>
 <h2>Multiway Degree-Day Calculator</h2>
-<p>View or download multiple degree-day accumulations for up to <%= @stations.size %> locations in Wisconsin. The report defaults to a set of commonly-used parameters; you may replace those with your own. For each set, select the method, the base temperature (and for the "modified" method, the upper-threshold temperature), and the date range. Click the "<strong>-</strong>" button to remove an existing set, and the "<strong>+</strong>" button to add a new one. (<a href="#dds">More on degree days</a>.)</p>
+<p>View or download multiple degree-day accumulations for up to <%= @stations.size %> locations in Wisconsin. You may replace the default set of commonly-used parameters with your own. Click the "<strong>-</strong>" button to remove an existing set, and the "<strong>+</strong>" button to add a new one. For each set:</p>
 <p>
-<ul>
-  <li>"Simple": the daily average temperature [(max - min) / 2.0] minus base temperature, with a floor of 0</li>
-  <li>"Sine": calculates a sinewave approximation of the temperature</li>
-  <li>"Modified": coerces min and max to within the base and upper threshold values, then performs a "Simple" calculation.</li>
-</ul>
+  <ol>
+    <li>Select the method:
+      <ol>
+        <li>"Simple": the daily average temperature [(max - min) / 2.0] minus base temperature, with a floor of 0</li>
+        <li>"Sine": calculates a sinewave approximation of the temperature</li>
+        <li>"Modified": coerces min and max to within the base and upper threshold values, then performs a "Simple" calculation.</li>
+      </ol>
+    </li>
+    <li>Enter the base temperature (and for the "sine" and "modified" methods, the upper-threshold temperature)</li>
+    <li>Enter the date range (default: Jan. 1 to today).</li>
+  </ol>
 </p>
+<p>(<a href="#dds">More on degree days</a>.)</p>
 <%= form_tag action: :get_dds_many_locations do %>
 <div id="all_param_sets">
     <div id='param_set_1'>
@@ -129,7 +137,7 @@
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[2][base_temp]" value="48.0"></input>&nbsp;
-      <label name="method_params[2][upper_temp_label]" style="opacity:0.2">Upper:  </label><input size="4" name="method_params[2][upper_temp]" disabled/>&nbsp;
+      <label name="method_params[2][upper_temp_label]">Upper:  </label><input size="4" name="method_params[2][upper_temp]" value="86.0"/>&nbsp;
       From <input size="10"  id="method_params[2][start_date]" name="method_params[2][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[2][end_date]" name="method_params[2][end_date]"/>&nbsp;
       <br/>
@@ -156,7 +164,7 @@
         <option value="Modified">Modified</option>
       </select>&nbsp;
       Base:  <input size="4" name="method_params[4][base_temp]" value="41.0"></input>&nbsp;
-      <label name="method_params[4][upper_temp_label]" style="opacity:0.2">Upper: </label><input size="4" name="method_params[4][upper_temp]" disabled></input>&nbsp;
+      <label name="method_params[4][upper_temp_label]">Upper: </label><input size="4" name="method_params[4][upper_temp]" value="86.0"></input>&nbsp;
       From <input size="10"  id="method_params[4][start_date]" name="method_params[4][start_date]"/>&nbsp;
       To <input size="10"  id="method_params[4][end_date]" name="method_params[4][end_date]"/>&nbsp;
     </div>
@@ -190,7 +198,7 @@
   </div>
   <%= image_tag 'add_button.png', onclick: "add_param_set();", title: 'Add another degree-day set', align: 'middle'%>
   <br/>
-  <p>Locations (all <%= @stations.size %> locations are selected by default; scroll the list and use Ctrl-click to select a subset of them)</p>
+  <p>Location. All <%= @stations.size %> locations are selected by default; scroll the list and use Ctrl-click (or Option-click on a Mac) to select a subset of them.</p>
   <%= select_tag :locations, option_groups_from_collection_for_select(@regions,:degree_day_stations,:name,:id,:name), {multiple: true, size: 10} %><br/>
   <br/>
   <%= radio_button_tag 'format', 'html', true %> View in browser&nbsp;<%= radio_button_tag 'format', 'json' %> Download as JSON<br/>
