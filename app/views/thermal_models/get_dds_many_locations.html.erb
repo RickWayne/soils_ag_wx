@@ -14,11 +14,12 @@
   def methods_to_headers(data)
     name = data.keys.first # 'DBQ'
     method = base = upper = nil
-    data[name].keys.sort.inject("") do |str, ii|
-      method = data[name][ii]['params']['method']
-      base = data[name][ii]['params']['base_temp']
+    ret = data[name].keys.sort.inject("") do |str, ii|
+      params_for_set = data[name][ii]['params']
+      method = params_for_set['method']
+      base = params_for_set['base_temp']
       if method == 'Modified' # only one for which there IS an upper
-        upper = data[name][ii]['params']['upper_temp']
+        upper = params_for_set['upper_temp']
         if upper.nil? || upper == ''
           upper_str = "<br/>U=86.0"
         else
@@ -27,10 +28,15 @@
       else
         upper_str = ''
       end
-      start_date = data[name][ii]['params']['start_date'][0..4]
-      end_date = data[name][ii]['params']['end_date'] || Date.today.strftime("%m/%d")
+      start_date = params_for_set['start_date'][0..4]
+      end_date = params_for_set['end_date'] || Date.today.strftime("%m/%d")
       end_date = end_date[0..4]
-      str + "<th>#{method}<br/>B=#{base}#{upper_str}<br/>#{start_date} to #{end_date}</th>"
+      if params_for_set['start_date'] =~ /\/([\d]{4})/
+        year = $1
+      else
+        year = Date.today.year
+      end
+      str + "<th>#{method}<br/>B=#{base}#{upper_str}<br/>#{start_date} to #{end_date}<br/>#{year}</th>"
     end
   end
   
