@@ -152,24 +152,31 @@ class ThermalModelsController < ApplicationController
     min_max_series = {}
     @data = locns_table.inject({}) do |data_for_all_locations, (name,coords)|
       data_for_all_methods_one_location = params[:method_params].inject({}) do |single_location_data_hash, (key,method_params)|
-        # puts method_params.inspect
+        # Key is the column number in the results table. Might not be sequential if they've deleted some, but it will
+        # be unique. Each key (e.g. "1") represents one DD accumulation by method, base/upper, and dates for a location.
         start_date,end_date = parse_dd_mult_dates method_params
         base_temp = (method_params['base_temp'] || '50.0').to_f
         upper_temp = (method_params['upper_temp'] || '86.0').to_f # Note that this sets upper for simple and sine, which are ignored
-        # if we've already retrieved the min/max data, don't query it again
-        min_max_series[name] ||= { 
+        # If we've already retrieved the min/max data for this location and year, don't query it again.
+        # First make an entry, if necessary, for the location 
+        min_max_series[name] ||= {}
+        # Then set the year, again if it's not already there.
+        min_max_series[name][start_date.year] ||= { 
           mins: WiMnDMinTAir.daily_series(start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f),
           maxes: WiMnDMaxTAir.daily_series(start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f),
         }
+        # Now perform the appropriate DD series calc.
         dd_series = calc_dd_series_for(
           method_params['method'],
           start_date,end_date,
           coords['longitude'].to_f,coords['latitude'].to_f,
-          min_max_series[name][:mins],min_max_series[name][:maxes],
+          min_max_series[name][start_date.year][:mins],min_max_series[name][start_date.year][:maxes],
           base_temp , upper_temp
         )
+        # Use the last date in the accumulation, rather than end_date (might be missing).
         last_date = dd_series.keys.max
         dd_accum = dd_series[last_date]
+        # And merge the result into the hash of results
         single_location_data_hash.merge({key => { "params" =>  method_params, "date" =>  last_date, "data" =>  dd_accum}})
       end
       data_for_all_locations.merge({name => data_for_all_methods_one_location})
@@ -215,7 +222,7 @@ class ThermalModelsController < ApplicationController
     dd_accum = 0.0
     data = mins.inject({}) do |hash,(date,min)|
       if min.nil? || maxes[date].nil?
-        puts "#{date}, #{longitude}, #{latitude}, #{mins.inspect}, #{maxes[date].inspect}"
+        logger.warn "#{date}, #{longitude}, #{latitude}, #{mins.inspect}, #{maxes[date].inspect}"
         raise 'cannot continue, nil min or max'
       end
       min = to_fahrenheit(min)
