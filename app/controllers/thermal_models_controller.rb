@@ -146,7 +146,6 @@ class ThermalModelsController < ApplicationController
     end
   end
   
-  
   def get_dds_many_locations
     locns_table = locations_for(params[:locations])
     min_max_series = {}
@@ -157,14 +156,8 @@ class ThermalModelsController < ApplicationController
         start_date,end_date = parse_dd_mult_dates method_params
         base_temp = (method_params['base_temp'] || '50.0').to_f
         upper_temp = (method_params['upper_temp'] || '86.0').to_f # Note that this sets upper for simple and sine, which are ignored
-        # If we've already retrieved the min/max data for this location and year, don't query it again.
-        # First make an entry, if necessary, for the location 
-        min_max_series[name] ||= {}
-        # Then set the year, again if it's not already there.
-        min_max_series[name][start_date.year] ||= { 
-          mins: WiMnDMinTAir.daily_series(start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f),
-          maxes: WiMnDMaxTAir.daily_series(start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f),
-        }
+        # Fill in the max-mins hash for this location and date range.
+        fill_in_max_min_series(name,start_date,end_date,coords['longitude'].to_f,coords['latitude'].to_f,min_max_series)
         # Now perform the appropriate DD series calc.
         dd_series = calc_dd_series_for(
           method_params['method'],
@@ -240,4 +233,20 @@ class ThermalModelsController < ApplicationController
     end
     data
   end
+  
+  # TODO: Write automated test for this little wanker!
+  def fill_in_max_min_series(name,start_date,end_date,longitude,latitude,min_max_series)
+    # Query out data for the whole year, so it's all there and only has to be done once
+    start_date = Date.civil(start_date.year,1,1)
+    end_date = Date.civil(end_date.year,12,31)
+    # If we've already retrieved the min/max data for this location and year, don't query it again.
+    # First make an entry, if necessary, for the location 
+    min_max_series[name] ||= {}
+    # Then set the year, again if it's not already there.
+    min_max_series[name][start_date.year] ||= { 
+      mins: WiMnDMinTAir.daily_series(start_date,end_date,longitude,latitude),
+      maxes: WiMnDMaxTAir.daily_series(start_date,end_date,longitude,latitude),
+    }
+  end
+  
 end
