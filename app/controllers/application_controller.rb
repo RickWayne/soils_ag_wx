@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   
   def get_grid
     @param = params[:param] # I just loved writing that
-    @start_date,@end_date = parse_dates 'grid_date'
+    @start_date,@end_date = parse_dates params['grid_date']
     @latitude = params[:latitude].to_f
     @longitude = params[:longitude].to_f
     grid_class = grid_classes[params[:param]]
