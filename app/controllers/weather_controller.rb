@@ -1,5 +1,7 @@
 require 'grid_controller'
 class WeatherController < ApplicationController
+  skip_before_filter :verify_authenticity_token, only: [:get_grid]
+  
   include GridController
   def index
   end
