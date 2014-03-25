@@ -14,9 +14,24 @@ class ApplicationController < ActionController::Base
       request.remote_ip == '146.151.214.80'
   end
   
+  def fix_nested_dates(param)
+    if param.kind_of? String
+      # convert to hash
+      slen = 'start_date'.length + 5
+      elen = 'end_date'.length
+      start_date_index = param.index_of('start_date')+slen
+      end_date_index = param.index_of('end_date')+elen
+      {"start_date" => param[start_date_index,start_date_index+10],
+       "end_date" => param(end_date_index,end_date_index+10)}
+     else
+       param
+     end
+   end
+  
   def get_grid
     @param = params[:param] # I just loved writing that
-    @start_date,@end_date = parse_dates params['grid_date']
+    dates = fix_nested_dates(params['grid_date'])
+    @start_date,@end_date = parse_dates dates
     @latitude = params[:latitude].to_f
     @longitude = params[:longitude].to_f
     grid_class = grid_classes[params[:param]]
