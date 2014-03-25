@@ -19,8 +19,8 @@ class ApplicationController < ActionController::Base
       # convert to hash
       slen = 'start_date'.length + 5
       elen = 'end_date'.length
-      start_date_index = param.index_of('start_date')+slen
-      end_date_index = param.index_of('end_date')+elen
+      start_date_index = param.index('start_date')+slen
+      end_date_index = param.index('end_date')+elen
       {"start_date" => param[start_date_index,start_date_index+10],
        "end_date" => param(end_date_index,end_date_index+10)}
      else
