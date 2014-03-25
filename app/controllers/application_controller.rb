@@ -57,9 +57,18 @@ class ApplicationController < ActionController::Base
   
   def parse_dates(p)
     # p is e.g. the result from params["grid_date"]
-    [
-      Date.civil(p["start_date(1i)"].to_i,p["start_date(2i)"].to_i,p["start_date(3i)"].to_i),
-      Date.civil(p["end_date(1i)"].to_i,p["end_date(2i)"].to_i,p["end_date(3i)"].to_i)
-    ]
+    if p["start_date(1i)"] # it's the old three-element date style
+      [
+        Date.civil(p["start_date(1i)"].to_i,p["start_date(2i)"].to_i,p["start_date(3i)"].to_i),
+        Date.civil(p["end_date(1i)"].to_i,p["end_date(2i)"].to_i,p["end_date(3i)"].to_i)
+      ]
+    elsif p["start_date"] && p["end_date"]
+      [
+        Date.parse(p["start_date"]),
+        Date.parse(p["end_date"])
+      ]
+    else
+      [nil,nil]
+    end
   end
 end
