@@ -1,0 +1,14 @@
+<% @title="Estimated Reference Evapotranspiration"%>
+<% content_for :title do %>
+ <%= @title %>
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "grid_map.png",{:width => "231", :height => "180", :alt => "Gridded Map"} %>
+  <h2><%= @title %></h2>
+  <p></p>
+<% end %>
+
+<p>Download a time series of ET values for a location and date range.</p>
+
+<%= render partial: "partials/grid_selector" %>

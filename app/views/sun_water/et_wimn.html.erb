@@ -14,14 +14,12 @@
 <h2><%= @title %></h2>
 
 <P>
-<%= link_to 'Get ETs Automatically by email!', :controller => 'subscribers' %></p>
-<p>You can also view a <%= link_to 'time series of ET estimates for your location', controller: 'wi_mn_dets' %>.
-<center>
+<a href="#download">Download ET time series</a>&nbsp;<%= link_to 'Get ETs Automatically by email!', :controller => 'subscribers' %></p>
+
 <img src="http://alfi.soils.wisc.edu/uwex_agwx_data/et/yestWIMNet.gif" ALT="Yesterday's ET Estimates" usemap="#latlong"/>
   <P> <a href="http://alfi.soils.wisc.edu/uwex_agwx_data/et/yestWIMNet.asc"> Download yesterday's entire grid of data in ASCII Format</a><br>
 
 <!-- <a href=http://emily.soils.wisc.edu/cgi-bin/aws/et_arch.pl?Region=WIMN>Earlier Wisconsin-Minnesota ET Maps</a>-->
-</center>
 
 
 <map name="latlong" id="latlong">
@@ -715,12 +713,7 @@
 <area shape="rect" coords="557,176,574,155" href="http://alfi.soils.wisc.edu/asig/rails/wimnext-rails/choose_date?controller=et&action=get_et_series&latitude=50.0&longitude=86.4"/>
 <area shape="rect" coords="575,176,592,155" href="http://alfi.soils.wisc.edu/asig/rails/wimnext-rails/choose_date?controller=et&action=get_et_series&latitude=50.0&longitude=86.0"/>
 </map>
-<P>
-<a name="rails"/></a>To locate 
-your particular site on the map, use the lines of latitude 
-and longitude. Then click on the map to get a listing of ET estimates for that location. The default is one month, but you can
-pick whatever dates you like.</p>
+<a name="download"/></a>
+<h4>ET Time Series</h4>
+<%= render partial: "partials/grid_selector" %>
 <p>If you have suggestions, feel free to email them to <a href="mailto:fewayne@wisc.edu">Rick Wayne.</a></p>
-
-<P>
-<CENTER>

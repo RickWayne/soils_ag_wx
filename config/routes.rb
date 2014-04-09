@@ -75,6 +75,8 @@ SoilsAgWx::Application.routes.draw do
   get "sun_water/et_model"
   get "sun_water/spreadsheet_download"
   get "sun_water/spreadsheet_doc"
+  get "sun_water/grid_ets"
+  post "sun_water/get_grid"
   match "/sun_water", to: "sun_water#index", via: [:get, :post]
   get "weather/index"
   get "weather/hyd"

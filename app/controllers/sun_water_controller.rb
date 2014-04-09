@@ -1,4 +1,7 @@
+require 'grid_controller'
 class SunWaterController < ApplicationController
+  include GridController
+  
   def index
   end
 
@@ -12,6 +15,7 @@ class SunWaterController < ApplicationController
   end
 
   def et_wimn
+    @grid_classes = grid_classes
   end
 
   def et_fl
@@ -25,4 +29,15 @@ class SunWaterController < ApplicationController
 
   def spreadsheet_doc
   end
+  
+  def grid_classes
+    @grid_classes = GRID_CLASSES.select { |key,val| key == 'ET' }
+  end
+  
+  def grid_ets
+    @title = 'Download ET Estimates'
+    @grid_classes = grid_classes
+  end
+  
+  
 end
