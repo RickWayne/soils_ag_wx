@@ -37,15 +37,16 @@ function init(baseURL) {
   };
 
   map = new OpenLayers.Map('map', options);
-  // create Google Roads layer
-  var groads = new OpenLayers.Layer.Google(
-    "Google Hybrid", 
+  // create Google Hybrid layer
+  var ghyb = new OpenLayers.Layer.Google(
+    "Google Hybrid",
     {
-      type: G_HYBRID_MAP,
+      'type': google.maps.MapTypeId.HYBRID,
       'sphericalMercator': true,
       'minZoomLevel': 5
-    });
-  map.addLayers([groads]);
+    }
+  );
+  map.addLayers([ghyb]);
   hancock = new OpenLayers.LonLat(-89.53,44.1189);
   hancock.transform(latLongProj,googleProj);
   map.events.register('click', map,
