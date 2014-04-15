@@ -62,6 +62,46 @@ class SubscribersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def send_emails
+    if params[:id] == '0'
+      subscribers = Subscriber.all
+    else
+      subscribers = [Subscriber.find(params[:id])]
+    end
+    logger.debug "all selected subscribers " +subscribers.inspect
+    subscribers = subscribers.select { |subs| subs.has_confirmed }
+    logger.debug "confirmed subscribers now "+subscribers.inspect
+    unless authenticate
+      logger.warn("attempt to send automated emails failed authentication")
+      render :nothing => true
+      return
+    end
+    start_date = finish_date = 1.day.ago
+    begin
+      start_date = Date.parse(params[:start_date]) if params[:start_date]
+      finish_date = Date.parse(params[:finish_date]) if params[:finish_date]
+    rescue Exception => e
+      start_date = 1.day.ago unless start_date
+      finish_date = 1.day.ago unless finish_date
+    end
+    
+    sent = 0
+    results = []
+    subscribers.each do |subs|
+      email = SubscriptionMailer.create_product_report(subs,start_date,finish_date)
+      next unless email.body && email.body != "" && email.body =~ /At/ && email.body =~ /[d]{2}/
+      results << SubscriptionMailer.deliver(email)
+      sent += 1
+    end
+    results.each { |res| logger.debug res.inspect }
+    render :text => "Sent #{sent} emails"
+  end
+  
+  def authenticate
+    # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my VPN static IP
+    request.remote_ip == '::1' || request.remote_ip == '127.0.0.1' || request.remote_ip == '128.104.33.225' ||
+     request.remote_ip == '128.104.33.224' || request.remote_ip == '146.151.214.80'
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
