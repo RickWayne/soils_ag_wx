@@ -32,62 +32,62 @@ function init(baseURL) {
 }
 
 // Adapted from the OpenLayers Click Handler Example (OL 2.1)
-OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
-  defaultHandlerOptions: {
-      'single': true,
-      'double': false,
-      'pixelTolerance': 0,
-      'stopSingle': false,
-      'stopDouble': false
-  },
-
-  initialize: function(options) {
-      this.handlerOptions = OpenLayers.Util.extend(
-          {}, this.defaultHandlerOptions
-      );
-      OpenLayers.Control.prototype.initialize.apply(
-          this, arguments
-      ); 
-      this.handler = new OpenLayers.Handler.Click(
-          this, {
-              'click': this.onClick,
-              'dblclick': this.onDblclick 
-          }, this.handlerOptions
-      );
-  }, 
-
-  onClick:     function(e) {
-    xy = e.xy;
-    var lonlat = map.getLonLatFromViewPortPx(xy);
-    if (wiMnBounds.containsLonLat(lonlat)) {
-      var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
-      point.transform(googleProj,latLongProj);
-      $.ajax(
-        {
-          type: "GET",
-          url: baseURL + "/summary",
-          async: false,
-          data: {latitude:point.y,longitude:point.x,ajax:true},
-          dataType: 'html',
-          success: function(html)
-          {
-            sr = document.getElementById('summary_results');
-            sr.innerHTML = html;
-            // $('#summary_results').innerHTML = html;
-          }
-        });
-    } else {
-      alert('Point is outside our data. Please choose a point closer to the center of the map.');
-    } 
-  },
-
-  onDblclick: function(evt) {  
-      var output = document.getElementById(this.key + "Output");
-      var msg = "dblclick " + evt.xy;
-      output.value = output.value + msg + "\n";
-  }   
-
-});
+// OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+//   defaultHandlerOptions: {
+//       'single': true,
+//       'double': false,
+//       'pixelTolerance': 0,
+//       'stopSingle': false,
+//       'stopDouble': false
+//   },
+// 
+//   initialize: function(options) {
+//       this.handlerOptions = OpenLayers.Util.extend(
+//           {}, this.defaultHandlerOptions
+//       );
+//       OpenLayers.Control.prototype.initialize.apply(
+//           this, arguments
+//       ); 
+//       this.handler = new OpenLayers.Handler.Click(
+//           this, {
+//               'click': this.onClick,
+//               'dblclick': this.onDblclick 
+//           }, this.handlerOptions
+//       );
+//   }, 
+// 
+//   onClick:     function(e) {
+//     xy = e.xy;
+//     var lonlat = map.getLonLatFromViewPortPx(xy);
+//     if (wiMnBounds.containsLonLat(lonlat)) {
+//       var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+//       point.transform(googleProj,latLongProj);
+//       $.ajax(
+//         {
+//           type: "GET",
+//           url: baseURL + "/summary",
+//           async: false,
+//           data: {latitude:point.y,longitude:point.x,ajax:true},
+//           dataType: 'html',
+//           success: function(html)
+//           {
+//             sr = document.getElementById('summary_results');
+//             sr.innerHTML = html;
+//             // $('#summary_results').innerHTML = html;
+//           }
+//         });
+//     } else {
+//       alert('Point is outside our data. Please choose a point closer to the center of the map.');
+//     } 
+//   },
+// 
+//   onDblclick: function(evt) {  
+//       var output = document.getElementById(this.key + "Output");
+//       var msg = "dblclick " + evt.xy;
+//       output.value = output.value + msg + "\n";
+//   }   
+// 
+// });
 
 
 // 
