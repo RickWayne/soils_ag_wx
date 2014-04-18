@@ -1,6 +1,7 @@
 require 'grid_controller'
 class SunWaterController < ApplicationController
   include GridController
+  before_filter :authenticate
   
   def index
   end
