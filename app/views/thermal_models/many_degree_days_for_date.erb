@@ -13,10 +13,12 @@
   today = new Date();
   var year = today.getFullYear();
   start_date = new Date(year,0,1);
-  end_date = today - 1;
+  end_date = new Date();
+  end_date.setDate(today.getDate() - 1);
   
   // set up the date pickers for a param set
   function set_up_datepickers(set_number) {
+    console.log(end_date.getDate());
     jquery_selector = '#' + 'method_params\\[' + set_number + '\\]\\[start_date\\]';
     $( jquery_selector ).datepicker();
     $( jquery_selector ).datepicker("setDate",start_date);
