@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   
   
   def authenticate
+    return false
     # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my static VPN address
     request.remote_ip == '::1' || 
       request.remote_ip == '127.0.0.1' || 
