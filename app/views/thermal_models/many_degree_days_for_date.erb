@@ -198,7 +198,7 @@
   </div>
   <%= image_tag 'add_button.png', onclick: "add_param_set();", title: 'Add another degree-day set', align: 'middle'%>
   <br/>
-  <p>Location. All <%= @stations.size %> locations are selected by default; scroll the list and use Ctrl-click (or Option-click on a Mac) to select a subset of them.</p>
+  <p>Location. All <%= @stations.size %> locations are selected by default; scroll the list and use Ctrl-click (or Command-click on a Mac) to select a subset of them.</p>
   <%= select_tag :locations, option_groups_from_collection_for_select(@regions,:degree_day_stations,:name,:id,:name), {multiple: true, size: 10} %><br/>
   <br/>
   <%= radio_button_tag 'format', 'html', true %> View in browser&nbsp;<%= radio_button_tag 'format', 'json' %> Download as JSON<br/>

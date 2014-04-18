@@ -56,7 +56,10 @@
   <% for region in Region.sort_south_to_north(@locations.keys) %>
     <% locations = @locations[region] %>
     <tr><td rowspan="<%= locations.keys.size %>"><%= region %></td>
-    <% locations.each do |abbrev,locn_info| %>
+    <!-- Sort the abbreviations into latitude order, use that to iterate over locations -->
+    <% location_abbrevs = locations.keys.sort {|key1,key2| locations[key1]['latitude'] <=> locations[key2]['latitude']}%>
+    <% location_abbrevs.each do |abbrev| %>
+      <% locn_info = locations[abbrev] %>
       <td><%= abbrev %></td><%= data_cells(abbrev,@data[abbrev]).html_safe %></tr><tr><!--  -->
     <% end %>
   <% end %>
