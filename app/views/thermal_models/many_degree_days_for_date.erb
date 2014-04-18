@@ -18,7 +18,6 @@
   
   // set up the date pickers for a param set
   function set_up_datepickers(set_number) {
-    console.log(end_date.getDate());
     jquery_selector = '#' + 'method_params\\[' + set_number + '\\]\\[start_date\\]';
     $( jquery_selector ).datepicker();
     $( jquery_selector ).datepicker("setDate",start_date);
