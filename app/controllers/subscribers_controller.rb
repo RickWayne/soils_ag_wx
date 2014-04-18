@@ -99,7 +99,7 @@ class SubscribersController < ApplicationController
   
   def authenticate
     logger.info "subscribers authenticate: #{request.remote_ip}"
-    return false
+    return nil
     # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my VPN static IP
     request.remote_ip == '::1' || request.remote_ip == '127.0.0.1' || request.remote_ip == '128.104.33.225' ||
      request.remote_ip == '128.104.33.224' || request.remote_ip == '146.151.214.80'
