@@ -3,11 +3,17 @@
 one:
   abbrev: 
   name: 
-  latitude: 
+  latitude: 42.0
   longitude: 1.5
 
 two:
   abbrev: 
   name: 
-  latitude: 
+  latitude: 41.0
   longitude: 1.5
+  
+three:
+  latitude: 43.0
+
+four:
+  latitude: 40.0

@@ -1,5 +1,5 @@
 class Region < ActiveRecord::Base
-  has_many :degree_day_stations
+  has_many :degree_day_stations, ->  {order('latitude')}
   def to_s; abbrev; end
   
   SOUTH_TO_NORTH = {

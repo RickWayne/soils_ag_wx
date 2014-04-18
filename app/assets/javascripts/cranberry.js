@@ -31,6 +31,7 @@ function init(baseURL) {
   });
 }
 
+// BUSTED. OpenLayers not defined error. ????
 // Adapted from the OpenLayers Click Handler Example (OL 2.1)
 // OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
 //   defaultHandlerOptions: {

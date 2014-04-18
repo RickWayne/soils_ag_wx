@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
-  abbrev: MyString
+central:
+  name: Central
+  abbrev: CEN
 
 two:
   name: MyString
