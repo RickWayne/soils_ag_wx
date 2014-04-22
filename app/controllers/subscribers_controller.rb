@@ -98,11 +98,12 @@ class SubscribersController < ApplicationController
   end
   
   def authenticate
-    logger.info "subscribers authenticate: #{request.remote_ip}"
-    render text: "Subscriber features still under construction"
     # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my VPN static IP
-    request.remote_ip == '::1' || request.remote_ip == '127.0.0.1' || request.remote_ip == '128.104.33.225' ||
-     request.remote_ip == '128.104.33.224' || request.remote_ip == '146.151.214.80'
+    unless request.remote_ip == '::1' || request.remote_ip == '127.0.0.1' || request.remote_ip == '128.104.33.225' ||
+       request.remote_ip == '128.104.33.224' || request.remote_ip == '146.151.214.80'
+      flash[:error] = "Subscriber features still under construction"
+      redirect_to '/'
+    end
   end
 
   private
