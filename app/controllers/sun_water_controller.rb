@@ -2,6 +2,7 @@ require 'grid_controller'
 class SunWaterController < ApplicationController
   include GridController
   before_filter :authenticate
+  skip_before_filter :verify_authenticity_token, only: get_grid
   
   def index
   end
