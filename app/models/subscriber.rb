@@ -2,7 +2,7 @@ class Subscriber < ActiveRecord::Base
   has_many :subscriptions
   has_many :products, :through => :subscriptions
   # per http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address
-  validates_format_of :email, :with => /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
+  # validates_format_of :email, :with => /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
   
   def self.fractional_part(float)
     float.to_s =~ /0\.(.+)$/
