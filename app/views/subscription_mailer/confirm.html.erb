@@ -1,0 +1,11 @@
+<% def protect_against_forgery?; false; end %>Dear <%= @subscriber.name%>,
+
+We would like you to confirm that you want to receive automated emails from
+the University of Wisconsin Extension Ag Weather service. To do so, please
+click the link below. If you're concerned -- as you should be! -- about
+clicking links in automatically-generated emails, feel free to contact
+Rick Wayne, the programmer responsible for the website, at 608-265-3288.
+
+(And you can check that that phone number is legit by looking him up on the UW Soil Science
+staff page.)
+<%= link_to 'Click here to confirm', @url %>

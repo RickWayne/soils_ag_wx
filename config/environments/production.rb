@@ -21,7 +21,10 @@ SoilsAgWx::Application.configure do
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
   config.serve_static_assets = true
-
+  
+  # While sendmail is less configurable than the default smtp, it works on our server
+  config.action_mailer.delivery_method = :sendmail
+  
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass

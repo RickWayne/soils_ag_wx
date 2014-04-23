@@ -105,6 +105,22 @@ class SubscribersController < ApplicationController
     SubscriptionMailer.special(subscriber.find(params[:id].to_i),params[:text]).deliver
   end
   
+  def confirm
+    begin
+      id = params[:id].to_i
+      subscriber = Subscriber.find(id)
+      if subscriber.confirmed != params[:confirmed]
+        raise "Confirmation failed, please contact us"
+      end
+      subscriber.confirmed = Time.now
+      subscriber.save!
+    rescue Exception => e
+      render text: 'Missing required parameters, please contact us'
+      return
+    end
+    redirect_to :show, id: params[:id]
+  end
+  
   def authenticate
     # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my VPN static IP
     unless request.remote_ip == '::1' || request.remote_ip == '127.0.0.1' || request.remote_ip == '128.104.33.225' ||

@@ -18,10 +18,7 @@
   <div class="field">
     <%= f.label :email %><br>
     <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :confirmed %><br>
-    <%= f.text_field :confirmed %>
+    <%= hidden_field(:subscriber,:confirmed, :value => Subscriber.confirmation_number)%>
   </div>
   <div class="actions">
     <%= f.submit %>

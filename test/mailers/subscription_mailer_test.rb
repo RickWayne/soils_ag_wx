@@ -1,12 +1,20 @@
 require 'test_helper'
 
 class SubscriptionMailerTest < ActionMailer::TestCase
+  RICKS_EMAIL = 'fewayne@gmail.com'
+  SENDER_EMAIL = 'fewayne@wisc.edu'
+  
+  def setup
+    @rick = Subscriber.create! name: 'Rick Wayne', email: RICKS_EMAIL, confirmed: Subscriber.confirmation_number
+  end
+  
   test "confirm" do
-    mail = SubscriptionMailer.confirm
-    assert_equal "Confirm", mail.subject
-    assert_equal ["to@example.org"], mail.to
-    assert_equal ["from@example.com"], mail.from
-    assert_match "Hi", mail.body.encoded
+    mail = SubscriptionMailer.confirm(@rick)
+    assert_equal 'Please confirm your email address for your UWEX Ag Weather product subscriptions', mail.subject
+    assert_equal [RICKS_EMAIL], mail.to
+    assert_equal [RICKS_EMAIL], mail.to
+    assert_equal [SENDER_EMAIL], mail.from
+    assert_match "Hi Rick Wayne,\r\n\r\n", mail.body.encoded
   end
 
   test "product_report" do
@@ -18,11 +26,10 @@ class SubscriptionMailerTest < ActionMailer::TestCase
   end
 
   test "special" do
-    RICKS_EMAIL = 'fewayne@gmail.com'
-    mail = SubscriptionMailer.special(Subscriber.find_by_email(RICKS_EMAIL),'')
+    mail = SubscriptionMailer.special(@rick,'')
     assert_equal "Special", mail.subject
     assert_equal [RICKS_EMAIL], mail.to
-    assert_equal ['fewayne@wisc.edu'], mail.from
+    assert_equal [SENDER_EMAIL], mail.from
     assert_match "Hi Rick Wayne,\r\n\r\n", mail.body.encoded
   end
 

@@ -9,8 +9,3 @@ two:
   name: MyString
   email: MyString
   confirmed: MyString
-  
-rick:
-  name: Rick Wayne
-  email: fewayne@gmail.com
-  confirmed: 2014-04-23

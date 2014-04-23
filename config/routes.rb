@@ -80,6 +80,7 @@ SoilsAgWx::Application.routes.draw do
   match "/sun_water", to: "sun_water#index", via: [:get, :post]
   get "subscribers/send_emails/:id" => "subscribers#send_emails"
   post "subscribers/send_special"
+  get "subscribers/confirm/:id" => "subscribers#confirm"
   get "weather/index"
   get "weather/hyd"
   get "weather/awon"

@@ -34,10 +34,16 @@ class SubscriptionMailer < ActionMailer::Base
   #
   #   en.subscription_mailer.confirm.subject
   #
-  def confirm
+  def confirm(subscriber)
     @greeting = "Hi"
-
-    mail to: "to@example.org"
+    @subscriber = subscriber
+    if Rails.env == 'test'
+      host = 'localhost'
+    else
+      host = 'agwx.soils.wisc.edu'
+    end
+    @url = url_for host: host, controller: 'subscribers', action: 'confirm', id: @subscriber[:id], confirmed: @subscriber.confirmed
+    mail to: subscriber.email, subject: 'Please confirm your email address for your UWEX Ag Weather product subscriptions'
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -60,6 +66,6 @@ class SubscriptionMailer < ActionMailer::Base
     @greeting = "Hi"
     @mesg_text = mesg_text
     @subscriber = subscriber
-    mail to: subscriber.email
+    mail to: subscriber.email, subject: 'Update: Your UWEX Ag Weather automated product subscription'
   end
 end
