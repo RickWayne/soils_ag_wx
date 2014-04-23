@@ -1,7 +1,7 @@
 class SubscriptionMailer < ActionMailer::Base
   default from: "fewayne@wisc.edu"
   
-  def confirm(subscriber,sent_at = Time.now)
+  def old_confirm(subscriber,sent_at = Time.now)
     subject    'Please confirm your email address for your UWEX Ag Weather product subscriptions'
     recipients subscriber.email
     from       'fewayne@wisc.edu'
@@ -10,7 +10,7 @@ class SubscriptionMailer < ActionMailer::Base
     body       :greeting => 'Hi,', :subscriber => subscriber
   end
 
-  def product_report(subscriber,start_date,finish_date,sent_at=Time.now,subscriptions=subscriber.subscriptions)
+  def old_product_report(subscriber,start_date,finish_date,sent_at=Time.now,subscriptions=subscriber.subscriptions)
     subject    'Your UWEX Ag Weather automated product subscription'
     recipients subscriber.email
     from       'fewayne@wisc.edu'
@@ -21,7 +21,7 @@ class SubscriptionMailer < ActionMailer::Base
     body       :greeting => 'Hi,', :subscriber => subscriber, :report => report
   end
   
-  def special(subscriber,message)
+  def old_special(subscriber,message)
     subject    'Update: Your UWEX Ag Weather automated product subscription'
     recipients subscriber.email
     from       'fewayne@wisc.edu'
@@ -56,9 +56,10 @@ class SubscriptionMailer < ActionMailer::Base
   #
   #   en.subscription_mailer.special.subject
   #
-  def special
+  def special(subscriber,mesg_text='')
     @greeting = "Hi"
-
-    mail to: "to@example.org"
+    @mesg_text = mesg_text
+    @subscriber = subscriber
+    mail to: subscriber.email
   end
 end

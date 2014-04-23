@@ -97,6 +97,14 @@ class SubscribersController < ApplicationController
     render :text => "Sent #{sent} emails"
   end
   
+  def send_special
+    unless params[:id] && params[:text]
+      render text: 'no subscriber param or no text param, no mail sent'
+      return
+    end
+    SubscriptionMailer.special(subscriber.find(params[:id].to_i),params[:text]).deliver
+  end
+  
   def authenticate
     # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my VPN static IP
     unless request.remote_ip == '::1' || request.remote_ip == '127.0.0.1' || request.remote_ip == '128.104.33.225' ||

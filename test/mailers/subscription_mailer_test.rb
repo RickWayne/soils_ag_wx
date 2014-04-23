@@ -18,11 +18,12 @@ class SubscriptionMailerTest < ActionMailer::TestCase
   end
 
   test "special" do
-    mail = SubscriptionMailer.special
+    RICKS_EMAIL = 'fewayne@gmail.com'
+    mail = SubscriptionMailer.special(Subscriber.find_by_email(RICKS_EMAIL),'')
     assert_equal "Special", mail.subject
-    assert_equal ["to@example.org"], mail.to
-    assert_equal ["from@example.com"], mail.from
-    assert_match "Hi", mail.body.encoded
+    assert_equal [RICKS_EMAIL], mail.to
+    assert_equal ['fewayne@wisc.edu'], mail.from
+    assert_match "Hi Rick Wayne,\r\n\r\n", mail.body.encoded
   end
 
 end
