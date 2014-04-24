@@ -19,7 +19,7 @@ class GridProduct < Product
   end
   
   def self.long_col(longitude)
-    (10*(longitude.rdnearest(0.4))).to_i.abs.to_s + 'w'
+    'w' + (10*(longitude.rdnearest(0.4))).to_i.abs.to_s
   end
   
   def series_with_dates(latitude,longitude,start_timestamp=nil,finish_timestamp=nil)

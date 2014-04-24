@@ -12,6 +12,10 @@ class SubscribersController < ApplicationController
   # GET /subscribers/1
   # GET /subscribers/1.json
   def show
+    unless @subscriber
+      flash[:notice] = "Subscriber not found. Would you like to enroll?"
+      redirect_to action: :new
+    end
   end
 
   # GET /subscribers/new
@@ -30,6 +34,7 @@ class SubscribersController < ApplicationController
 
     respond_to do |format|
       if @subscriber.save
+        SubscriptionMailer.confirm(@subscriber).deliver
         format.html { redirect_to @subscriber, notice: 'Subscriber was successfully created.' }
         format.json { render action: 'show', status: :created, location: @subscriber }
       else
@@ -108,24 +113,23 @@ class SubscribersController < ApplicationController
   def confirm
     begin
       id = params[:id].to_i
-      subscriber = Subscriber.find(id)
-      if subscriber.confirmed != params[:confirmed]
+      @subscriber = Subscriber.find(id)
+      if @subscriber.confirmed != params[:confirmed]
         raise "Confirmation failed, please contact us"
       end
-      subscriber.confirmed = Time.now
-      subscriber.save!
+      @subscriber.confirmed = Time.now
+      @subscriber.save!
     rescue Exception => e
       render text: 'Missing required parameters, please contact us'
       return
     end
-    redirect_to :show, id: params[:id]
   end
   
   def authenticate
     # For now, pretty lame: We only check that it comes from localhost, redbird, andi, or my VPN static IP
     unless request.remote_ip == '::1' || request.remote_ip == '127.0.0.1' || request.remote_ip == '128.104.33.225' ||
        request.remote_ip == '128.104.33.224' || request.remote_ip == '146.151.214.80'
-      flash[:error] = "Subscriber features still under construction"
+      flash[:error] = "Not Authorized"
       redirect_to '/'
     end
   end
@@ -133,7 +137,11 @@ class SubscribersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_subscriber
-      @subscriber = Subscriber.find(params[:id])
+      if params[:id]
+        @subscriber = Subscriber.find(params[:id])
+      elsif params[:email]
+        @subscriber = Subscriber.find_by_email(params[:email])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,0 +1,26 @@
+<% content_for :title do %>
+  <%= title %>
+<% end %>
+
+
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style" -%>
+<% end %>
+
+<% content_for :welcome do %>
+    <%= do_welcome.html_safe %>
+<% end %>
+
+<h2>Thanks for confirming your email</h2>
+<p>Thanks for taking the time to confirm your email address. We appreciate your help in keeping the spammers off our mailing list!</p>
+<% if @subscriber.subscriptions.size > 0 %>
+  <%= @subscriber.name %>, you should begin receiving the following products tomorrow morning:
+  <ul>
+    <% for subs in @subscriber.subscriptions %>
+      <li><%= subs.product.name %> at <%= sprintf("%0.2f, %0.2f",subs.latitude,subs.longitude) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p><%= @subscriber.name %>, you are not currently subscribed to any products; you can sign up for them 
+  <%= link_to 'here', :action => :show, :id => @subscriber %></p>
+<% end %>

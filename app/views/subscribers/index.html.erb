@@ -1,31 +1,29 @@
-<h1>Listing subscribers</h1>
+<% content_for :title do %>
+  <%= title %>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Confirmed</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @subscribers.each do |subscriber| %>
-      <tr>
-        <td><%= subscriber.name %></td>
-        <td><%= subscriber.email %></td>
-        <td><%= subscriber.confirmed %></td>
-        <td><%= link_to 'Show', subscriber %></td>
-        <td><%= link_to 'Edit', edit_subscriber_path(subscriber) %></td>
-        <td><%= link_to 'Destroy', subscriber, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style" -%>
+<% end %>
 
-<br>
+<% content_for :welcome do %>
+    <%= do_welcome.html_safe %>
+<% end %>
 
-<%= link_to 'New Subscriber', new_subscriber_path %>
+<h2>Register for Automated Weather Product Emails</h2>
+<p>The "Register" button below takes you to a form where you can enter your name and email address so that our automatically-emailed products
+  can find you. Once you're known to our database, you can sign up for products to be delivered to you
+  daily, at whatever lat/long locations you desire.</p>
+<p>After you register, the system will send you an email containing a link which you can click to confirm
+  that you're really you, and that you really want to start receiving automated emails.</p>
+
+<%= button_to 'Register', new_subscriber_path %><br/><br/>
+
+<h2>Already Registered?</h2>
+<p/>
+<%= form_tag controller: 'subscribers', action: :show do %>
+  Please enter your email address to manage your subscriptions:&nbsp;<%= text_field_tag 'subscriber[email]'%>
+
+<% end %>
+<p/>

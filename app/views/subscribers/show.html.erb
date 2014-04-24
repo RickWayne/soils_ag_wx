@@ -1,19 +1,73 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title do %>
+  <%= title.html_safe %>
+<% end %>
 
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style" -%>
+<% end %>
+
+<% content_for :welcome do %>
+    <%= do_welcome.html_safe %>
+<% end %>
+
+<% if flash[:notice] %>
+  <p><strong><%= flash[:notice] %></strong></p>
+<% end %>
 <p>
-  <strong>Name:</strong>
-  <%= @subscriber.name %>
+  <b>Name:</b>
+  <%=h @subscriber.name %>
 </p>
 
 <p>
-  <strong>Email:</strong>
-  <%= @subscriber.email %>
+  <b>Email:</b>
+  <%=h @subscriber.email %>
 </p>
 
 <p>
-  <strong>Confirmed:</strong>
-  <%= @subscriber.confirmed %>
+  <b>Confirmed?</b>
+  <!-- The "confirmed" field should always be set, really. If it's a number, it's the random token value that was sent
+       out in the confirmation email, waiting for the user to click the link. If it's a date, then it refers to the timestamp
+       they clicked that link and confirmed. If it's nothing at all, that's...weird. -->
+  <% if @subscriber.confirmed %>
+    <% if @subscriber.confirmed =~ /^[\d]+$/ %>
+      <p>An email has been sent to <%=h @subscriber.email %>, containing instructions on confirming your address. Please
+      check your email (possibly including your spam/junk-mail folders!) for a message from fewayne@wisc.edu, with the
+      subject 'Please confirm your email address for your UWEX Ag Weather product subscriptions'.</p>
+      <p>If you can't find the email, <%= link_to 'contact Rick Wayne', :controller => 'navigation', :action => :about %> and he'll
+        fix the database for you.</p>
+    <% else %>
+      <% begin
+          conf = Date.parse(@subscriber.confirmed)
+          conf = conf.strftime('%b %d %Y')
+         rescue ArgumentError => e
+          conf = 'Email confirmation error (date invalid). Please contact us.'
+         end %>
+      On <%=h conf %>
+    <% end %>
+  <% else %>
+  Email confirmation error. Please contact us, and let us know that the "confirmed" string was missing.
+  <%= @subscriber.inspect %>
+  <% end %>
 </p>
 
-<%= link_to 'Edit', edit_subscriber_path(@subscriber) %> |
-<%= link_to 'Back', subscribers_path %>
+<% if @subscriber.subscriptions && @subscriber.subscriptions.size > 0 %>
+  <h4>Subscriptions</h4>
+<table>  
+  <% for subs in @subscriber.subscriptions %>
+  <tr>
+    <td><%= subs.product.name %></td><td>at <%= sprintf("%0.2f, %0.2f",subs.latitude,subs.longitude) %></td>
+    <% if subs.enabled %>
+      <!-- Unfortunately the Rails hidden_field method fills in the value with whatever's in the model object -->
+      <td><% form_for subs do |f| %><input type="hidden" name="subscription[enabled]" value="false"/><%= f.submit 'Disable' %><% end %></td>
+    <% else %>
+      <td><% form_for subs do |f| %><input type="hidden" name="subscription[enabled]" value="true"/><%= f.submit 'Re-enable' %><% end %></td>
+    <% end %>
+    <td><%= button_to 'Delete Entirely', {:controller => 'subscriptions', :action => :destroy, :id => subs[:id] }, :method => :delete, :confirm => "Permanently delete subscription to #{subs.name} at (#{subs.latitude},#{subs.longitude})?" %></td>
+  </tr>
+  <% end %>
+</table>  
+<% else %>
+  <h4>No subscriptions</h4>
+<% end %>
+<br/>
+<%= link_to 'New Subscription', :controller => 'subscriptions', :action => :index %>

@@ -10,17 +10,6 @@ class SubscriptionMailer < ActionMailer::Base
     body       :greeting => 'Hi,', :subscriber => subscriber
   end
 
-  def old_product_report(subscriber,start_date,finish_date,sent_at=Time.now,subscriptions=subscriber.subscriptions)
-    subject    'Your UWEX Ag Weather automated product subscription'
-    recipients subscriber.email
-    from       'fewayne@wisc.edu'
-    sent_on    sent_at
-    
-    report = Subscription.make_report(subscriptions,start_date,finish_date)
-    
-    body       :greeting => 'Hi,', :subscriber => subscriber, :report => report
-  end
-  
   def old_special(subscriber,message)
     subject    'Update: Your UWEX Ag Weather automated product subscription'
     recipients subscriber.email
@@ -37,24 +26,33 @@ class SubscriptionMailer < ActionMailer::Base
   def confirm(subscriber)
     @greeting = "Hi"
     @subscriber = subscriber
-    if Rails.env == 'test'
-      host = 'localhost'
-    else
-      host = 'agwx.soils.wisc.edu'
+    case Rails.env
+    when 'test'
+      host = 'localhost/testing'
+    when 'development'
+      host = 'agwx.soils.wisc.edu/devel'
+    when 'production'
+      host = 'agwx.soils.wisc.edu/uwex_agwx'
     end
     @url = url_for host: host, controller: 'subscribers', action: 'confirm', id: @subscriber[:id], confirmed: @subscriber.confirmed
     mail to: subscriber.email, subject: 'Please confirm your email address for your UWEX Ag Weather product subscriptions'
   end
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.subscription_mailer.product_report.subject
-  #
-  def product_report
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+  # def old_product_report(subscriber,start_date,finish_date,sent_at=Time.now,subscriptions=subscriber.subscriptions)
+  #   subject    'Your UWEX Ag Weather automated product subscription'
+  #   recipients subscriber.email
+  #   from       'fewayne@wisc.edu'
+  #   sent_on    sent_at
+  #   
+  #   report = Subscription.make_report(subscriptions,start_date,finish_date)
+  #   
+  #   body       :greeting => 'Hi,', :subscriber => subscriber, :report => report
+  # end
+  # 
+  def product_report(subscriber,start_date,end_date,sent_at=Time.now,subscriptions=subscriber.subscriptions)
+    @subscriber = subscriber
+    @report = Subscription.make_report(subscriptions,start_date,end_date)
+    mail to: @subscriber.email, greeting: "Hi"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml

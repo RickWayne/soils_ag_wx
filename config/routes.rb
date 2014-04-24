@@ -31,7 +31,7 @@ SoilsAgWx::Application.routes.draw do
   resources :awon_record_types
 
   resources :awon_field_descrips
-
+  
   get "cranberry/index"
   get "cranberry/summary"
   get "awon/awon_check_boxes"
@@ -81,6 +81,11 @@ SoilsAgWx::Application.routes.draw do
   get "subscribers/send_emails/:id" => "subscribers#send_emails"
   post "subscribers/send_special"
   get "subscribers/confirm/:id" => "subscribers#confirm"
+  get "subscribers/show/:email" => "subscribers#show"
+  post "subscribers/show"
+  post "subscribers/new"
+  resources :subscribers
+  
   get "weather/index"
   get "weather/hyd"
   get "weather/awon"

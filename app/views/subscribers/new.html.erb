@@ -1,5 +1,22 @@
-<h1>New subscriber</h1>
+<% content_for :title do %>
+  <%= title %>
+<% end %>
 
+
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "style" -%>
+<% end %>
+
+<% content_for :welcome do %>
+    <%= do_welcome.html_safe %>
+<% end %>
+
+
+<%= flash[:notice] %>
+
+<p>Please enter your name and email address to enroll as a subscriber. You will receive an automated
+  email asking you to confirm your enrollment; once you've been confirmed, you can subscribe to our
+  products at as many locations as you would like.</p>
 <%= render 'form' %>
 
-<%= link_to 'Back', subscribers_path %>
+<%= link_to 'Cancel', subscribers_path %>
