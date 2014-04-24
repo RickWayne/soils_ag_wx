@@ -7,9 +7,11 @@
 <%= @greeting %> <%= @subscriber.name %>,
 
 Here is your automated report for your UW Extension Ag Weather subscriptions. If you no longer
-wish to receive these automated emails, go to <%= link_to 'our website', "http://alfi.soils.wisc.edu/uwex_agwx/subscribers/show/#{@subscriber[:id]}"%>
+wish to receive these automated emails, go to <%= link_to 'our website', "http://agwx.soils.wisc.edu/devel/subscribers/show/#{@subscriber[:id]}"%>
 to cancel them.
 
 <% @report.each { |product,subscriptions| %><h4><%= product.name %></h4><% subscriptions.each do |subscr_hash| %><% subscr_hash.each do |subscr,data_arr|  %><p>At <%= subscr.name || '' %> (<%= subscr.latitude %>, <%= subscr.longitude %>):<br/>
 <% data_arr.each { |date_value_hash| date_value_hash.each { |date_str,value| %><%= date_str %>,<%= sprintf("%0.2f",value) if value %><% } %><br/><% }%></p><% end%><% end %><% } %>
+<% else %>
+No subscriptions
 <% end %>

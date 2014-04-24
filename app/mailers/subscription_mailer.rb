@@ -52,7 +52,8 @@ class SubscriptionMailer < ActionMailer::Base
   def product_report(subscriber,start_date,end_date,sent_at=Time.now,subscriptions=subscriber.subscriptions)
     @subscriber = subscriber
     @report = Subscription.make_report(subscriptions,start_date,end_date)
-    mail to: @subscriber.email, greeting: "Hi"
+    @greeting = "Hi"
+    mail to: @subscriber.email
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
