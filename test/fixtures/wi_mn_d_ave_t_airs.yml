@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  dateStamp: 2013-11-20
-  timeStamp: 2013-11-20 13:37:41
+  date: 2013-11-20
+  time: 2013-11-20 13:37:41
   latitude: 1.5
   w980: 1.5
   w976: 1.5
@@ -37,8 +37,8 @@ one:
   w860: 1.5
 
 two:
-  dateStamp: 2013-11-20
-  timeStamp: 2013-11-20 13:37:41
+  date: 2013-11-20
+  time: 2013-11-20 13:37:41
   latitude: 1.5
   w980: 1.5
   w976: 1.5

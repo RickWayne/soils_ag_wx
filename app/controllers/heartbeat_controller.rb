@@ -65,10 +65,10 @@ class HeartbeatController < ApplicationController
       'RRAF Popup'     => { server: 'gis.soils.wisc.edu',  url: MADISON_POPUP_URL},
     }
     @urls = @apps.inject({}) do |hash,(key,param_hash)|
-      puts "*********************"
-      puts hash.inspect
-      puts key.inspect
-      puts param_hash.inspect
+      # puts "*********************"
+      # puts hash.inspect
+      # puts key.inspect
+      # puts param_hash.inspect
       hash.merge({key => "http://#{param_hash[:server]}/#{param_hash[:url]}"})
       # {'wisp' => 'http://wisp.cals.wisc.edu//', '590 page' => etc.}
     end

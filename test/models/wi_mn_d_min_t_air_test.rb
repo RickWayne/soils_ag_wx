@@ -4,7 +4,7 @@ class WiMnDMinTAirTest < ActiveSupport::TestCase
   def setup
     min_path = File.join(File.dirname(__FILE__),'..','..','db','WIMNTMin2002_10_days')
     WiMnDMinTAir.import_grid(min_path,2002)
-    assert_equal(10*21, WiMnDMinTAir.where(dateStamp: (Date.parse('2002-01-01')..Date.parse('2002-12-31'))).count)
+    assert_equal(10*21, WiMnDMinTAir.where(date: (Date.parse('2002-01-01')..Date.parse('2002-12-31'))).count)
   end
 
   test  "longitude_col works" do

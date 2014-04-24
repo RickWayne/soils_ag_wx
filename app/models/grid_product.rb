@@ -26,9 +26,9 @@ class GridProduct < Product
     c = self.class
     query_lat = latitude.rdnearest(0.4)
     start_ds,start_ts,finish_ds,finish_ts = GridProduct.query_dt_values(start_timestamp,finish_timestamp)
-    query = "select dateStamp,`#{c.long_col(longitude)}` as value from #{data_table_name} \
-    where dateStamp >= '#{start_ds}' and dateStamp <= '#{finish_ds}' and latitude=#{query_lat} order by dateStamp"
-    (self.class.find_by_sql query).map { |e| {e[:dateStamp] => e[:value]} }
+    query = "select date,`#{c.long_col(longitude)}` as value from #{data_table_name} \
+    where date >= '#{start_ds}' and date <= '#{finish_ds}' and latitude=#{query_lat} order by date"
+    (self.class.find_by_sql query).map { |e| {e[:date] => e[:value]} }
   end
 
   def series(latitude,longitude,start_timestamp=nil,finish_timestamp=nil)
@@ -36,7 +36,7 @@ class GridProduct < Product
     query_lat = latitude.rdnearest(0.4)
     start_ds,start_ts,finish_ds,finish_ts = GridProduct.query_dt_values(start_timestamp,finish_timestamp)
     query = "select `#{c.long_col(longitude)}` as value from #{data_table_name} \
-    where dateStamp >= '#{start_ds}' and dateStamp <= '#{finish_ds}' and latitude=#{query_lat} order by dateStamp"
+    where date >= '#{start_ds}' and date <= '#{finish_ds}' and latitude=#{query_lat} order by date"
     (self.class.find_by_sql query).map { |e| e[:value] }
   end
   

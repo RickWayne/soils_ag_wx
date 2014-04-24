@@ -8,7 +8,7 @@ module Assessable
   end
 
   module ClassMethods
-    # override if your AR class has a different date convention, e.g. grids have 'dateStamp'
+    # override if your AR class has a different date convention
     def date_sym
       :date
     end

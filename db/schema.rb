@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140206190229) do
+ActiveRecord::Schema.define(version: 20140424182142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -280,8 +280,8 @@ ActiveRecord::Schema.define(version: 20140206190229) do
   end
 
   create_table "wi_mn_d_ave_t_airs", force: true do |t|
-    t.date     "dateStamp"
-    t.time     "timeStamp"
+    t.date     "date"
+    t.time     "time"
     t.float    "latitude"
     t.float    "w980"
     t.float    "w976"
@@ -319,8 +319,8 @@ ActiveRecord::Schema.define(version: 20140206190229) do
   end
 
   create_table "wi_mn_d_ave_vaprs", force: true do |t|
-    t.date     "dateStamp"
-    t.time     "timeStamp"
+    t.date     "date"
+    t.time     "time"
     t.float    "latitude"
     t.float    "w980"
     t.float    "w976"
@@ -358,8 +358,8 @@ ActiveRecord::Schema.define(version: 20140206190229) do
   end
 
   create_table "wi_mn_d_max_t_airs", force: true do |t|
-    t.date     "dateStamp"
-    t.time     "timeStamp"
+    t.date     "date"
+    t.time     "time"
     t.float    "latitude"
     t.float    "w980"
     t.float    "w976"
@@ -397,8 +397,8 @@ ActiveRecord::Schema.define(version: 20140206190229) do
   end
 
   create_table "wi_mn_d_min_t_airs", force: true do |t|
-    t.date     "dateStamp"
-    t.time     "timeStamp"
+    t.date     "date"
+    t.time     "time"
     t.float    "latitude"
     t.float    "w980"
     t.float    "w976"
@@ -436,8 +436,8 @@ ActiveRecord::Schema.define(version: 20140206190229) do
   end
 
   create_table "wi_mn_dets", force: true do |t|
-    t.date     "dateStamp"
-    t.time     "timeStamp"
+    t.date     "date"
+    t.time     "time"
     t.float    "latitude"
     t.float    "w980"
     t.float    "w976"

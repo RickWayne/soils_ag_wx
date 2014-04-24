@@ -35,7 +35,7 @@ long_cols = longitude_cols(grid_activerecord_class)
 # Make a list of all the layers in this grid that aren't in (or are incomplete in) the database
 doys = grid.layer_list.inject([]) do |arr,doy|
   # Number of latitude rows for each date should == rows in a layer
-  if grid_activerecord_class.where(dateStamp: date_for(year,doy)).count < grid.layer(doy).rows.size
+  if grid_activerecord_class.where(date: date_for(year,doy)).count < grid.layer(doy).rows.size
     arr << doy
   else
     arr
@@ -49,7 +49,7 @@ doys.each do |doy|
   date = date_for(year,doy)
   layer.rows.each_with_index do |row,index|
     latitude = grid.latitude_for(index)
-    db_row = grid_activerecord_class.new dateStamp: date, latitude: latitude
+    db_row = grid_activerecord_class.new date: date, latitude: latitude
     (0..row.size-1).each do |col_index|
       db_row[long_cols[col_index]] = row[col_index]
     end

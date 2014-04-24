@@ -32,8 +32,8 @@ module GridDB
     def daily_series(start_date,end_date,longitude,latitude)
       longitude *= -1 if longitude > 0
       self.where(
-        '"dateStamp" >= ? and "dateStamp" <= ? and latitude = ?',start_date,end_date,nearest_latitude(latitude)
-        ).inject({}) { |hash,rec| hash.merge({rec["dateStamp"] => rec[longitude_col(longitude)]}) }
+        '"date" >= ? and "date" <= ? and latitude = ?',start_date,end_date,nearest_latitude(latitude)
+        ).inject({}) { |hash,rec| hash.merge({rec["date"] => rec[longitude_col(longitude)]}) }
     end
     
     def date_for(year,doy)
@@ -43,12 +43,12 @@ module GridDB
     def import_grid(grid_filename,year)
       grid = Grid.new(grid_filename,Grid::DAILY)
       long_cols = longitude_cols
-      recs = self.where(dateStamp: (Date.civil(year,1,1)..Date.civil(year,12,31)))
+      recs = self.where(date: (Date.civil(year,1,1)..Date.civil(year,12,31)))
 
       # Make a list of all the layers in this grid that aren't in (or are incomplete in) the database
       doys = grid.layer_list.inject([]) do |arr,doy|
         # Number of latitude rows for each date should == rows in a layer
-        if recs.select { |rec| rec.dateStamp = date_for(year,doy) }.count < grid.layer(doy).rows.size
+        if recs.select { |rec| rec.date = date_for(year,doy) }.count < grid.layer(doy).rows.size
           arr << doy
         else
           arr
@@ -60,7 +60,7 @@ module GridDB
         date = date_for(year,doy)
         layer.rows.each_with_index do |row,index|
           latitude = grid.latitude_for(index)
-          db_row = self.new dateStamp: date, latitude: latitude
+          db_row = self.new date: date, latitude: latitude
           (0..row.size-1).each do |col_index|
             db_row[long_cols[col_index]] = row[col_index]
           end

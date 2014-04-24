@@ -10,10 +10,10 @@ class OldGrid < ActiveRecord::Base
 
   def self.translate(old_table_name,new_class)
     connect(old_table_name)
-    (first.dateStamp.year..2013).each do |year|
+    (first.date.year..2013).each do |year|
       puts year
       ii=0
-      where('dateStamp >= ? and dateStamp <= ?',Date.civil(year,1,1),Date.civil(year,12,31)).each do |rec|
+      where('date >= ? and date <= ?',Date.civil(year,1,1),Date.civil(year,12,31)).each do |rec|
         attr_hash = {}
         rec.attributes.each do |key,val|
           if key =~ /([\d]{3})w/

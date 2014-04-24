@@ -20,7 +20,7 @@ SET default_with_oids = false;
 
 CREATE TABLE wi_mn_d_ave_t_airs (
     id integer NOT NULL,
-    "dateStamp" date,
+    "date" date,
     "timeStamp" time without time zone,
     latitude double precision,
     w980 double precision,
@@ -88,7 +88,7 @@ ALTER SEQUENCE wi_mn_d_ave_t_airs_id_seq OWNED BY wi_mn_d_ave_t_airs.id;
 
 CREATE TABLE wi_mn_d_max_t_airs (
     id integer NOT NULL,
-    "dateStamp" date,
+    "date" date,
     "timeStamp" time without time zone,
     latitude double precision,
     w980 double precision,
@@ -156,7 +156,7 @@ ALTER SEQUENCE wi_mn_d_max_t_airs_id_seq OWNED BY wi_mn_d_max_t_airs.id;
 
 CREATE TABLE wi_mn_d_min_t_airs (
     id integer NOT NULL,
-    "dateStamp" date,
+    "date" date,
     "timeStamp" time without time zone,
     latitude double precision,
     w980 double precision,
@@ -224,7 +224,7 @@ ALTER SEQUENCE wi_mn_d_min_t_airs_id_seq OWNED BY wi_mn_d_min_t_airs.id;
 
 CREATE TABLE wi_mn_dets (
     id integer NOT NULL,
-    "dateStamp" date,
+    "date" date,
     "timeStamp" time without time zone,
     latitude double precision,
     w980 double precision,
