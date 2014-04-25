@@ -1,10 +1,11 @@
 # Monkey-patch Numeric so we can easily round to nearest appropriate fraction of a degree
+# Modified 2014-04-25: Always return 'd' digits
 # Thanks to http://pullmonkey.com/2008/1/31/rounding-to-the-nearest-number-in-ruby/
 
 class Numeric
-  def rdup(nearest=10); self % nearest == 0 ? self : self + nearest - (self % nearest); end
-  def rddown(nearest=10); self % nearest == 0 ? self : self - (self % nearest) end
-  def rdnearest(nearest=10); ((rdup(nearest)-self).abs) < ((self-rddown(nearest)).abs) ? rdup(nearest) : rddown(nearest); end
+  def rdup(nearest=10,d=1); self % nearest == 0 ? self.round(d) : (self + nearest - (self % nearest)).round(d); end
+  def rddown(nearest=10,d=1); self % nearest == 0 ? self.round(d) : (self - (self % nearest)).round(d) end
+  def rdnearest(nearest=10,d=1); ((rdup(nearest)-self).abs) < ((self-rddown(nearest)).abs) ? rdup(nearest,d) : rddown(nearest,d); end
 end
 
 
