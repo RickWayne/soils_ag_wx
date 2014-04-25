@@ -21,7 +21,7 @@ end
 def send_emails(params)
   if params[:id] == 0
     puts "sending to everyone"
-    subscribers = Subscriber.where("email like ?",'fewayne%')
+    subscribers = Subscriber.all
   else
     subscribers = [Subscriber.find(params[:id])]
   end
