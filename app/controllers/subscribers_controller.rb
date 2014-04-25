@@ -12,6 +12,13 @@ class SubscribersController < ApplicationController
   # GET /subscribers/1
   # GET /subscribers/1.json
   def show
+    if params[:subscriber] && (email = params[:subscriber][:email])
+      begin
+        @subscriber=Subscriber.find_by_email(email)
+      rescue Exception => e
+        logger.warn "Subscriber email '#{email}' not found"
+      end
+    end
     unless @subscriber
       flash[:notice] = "Subscriber not found. Would you like to enroll?"
       redirect_to action: :new
