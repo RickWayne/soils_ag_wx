@@ -1,5 +1,23 @@
 require File.join(File.dirname(__FILE__),'..','config','environment.rb')
 
+
+# Glom a date from params. If a string, parse it. If not provided or parse fails, 1 day ago. 
+def extract_date(params,sym)
+  if (d=params[sym])
+    if d.kind_of?(String)
+      begin
+        Date.parse(d)
+      rescue Exception => e
+        Date.today - 1
+      end
+    else
+      d
+    end
+  else
+    Date.today - 1
+  end
+end
+
 def send_emails(params)
   if params[:id] == 0
     puts "sending to everyone"
@@ -8,15 +26,8 @@ def send_emails(params)
     subscribers = [Subscriber.find(params[:id])]
   end
   subscribers = subscribers.select { |subs| subs.has_confirmed }
-  start_date = end_date = 1.day.ago
-  begin
-    start_date = Date.parse(params[:start_date]) if params[:start_date]
-    end_date = Date.parse(params[:end_date]) if params[:end_date]
-  rescue Exception => e
-    start_date = 1.day.ago unless start_date
-    end_date = 1.day.ago unless end_date
-  end
-  
+  start_date = extract_date(params,:start_date)  
+  end_date = extract_date(params,:end_date)
   sent = 0
   results = []
   subscribers.each do |subs|
