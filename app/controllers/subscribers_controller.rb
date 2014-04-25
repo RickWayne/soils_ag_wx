@@ -30,6 +30,12 @@ class SubscribersController < ApplicationController
   # POST /subscribers
   # POST /subscribers.json
   def create
+    if (@subscriber = Subscriber.find_by_email(params[:subscriber][:email]))
+      @subscriber.errors.add(:email,"is already registered")
+      render :action => "new"
+      return
+    end
+
     @subscriber = Subscriber.new(subscriber_params)
 
     respond_to do |format|
