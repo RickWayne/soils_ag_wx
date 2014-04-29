@@ -14,7 +14,7 @@
   <%= stylesheet_link_tag "style" -%>
   <style type='text/css'>
     #map {
-    	   width: 95%;
+    	   width: 600px;
     	   height: 600px;
     	   border: 1px solid gray;
        }
@@ -78,9 +78,9 @@
     var groads = new OpenLayers.Layer.Google(
       "Google Hybrid",
       {
-        'type': google.maps.MapTypeId.HYBRID,
+        'type': google.maps.MapTypeId.ROAD,
         'sphericalMercator': true,
-        'minZoomLevel': 7
+        'minZoomLevel': 5
       }
     );
     map.addLayers([groads]);
@@ -100,6 +100,10 @@
           // get the desired product
           var e = document.getElementById("product");
           var product_id = e.options[e.selectedIndex].value;
+          if (product_id == -1) {
+            alert('Please select a product first');
+            return;
+          }
           var ok=confirm("Subscribe to "+point.x+", "+point.y+"?");
           if (ok==true) {
             $.ajax(
@@ -158,10 +162,10 @@
          rescue ArgumentError => e
           conf = 'Email confirmation error (date invalid). Please contact us.'
          end %>
-      On <%=h conf %>
+      <strong>Email address confirmed on</strong> <%=h conf %>
     <% end %>
   <% else %>
-  Email confirmation error. Please contact us, and let us know that the "confirmed" string was missing.
+  <strong>Email confirmation error.</strong> Please contact us, and let us know that the "confirmed" string was missing.
   <%= @subscriber.inspect %>
   <% end %>
 </p>
@@ -170,9 +174,9 @@
 <div id='subscribed'>
   <%= render partial: 'partials/subscriptions' %>
 </div>
-<h3>New Subscriptions</h3>
-<p>To register for a new automated product email, <strong>click on the globe in the grey panel below</strong> to make the map appear. Then navigate to your location using the +/- zoom buttons and the directional arrows, and click on the location desired.</p>
+<h3>How To Subscribe</h3>
+<p>To register for a new automated product email, select the desired product below. Then, click on the map to specify your lat/long coordinates.</p>
 <select id="product">
-  <%= options_for_select @products.map { |p| [p[:name],p[:id]] }%>
+  <%= product_select_options(@products) %>
 </select>
 </p><div id="map"></div>

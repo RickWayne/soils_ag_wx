@@ -9,4 +9,10 @@ module SubscribersHelper
     END
     str
   end
+  
+  def product_select_options(products)
+    prod_map = products.reject { |p| p.name =~ /Cranberry/ }.map { |p| [p[:name],p[:id]] }
+    options_for_select prod_map << ['Please select a product', -1 ], disabled: -1, selected: -1
+  end
+  
 end
