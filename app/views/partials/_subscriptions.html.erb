@@ -1,7 +1,7 @@
 <% if @subscriber.subscriptions && @subscriber.subscriptions.size > 0 %>
   <h4>Subscriptions</h4>
 <table>  
-  <% for subs in @subscriber.subscriptions %>
+  <% for subs in @subscriber.subscriptions.sort_by {|s| [s.product_id, -s.latitude, s.longitude ]} %>
   <tr>
     <td><%= subs.product.name %></td><td>at <%= sprintf("%0.3f, %0.3f",subs.latitude,subs.longitude) %></td>
     <% if subs.enabled %>
