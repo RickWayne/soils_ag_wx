@@ -41,6 +41,7 @@ SoilsAgWx::Application.routes.draw do
   get "awon/graphs_soiltemp"
   get "awon/blog"
   get "awon/awon_seven_day"
+  get "awon/download_data"
   match "/awon", to: "awon#index", via: [:get, :post]
   post "awon/download_data"
   get "thermal_models/index"
