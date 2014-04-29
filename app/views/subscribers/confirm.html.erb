@@ -21,6 +21,6 @@
     <% end %>
   </ul>
 <% else %>
-  <p><%= @subscriber.name %>, you are not currently subscribed to any products; you can sign up for them 
-  <%= link_to 'here', :action => :show, :id => @subscriber %></p>
+  <p><%= @subscriber.name %>, you are not currently subscribed to any products.</p>
 <% end %>
+<p><%= link_to 'Manage my subscriptions', :action => :show, :id => @subscriber %></p>

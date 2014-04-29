@@ -1,0 +1,16 @@
+<% if @subscription %>
+  <%= @subscription.product.name %> at <br/>
+  <%= sprintf("%0.2f",@subscription.latitude) %>, <%= sprintf("%0.2f",@subscription.longitude) %><br/>
+  If this is correct, click the button below to start your subscription. You'll receive the first automated email early tomorrow morning.
+
+  <% form_for(@subscription)  do |f| %>
+    <input type="hidden" name="ajax" value="true"/>
+    <%= hidden_field(:subscription, :latitude, :value => @subscription.latitude) %>
+    <%= hidden_field(:subscription, :longitude, :value => @subscription.longitude) %>
+    <%= hidden_field(:subscription, :product_id, :value => @subscription.product_id) %>
+    <%= hidden_field(:subscription, :subscriber_id, :value => @subscriber[:id]) %>
+    <%= f.submit "Create new subscription" %>
+  <% end %>
+<% else %>
+  No subscription
+<% end %>

@@ -1,0 +1,19 @@
+<% if @subscriber.subscriptions && @subscriber.subscriptions.size > 0 %>
+  <h4>Subscriptions</h4>
+<table>  
+  <% for subs in @subscriber.subscriptions %>
+  <tr>
+    <td><%= subs.product.name %></td><td>at <%= sprintf("%0.3f, %0.3f",subs.latitude,subs.longitude) %></td>
+    <% if subs.enabled %>
+      <!-- Unfortunately the Rails hidden_field method fills in the value with whatever's in the model object -->
+      <td><%= form_for subs do |f| %><input type="hidden" name="subscription[enabled]" value="false"/><%= f.submit 'Disable' %><% end %></td>
+    <% else %>
+      <td><%= form_for subs do |f| %><input type="hidden" name="subscription[enabled]" value="true"/><%= f.submit 'Re-enable' %><% end %></td>
+    <% end %>
+    <td><%= button_to 'Delete Entirely', {:controller => 'subscriptions', :action => :destroy, :id => subs[:id] }, :method => :delete, :confirm => "Permanently delete subscription to #{subs.name} at (#{subs.latitude},#{subs.longitude})?" %></td>
+  </tr>
+  <% end %>
+</table>  
+<% else %>
+  <h4>No subscriptions</h4>
+<% end %>

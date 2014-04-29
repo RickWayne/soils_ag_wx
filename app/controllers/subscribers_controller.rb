@@ -19,6 +19,7 @@ class SubscribersController < ApplicationController
         logger.warn "Subscriber email '#{email}' not found"
       end
     end
+    @products = Product.all
     unless @subscriber
       flash[:notice] = "Subscriber not found. Would you like to enroll?"
       redirect_to action: :new
@@ -151,10 +152,20 @@ class SubscribersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_subscriber
       if params[:id]
-        @subscriber = Subscriber.find(params[:id])
-      elsif params[:email]
-        @subscriber = Subscriber.find_by_email(params[:email])
+        begin
+          @subscriber = Subscriber.find(params[:id])
+        rescue ActiveRecord::RecordNotFound => e
+          flash[:error] = 'Subscriber not found'
+          session.delete(:subscriber)
+          redirect_to :controller => "subscribers"
+        end
+      elsif params[:subscriber] && params[:subscriber][:email]
+        @subscriber = Subscriber.find_by_email(params[:subscriber][:email])
+      elsif session[:subscriber]
+        @subscriber = Subscriber.find(session[:subscriber])
+        puts "subscribers_controller#set_subscriber setting it to #{@subscriber[:id]}"
       end
+      session[:subscriber] = @subscriber[:id] if @subscriber
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

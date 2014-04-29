@@ -1,6 +1,28 @@
 <h1>Editing subscription</h1>
 
-<%= render 'form' %>
+<% form_for(@subscription) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :subscriber_id %><br />
+    <%= f.text_field :subscriber_id %>
+  </p>
+  <p>
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </p>
+  <p>
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </p>
+  <p>
+    <%= f.label :product_id %><br />
+    <%= f.text_field :product_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
 
 <%= link_to 'Show', @subscription %> |
 <%= link_to 'Back', subscriptions_path %>
