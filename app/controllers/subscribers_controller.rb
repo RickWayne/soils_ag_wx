@@ -12,23 +12,27 @@ class SubscribersController < ApplicationController
   # GET /subscribers/1
   # GET /subscribers/1.json
   def show
+    @subscriber = nil
     if params[:subscriber] && (email = params[:subscriber][:email])
+      @subscriber=Subscriber.find_by_email(email)
+    elsif params[:id]
       begin
-        @subscriber=Subscriber.find_by_email(email)
-      rescue Exception => e
-        logger.warn "Subscriber email '#{email}' not found"
+        @subscriber = Subscriber.find(params[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        @subscriber = nil # unnecessary, but explicit
       end
     end
     @products = Product.all
     unless @subscriber
       flash[:notice] = "Subscriber not found. Would you like to enroll?"
-      redirect_to action: :new
+      redirect_to action: :new, email: email
     end
   end
 
   # GET /subscribers/new
   def new
     @subscriber = Subscriber.new
+    @subscriber.email = params[:email]
   end
 
   # GET /subscribers/1/edit
@@ -163,7 +167,6 @@ class SubscribersController < ApplicationController
         @subscriber = Subscriber.find_by_email(params[:subscriber][:email])
       elsif session[:subscriber]
         @subscriber = Subscriber.find(session[:subscriber])
-        puts "subscribers_controller#set_subscriber setting it to #{@subscriber[:id]}"
       end
       session[:subscriber] = @subscriber[:id] if @subscriber
     end

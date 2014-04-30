@@ -31,7 +31,12 @@
 <h4>ET Time Series</h4>
 <p>Note: You can click on the map below to set the latitude and longitude.</p>
 <%= render partial: "partials/grid_selector" %>
-<%= link_to 'Get ETs Automatically by email!', :controller => 'subscribers' %></p>
+<p/>
+<h4>Get ETs automatically by email!</h4>
+<p>Just enter your email address to sign up (or to manage your subscriptions)</p>
+<%= form_tag controller: 'subscribers', action: :show do %>
+  Email :&nbsp;<%= text_field_tag 'subscriber[email]'%>
+<% end %>
 
 <%= image_tag 'http://agwx.soils.wisc.edu/soils-agwx-assets/uwex_agwx/images/sun_water/yestWIMNet.gif', alt: "Yesterday's ET Estimates", usemap: '#latlong' %>
   <P> <a href="http://alfi.soils.wisc.edu/uwex_agwx_data/et/yestWIMNet.asc"> Download yesterday's entire grid of data in ASCII Format</a><br>
