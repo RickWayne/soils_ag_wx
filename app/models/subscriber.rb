@@ -14,6 +14,10 @@ class Subscriber < ActiveRecord::Base
     fractional_part(rand)
   end
   
+  def self.email_find(email)
+    self.where("lower(email) = ?",email.downcase).first
+  end
+  
   def send_subscriptions(start_date=Date.today-1,finish_date=Date.today-1)
   end
   

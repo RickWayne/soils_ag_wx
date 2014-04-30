@@ -14,7 +14,8 @@ class SubscribersController < ApplicationController
   def show
     @subscriber = nil
     if params[:subscriber] && (email = params[:subscriber][:email])
-      @subscriber=Subscriber.find_by_email(email)
+      email.downcase!
+      @subscriber=Subscriber.email_find(email)
     elsif params[:id]
       begin
         @subscriber = Subscriber.find(params[:id])
@@ -42,7 +43,7 @@ class SubscribersController < ApplicationController
   # POST /subscribers
   # POST /subscribers.json
   def create
-    if (@subscriber = Subscriber.find_by_email(params[:subscriber][:email]))
+    if (@subscriber = Subscriber.email_find(params[:subscriber][:email]))
       @subscriber.errors.add(:email,"is already registered")
       render :action => "new"
       return
@@ -164,7 +165,7 @@ class SubscribersController < ApplicationController
           redirect_to :controller => "subscribers"
         end
       elsif params[:subscriber] && params[:subscriber][:email]
-        @subscriber = Subscriber.find_by_email(params[:subscriber][:email])
+        @subscriber = Subscriber.email_find(params[:subscriber][:email])
       elsif session[:subscriber]
         @subscriber = Subscriber.find(session[:subscriber])
       end

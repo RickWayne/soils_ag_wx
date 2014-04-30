@@ -96,7 +96,7 @@ class SubscriptionsController < ApplicationController
         puts "subscriber found in session: #{session[:subscriber]}"
         @subscriber = Subscriber.find(session[:subscriber])
       elsif params[:email]
-        @subscriber = Subscriber.find_by_email(params[:email])
+        @subscriber = Subscriber.email_find(params[:email])
       end
       session[:subscriber] = @subscriber[:id]
       @subscriber
