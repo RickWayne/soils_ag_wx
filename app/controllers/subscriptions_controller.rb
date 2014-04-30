@@ -1,7 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
   before_filter :get_subscriber
-  before_filter :authenticate, only: [:create, :update, :delete]
+  before_filter :authenticate, only: [:delete]
   
 
   # GET /subscriptions
