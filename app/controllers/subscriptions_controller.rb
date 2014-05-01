@@ -1,5 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
+  protect_from_forgery except: :create # FIXME
   before_filter :get_subscriber
   before_filter :authenticate, only: [:delete]
   
