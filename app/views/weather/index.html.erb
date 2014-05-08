@@ -9,13 +9,13 @@
 <% end %>
 
 <!-- content for remainder of page -->
-<a href="http://alfi.soils.wisc.edu/cgi-bin/asig/HYDAccessPage.rb#today"><%= image_tag "opu.png", {:width=>"109", :height => "95", :alt => "HYD Report screenshot", :class =>"left"} %>
-<h2>HYD Reports</h2></a>
+<%= image_tag "opu.png", {:width=>"109", :height => "95", :alt => "HYD Report screenshot", :class =>"left"} %>
+<h2><%= link_to 'HYD Reports', action: :hyd %></h2></a>
 <p>We offer online access to NWS HYD reports -- daily weather summaries of temperature and
   precipitation by volunteer observers -- for hundreds of locations throughout Wisconsin going back to 1995. 
   The reports are text files, one per day.</p>
   <p><%= todays_hyd_link.html_safe %>
-  <a href="http://alfi.soils.wisc.edu/cgi-bin/asig/HYDAccessPage.rb#today" class="bar-lit">Access to dataset</a></p>
+  <%= link_to 'Access to dataset', action: :hyd %></p>
 
 <div class="fineline"></div>
 
