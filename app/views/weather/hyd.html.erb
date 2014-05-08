@@ -1,2 +1,63 @@
-<h1>Weather#hyd</h1>
-<p>Find me in app/views/weather/hyd.html.erb</p>
+<% title = "NWS Co-Op Observer Reports"%>
+<% content_for :header_script do %>
+  function changeYear(sel) {
+    qmIndex = window.location.href.indexOf('?');
+    if (qmIndex == -1) {
+      url = window.location.href;
+    } else {
+      url = window.location.href.substring(0,qmIndex);
+    }
+    window.location = url + "?year=" + sel.value;
+  }
+<% end %>
+<% content_for :title do %>
+  <%= title %>
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "DSC00659.jpg", {:width => "231", :height => "231", :alt => "Snowy Scene"} %>
+  <h2><%= title %></h2>
+  <p></p>
+<% end %>
+<p>These weather data are maximum and minimum air temperature and precipitation, for the previous 24 hours, observed at about 7 am. The observations are made by a group of about 60 volunteers, who immediately transmit them to the National Weather Service Forecast Office in Sullivan, WI. Meteorologists there collect the readings and make them available on the Weather Service's computer system. We retrieve the data from McIDAS, a system created and maintained by the Space Science and Engineering Center of the University of Wisconsin-Madison. Until December 2003, the reports were referred to by the NWS as "OPU", for "Other Public Products"; they are now officially "HYD", for "hydrometeorological data".</p>
+<p>Some of the observers providing these measurements are part of the National Weather Service's Cooperative Observation Program, and their data will be included in long-term records. Other observers are not official members of the Cooperative Program, and use their own equipment. Thus, averages published in the "Climate of Wisconsin" (about 8 months from now) may not agree with those derived from the daily summaries here.</p>
+<p>Note that HYD reports are for the 24 hours preceding the date and time on which they are issued. So the January 2 report has 
+  January 1's weather, and so on.</p>
+
+<% date = start_date = Date.civil(@year,1,1) %>
+<% cur_month = start_date.month %>
+<% weekday = 1 %>
+<% end_date = [Date.civil(@year + 1, 1, 1),Date.today].min %>
+<% options = options_for_select((1997..Date.today.year),@year) %>
+<%= select_tag "year", options, {onchange: "changeYear(this);"} %>
+<table>
+  <tr valign="top"> <!-- First row of 6 months -->
+    <td style='padding:10px'>
+      <table>
+        <%= hyd_month_row(date).html_safe %>
+          <% while date < end_date && date.month < 7%>
+            <% str,new_date = hyd_week(date) %>
+            <%= str.html_safe %>
+            <% if new_date.month > date.month && new_date.month < 7 %>
+              <%= hyd_new_month(new_date).html_safe %>
+            <% end %>
+            <% date = new_date %>
+          <% end %>
+  </table></tr>
+  <% if (end_date - 1).month > 6 %>
+    <tr valign="top"> <!-- Second row of six months -->
+      <td style='padding:10px'>
+        <table>
+          <%= hyd_month_row(date).html_safe %>
+            <% while date < end_date %>
+              <% str,new_date = hyd_week(date) %>
+              <%= str.html_safe %>
+              <% if new_date.month > date.month %>
+                <%= hyd_new_month(new_date).html_safe %>
+              <% end %>
+              <% date = new_date %>
+            <% end %>
+        </table>    
+    </tr>
+  <% end %>
+</table>

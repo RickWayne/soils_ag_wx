@@ -7,6 +7,11 @@ class WeatherController < ApplicationController
   end
 
   def hyd
+    if params[:year]
+      @year = params[:year].to_i
+    else
+      @year = Date.today.year
+    end
   end
 
   def awon
