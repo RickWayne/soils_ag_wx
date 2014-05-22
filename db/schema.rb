@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140425193946) do
+ActiveRecord::Schema.define(version: 20140522230812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -275,6 +275,15 @@ ActiveRecord::Schema.define(version: 20140425193946) do
     t.float    "DMnTS50"
     t.float    "DTnTS50"
     t.float    "DAvTS1m"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "webcam_images", force: true do |t|
+    t.datetime "timestamp"
+    t.string   "fname"
+    t.string   "sequence_fname"
+    t.integer  "size"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
