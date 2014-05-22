@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  timestamp: 2014-05-22 18:08:12
+  fname: MyString
+  sequence_fname: MyString
+  size: 1
+
+two:
+  timestamp: 2014-05-22 18:08:12
+  fname: MyString
+  sequence_fname: MyString
+  size: 1
