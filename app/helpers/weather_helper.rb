@@ -111,7 +111,7 @@ module WeatherHelper
     timg = image_tag "webcam/archive/#{tts.year}/#{tts.month}/#{tts.day}/#{thumb.fname}"
     link_to(
       timg,
-      image_path("webcam/archive/#{fts.year}/#{fts.month}/#{fts.day}/#{full.fname}")
+      image_path("webcam/archive/#{fts.year}/#{sprintf('%02d',fts.month)}/#{sprintf('%02d',fts.day)}/#{full.fname}")
     )
   end
 end
