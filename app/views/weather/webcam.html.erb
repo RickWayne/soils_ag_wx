@@ -3,6 +3,10 @@
  <%= @title %>
 <% end %>
 
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag 'jquery.ui.datepicker' %>
+<% end %>
+
 <% content_for :welcome do %>
 <h2><%= @title %></h2>
   <h4>Fall</h4>
@@ -46,6 +50,13 @@ recorded from 0300 to 2159 local time in the summer, 0600 to 1859
 local during the fall and spring. In April 2011, we started archiving the 
 larger images every five minutes as well.
 </P>
+
+<p>
+  <%= form_tag controller: 'weather', action: :webcam_archive do %>
+    <%= date_select :date, :date, start_year: 2004 %> Date<br/>
+    <%= submit_tag %>
+  <% end %>
+</p>
 
 <P>The images are stored by year, month, and day. Today's archive is
   <%

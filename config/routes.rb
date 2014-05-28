@@ -96,6 +96,7 @@ SoilsAgWx::Application.routes.draw do
   get "weather/doycal_grid"
   get "weather/hyd"
   post "weather/get_grid"
+  post "weather/webcam_archive"
   post "wi_mn_dets/get_grid"
   post "thermal_models/get_dds"
   get "navigation/index"

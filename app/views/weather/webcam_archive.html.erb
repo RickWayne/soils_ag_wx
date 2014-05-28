@@ -1,0 +1,7 @@
+<%= @start_date %><br/>
+<%= @end_date %><br/>
+<% @thumbs.zip(@fulls) do |thumb,full| %>
+  <%= webcam_archive_link(thumb,full).html_safe %>
+<% end %>
+<%= @thumbs.size %><br/>
+<%= @fulls.size %>

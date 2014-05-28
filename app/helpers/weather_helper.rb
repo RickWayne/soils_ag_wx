@@ -68,23 +68,23 @@ module WeatherHelper
     END
   end
   
-  def webcam_archive_link(title,opts={},tag_opts={})
-    opts = opts_with_defaults(opts,{:days_ago => 0, :movie => false})
-    theday = opts[:days_ago].days.ago
-    year = theday.year
-    month = sprintf("%02d",theday.month)
-    day = sprintf("%02d",theday.day)
-    if opts[:movie]
-      movie = 'movie.html'
-    else
-      movie = ''
-    end
-    if tag_opts
-      tag_opt_str = tag_opts.inject('') {|str,pair| str += " #{pair[0].to_s}='#{pair[1]}'"}
-    end
-    "<a href='http://alfi.soils.wisc.edu/~asig/webcam/archive/" +
-      "#{year}/#{month}/#{day}/#{movie}'#{tag_opt_str}>#{title}</a>"
-  end
+  # def webcam_archive_link(title,opts={},tag_opts={})
+  #   opts = opts_with_defaults(opts,{:days_ago => 0, :movie => false})
+  #   theday = opts[:days_ago].days.ago
+  #   year = theday.year
+  #   month = sprintf("%02d",theday.month)
+  #   day = sprintf("%02d",theday.day)
+  #   if opts[:movie]
+  #     movie = 'movie.html'
+  #   else
+  #     movie = ''
+  #   end
+  #   if tag_opts
+  #     tag_opt_str = tag_opts.inject('') {|str,pair| str += " #{pair[0].to_s}='#{pair[1]}'"}
+  #   end
+  #   "<a href='http://alfi.soils.wisc.edu/~asig/webcam/archive/" +
+  #     "#{year}/#{month}/#{day}/#{movie}'#{tag_opt_str}>#{title}</a>"
+  # end
   
   # FIXME: Magic Numbers!
   def latitudes
@@ -103,5 +103,15 @@ module WeatherHelper
     else
       "light-grey"
     end
+  end
+  
+  def webcam_archive_link(thumb,full)
+    tts = thumb.timestamp
+    fts = full.timestamp
+    timg = image_tag "webcam/archive/#{tts.year}/#{tts.month}/#{tts.day}/#{thumb.fname}"
+    link_to(
+      timg,
+      image_path("webcam/archive/#{fts.year}/#{fts.month}/#{fts.day}/#{full.fname}")
+    )
   end
 end

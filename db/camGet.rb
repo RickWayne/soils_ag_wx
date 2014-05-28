@@ -3,15 +3,6 @@ require 'fileutils'
 require 'webcam_access'
 
 CAM_HOME = ARGV[0] || '/var/www/soils-agwx-assets/uwex_agwx/images/webcam'
-DFORMAT = "%Y_%m_%d_%H_%M_%S"
-
-def half_filename(timestamp)
-  timestamp.strftime("halfsize_#{DFORMAT}.jpg")
-end
-
-def full_filename(timestamp)
-  timestamp.strftime("fullsize_#{DFORMAT}.jpg")
-end
 
 def num_part(fname)
   fname =~ /([\d]{3}).jpg/
@@ -37,18 +28,18 @@ end
 def archive(timestamp,cam_home=CAM_HOME)
   folder = File.join(cam_home,'archive',timestamp.strftime('%Y'),timestamp.strftime('%m'),timestamp.strftime('%d'))
   FileUtils::mkdir_p(folder)
-  fname = half_filename(timestamp)
+  fname = WebcamImage.half_filename(timestamp)
   dest = File.join(folder,fname)
   FileUtils::cp(File.join(cam_home,'halfsize.jpg'),dest)
   link_name = next_link_name(folder,"half")
   FileUtils::symlink(dest,File.join(folder,link_name))
-  WebcamImage.create! timestamp: timestamp, fname: fname, sequence_fname: link_name, size: 1
-  fname = full_filename(timestamp)
+  WebcamImage.create! timestamp: timestamp, fname: fname, sequence_fname: link_name, size: WEBCAM_THUMB
+  fname = WebcamImage.full_filename(timestamp)
   dest = File.join(folder,fname)
   FileUtils::cp(File.join(cam_home,'fullsize.jpg'),dest)
   link_name = next_link_name(folder,"full")
   FileUtils::symlink(dest,File.join(folder,link_name))
-  WebcamImage.create! timestamp: timestamp, fname: fname, sequence_fname: link_name, size: 2
+  WebcamImage.create! timestamp: timestamp, fname: fname, sequence_fname: link_name, size: WEBCAM_FULL
 end
 
 Net::HTTP.start(CAM_ADDR) do |http|
