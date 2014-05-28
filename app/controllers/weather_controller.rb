@@ -39,9 +39,13 @@ class WeatherController < ApplicationController
       @end_date = Date.today + 1
     end
     all = WebcamImage.where(timestamp: (@start_date..@end_date))
-    raise "no images" unless all && all.size > 0
-    @thumbs = all.where(size: WEBCAM_THUMB).order(:timestamp)
-    @fulls = all.where(size: WEBCAM_FULL).order(:timestamp)
+    if all && all.size > 0
+      @thumbs = all.where(size: WEBCAM_THUMB).order(:timestamp)
+      @fulls = all.where(size: WEBCAM_FULL).order(:timestamp)
+    else
+      @thumbs = []
+      @fulls = []
+    end
   end
   
   def doycal
