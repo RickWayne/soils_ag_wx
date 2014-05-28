@@ -53,8 +53,8 @@ larger images every five minutes as well.
 
 <p>
   <%= form_tag controller: 'weather', action: :webcam_archive do %>
-    <%= date_select :date, :date, start_year: 2004 %> Date<br/>
-    <%= submit_tag %>
+    <%= date_select :date, :date, start_year: 2004 %>&nbsp;
+    <%= submit_tag 'See archive for this date'%>
   <% end %>
 </p>
 
