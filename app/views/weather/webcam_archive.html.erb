@@ -1,7 +1,27 @@
+<% title = "Webcam Archive for #{@start_date}"%>
+<% content_for :title do %>
+  <%= title %>
+<% end %>
+
+<% content_for :welcome do %>
+  <h2><%= title %></h2>
+  
+  <%= image_tag 'p1344.gif', size: '231x169' %>
+<% end %>
+
 <%= @start_date %><br/>
 <%= @end_date %><br/>
-<% @thumbs.zip(@fulls) do |thumb,full| %>
-  <%= webcam_archive_link(thumb,full).html_safe %>
-<% end %>
-<%= @thumbs.size %><br/>
-<%= @fulls.size %>
+<table>
+  <tr>
+  <% col = 0 %>
+  <% @thumbs.zip(@fulls) do |thumb,full| %>
+    <td><%= webcam_archive_link(thumb,full).html_safe %><br/><%= full.timestamp.strftime("%H:%M")%></td>
+    <% col += 1 %>
+    <% if col > 4 %>
+      </tr><tr>
+      <% col = 0 %>
+    <% end %>
+  <% end %>
+    
+  </tr>
+</table>
