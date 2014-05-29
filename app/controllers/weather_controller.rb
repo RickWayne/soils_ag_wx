@@ -29,15 +29,15 @@ class WeatherController < ApplicationController
   end
   
   def webcam_archive
-    if params[:start_date]
-      p = {start_date: params[:start_date]}
-      p[:end_date] = params[:end_date] || p[:start_date]
-      @start_date,@end_date = parse_dates(params)
-      @end_date += 1 unless params[:end_date] # if we faked it, make it a day after
-    else
-      @start_date = Date.today
-      @end_date = Date.today + 1
+    @start_date = Date.today
+    if params[:date]
+      begin
+        @start_date = Date.civil(params[:date][:year].to_i,params[:date][:month].to_i,params[:date][:day].to_i)
+      rescue Exception => e
+        # No action needed, default to today
+      end
     end
+    @end_date = @start_date + 1
     all = WebcamImage.where(timestamp: (@start_date..@end_date))
     if all && all.size > 0
       @thumbs = all.where(size: WEBCAM_THUMB).order(:timestamp)

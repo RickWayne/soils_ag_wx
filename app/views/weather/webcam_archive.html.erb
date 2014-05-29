@@ -7,6 +7,14 @@
   <h2><%= title %></h2>
   
   <%= image_tag 'p1344.gif', size: '231x169' %>
+  <p>
+    <%= form_tag controller: 'weather', action: :webcam_archive do %>
+      <%= select_date @start_date %>
+      <%= submit_tag 'See archive for this date'%>
+    <% end %>
+  </p>
+
+  
 <% end %>
 
 <table>

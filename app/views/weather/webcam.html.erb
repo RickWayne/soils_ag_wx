@@ -14,6 +14,13 @@
   <h4>Winter</h4>
   <%= image_tag "webcam_winter.bmp",{:width => "231", :height => "180", :alt => "Lake Mendota View"} %>
   <p></p>
+  <p>
+    <%= form_tag controller: 'weather', action: :webcam_archive do %>
+      <%= select_date Date.today %>
+      <%= submit_tag 'See archive for this date'%>
+    <% end %>
+  </p>
+
 <% end %>
 <H2 ALIGN=CENTER>Live, from the Turret of King Hall...</H2>
 <H3 align="center">It's the Soil Science Web Cam!</h3>
@@ -51,12 +58,10 @@ local during the fall and spring. In April 2011, we started archiving the
 larger images every five minutes as well.
 </P>
 
-<p>
-  <%= form_tag controller: 'weather', action: :webcam_archive do %>
-    <%= date_select :start_date, :start_date, start_year: 2004 %>&nbsp;
-    <%= submit_tag 'See archive for this date'%>
-  <% end %>
-</p>
+<p>The old server on which we stored these images is dying; we're working
+  to migrate them to our spiffy new one. For right now, you can access images
+  from today (2014-05-29) onwards by selecting the date at left and clicking the button.
+  Previous days will be available as soon as we can restore them.</p>
 
 <H4>The Daily Movie</H4>
 <P>Also as of late August 2004, we have
