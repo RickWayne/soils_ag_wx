@@ -108,7 +108,7 @@ module WeatherHelper
   def webcam_archive_link(thumb,full)
     tts = thumb.timestamp
     fts = full.timestamp
-    timg = image_tag("webcam/archive/#{tts.year}/#{sprintf('%02d',tts.month)}/#{sprintf('%02d',tts.day)}/#{thumb.fname}",size: '120x160')
+    timg = image_tag("webcam/archive/#{tts.year}/#{sprintf('%02d',tts.month)}/#{sprintf('%02d',tts.day)}/#{thumb.fname}",size: '160x120')
     link_to(
       timg,
       image_path("webcam/archive/#{fts.year}/#{sprintf('%02d',fts.month)}/#{sprintf('%02d',fts.day)}/#{full.fname}")
