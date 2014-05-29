@@ -9,7 +9,8 @@
     sun and water defines what is possible for a plant.</p><br/>
   <p><strong>Quick Links</strong></p>
     <p>US Insolation <%= link_to "Eastern", :action => :insol_east_us %>&nbsp;&nbsp;<%= link_to "Western", :action => :insol_west_us %></p>
-    <p>ET <%= link_to "WI/MN", :action => :et_wimn %>&nbsp;&nbsp;<a href="http://alfi.soils.wisc.edu/uwex_agwx_data/et/yestFLet.gif">Florida</a></p>
+    <p>ET <%= link_to "WI/MN", :action => :et_wimn %>&nbsp;&nbsp;
+      <%= link_to 'Florida', image_path("sun_water/yestFLet.gif") %></p>
     <p><a href="http://wisp.cals.wisc.edu/">Online Irrigation Scheduler</a></p>
     <p><%= link_to "Cranberry ETs", :controller => 'cranberry'%></p>
 <% end %>
@@ -38,7 +39,7 @@
   will be a fraction of the map value in proportion to the amount of coverage. The map values may vary slightly from 
   ET estimates from AWON and other more site-specific models, but these differences are believed to be within the 
   uncertainty of even measurements of actual water use made directly in a given field.</p>
-<p><span style="font-weight: bold">Yesterday's ET map:</span>&nbsp;&nbsp;<%= link_to "Wisconsin and Minnesota", :action => :et_wimn %>&nbsp;&nbsp;<a href="http://alfi.soils.wisc.edu/uwex_agwx_data/et/yestFLet.gif">Florida</a></p>
+<p><span style="font-weight: bold">Yesterday's ET map:</span>&nbsp;&nbsp;<%= link_to "Wisconsin and Minnesota", :action => :et_wimn %>&nbsp;&nbsp;<%= link_to 'Florida', image_path("sun_water/yestFLet.gif") %></p>
 
 <div class="fineline"></div>
 <h2>Irrigation Scheduling (NEW SOFTWARE!)</h2>

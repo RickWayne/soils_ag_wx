@@ -43,6 +43,9 @@ class WeatherController < ApplicationController
     @fulls = res[:fulls]
   end
   
+  def kinghall
+  end
+  
   def doycal
     date = params[:year] ? Date.civil(params[:year].to_i,1,1) : Date.today
     @cal_matrix = CalMatrix.new(date)

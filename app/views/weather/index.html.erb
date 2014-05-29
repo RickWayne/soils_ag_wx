@@ -40,21 +40,24 @@
    <p>&nbsp;</p>
    <div class="fineline"></div>
 
-<a href="http://alfi.soils.wisc.edu/~asig/webcam/big.jpg">   
-<img src="http://alfi.soils.wisc.edu/~asig/webcam/halfsize.jpg" width="108" height="90" alt="Webcam Image" class="left"/></a>
+<%= link_to(
+  image_tag('webcam/halfsize.jpg',size: '108x90'),
+  image_path('webcam/fullsize.jpg'),
+  class: 'left'
+           ) %>
 <h2><a><%= link_to "King Hall Web Cam", :controller => "weather", :action => :webcam %></h2>
 <p>The view over Lake Mendota. We offer daily time-lapse movies and 5-minute and one-hour image archives all the way
    back to 2004.
   <br/>
-  <br/><a href="http://alfi.soils.wisc.edu/~asig/webcam/big.jpg" class="bar-lit">Latest Image</a>
+  <br/><%= link_to 'Latest Image', image_path('webcam/fullsize.jpg'), class: 'bar-lit' %>
   <%
-  year_s = Date.today.year
-  month_s = sprintf("%02d",Date.today.month)
-  day_s = sprintf("%02d",Date.today.day)
+    tdy = Date.today
+    y = tdy.year
+    m = tdy.month
+    d = tdy.day
   %>
-  <a href="<%= "http://alfi.soils.wisc.edu/~asig/webcam/archive/#{year_s}/#{month_s}/#{day_s}" %>">
-    Today's Photo Archive
-  </a>
+  <%= link_to "Today's Photo Archive", controller: 'weather', action: :webcam_archive,
+        date: {year: y, month: m, day: d }%>
   </p>
   <div class="fineline"></div>
 

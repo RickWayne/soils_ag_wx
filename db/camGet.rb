@@ -25,6 +25,7 @@ def next_link_name(folder,root="half")
 end
   
 
+# Note: Timestamp should be IN LOCAL TIME. DateTime.now correctly sets the timezone, so that works.
 def archive(timestamp,cam_home=CAM_HOME)
   folder = File.join(cam_home,'archive',timestamp.strftime('%Y'),timestamp.strftime('%m'),timestamp.strftime('%d'))
   FileUtils::mkdir_p(folder)
