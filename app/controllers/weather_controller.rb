@@ -32,20 +32,15 @@ class WeatherController < ApplicationController
     @start_date = Date.today
     if params[:date]
       begin
-        @start_date = Date.civil(params[:date][:year].to_i,params[:date][:month].to_i,params[:date][:day].to_i)
+        @start_date = Date.new(params[:date][:year].to_i,params[:date][:month].to_i,params[:date][:day].to_i)
       rescue Exception => e
-        # No action needed, default to today
+        logger.warn "error parsing date parameters: '#{params[:date].inspect}'"
       end
     end
-    @end_date = @start_date + 1
-    all = WebcamImage.where(timestamp: (@start_date..@end_date))
-    if all && all.size > 0
-      @thumbs = all.where(size: WEBCAM_THUMB).order(:timestamp)
-      @fulls = all.where(size: WEBCAM_FULL).order(:timestamp)
-    else
-      @thumbs = []
-      @fulls = []
-    end
+    @end_date = @start_date + 1 # one day
+    res = WebcamImage.images_for_date(@start_date)
+    @thumbs = res[:thumbs]
+    @fulls = res[:fulls]
   end
   
   def doycal

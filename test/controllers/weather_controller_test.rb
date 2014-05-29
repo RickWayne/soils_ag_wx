@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'application_controller'
 
 class WeatherControllerTest < ActionController::TestCase
   test "should get index" do

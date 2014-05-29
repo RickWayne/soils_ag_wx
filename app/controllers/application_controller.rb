@@ -87,4 +87,5 @@ class ApplicationController < ActionController::Base
       [nil,nil]
     end
   end
+  
 end
