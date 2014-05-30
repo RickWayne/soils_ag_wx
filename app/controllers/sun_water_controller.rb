@@ -7,10 +7,7 @@ class SunWaterController < ApplicationController
   def index
   end
 
-  def insol_east_us
-  end
-
-  def insol_west_us
+  def insol_us
   end
 
   def insol_model

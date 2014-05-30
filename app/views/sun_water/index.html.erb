@@ -8,7 +8,7 @@
   <p>All living things derive their energy from the sun, and none can live without water. The balance between 
     sun and water defines what is possible for a plant.</p><br/>
   <p><strong>Quick Links</strong></p>
-    <p>US Insolation <%= link_to "Eastern", :action => :insol_east_us %>&nbsp;&nbsp;<%= link_to "Western", :action => :insol_west_us %></p>
+    <p><%= link_to "US Insolation", :action => :insol_us %></p>
     <p>ET <%= link_to "WI/MN", :action => :et_wimn %>&nbsp;&nbsp;
       <%= link_to 'Florida', image_path("sun_water/yestFLet.gif") %></p>
     <p><a href="http://wisp.cals.wisc.edu/">Online Irrigation Scheduler</a></p>
@@ -27,8 +27,7 @@
   or clear and, if cloudy, to what extent clouds have depleted the solar beam. Usually, about eight to twelve 
   individual GOES images are used during the course of a day to make estimates of the solar energy at the satellite 
   image times. These instantaneous estimates are later summed to produce the daily solar energy totals.</p>
-  <p><span style="font-weight:bold">Yesterday's insolation map:</span>&nbsp;&nbsp;<%= link_to "Eastern US", :action => :insol_east_us %>&nbsp;&nbsp;
-  <%= link_to "Western US", :action => :insol_west_us %></p>
+  <p><span style="font-weight:bold"><%= link_to "Yesterday's insolation maps", action: :insol_us %></span></p>
 <div class="fineline"></div>
 
 <%= image_tag "sunwater.png", {:width => "109", :height => "108", :alt => "Sun and Water", :class => "left"} %>

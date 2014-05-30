@@ -69,8 +69,7 @@ SoilsAgWx::Application.routes.draw do
   get "thermal_models/get_dds_many_locations"
   match "/thermal_models", to: "thermal_models#index", via: [:get, :post]
   get "sun_water/index"
-  get "sun_water/insol_east_us"
-  get "sun_water/insol_west_us"
+  get "sun_water/insol_us"
   get "sun_water/insol_model"
   get "sun_water/et_wimn"
   get "sun_water/et_fl"

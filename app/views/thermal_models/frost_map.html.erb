@@ -15,7 +15,7 @@
 
 <h2>Day of Year of First Frost</h2>
 <p>Analyzing our <%= Date.today.year - 1997 %>-year gridded temperature dataset, we can map the day of first frost,
-	defined as the first day after July 1 where the minimum temperature is below 32 F. (See our <%= link_to "day-of-year calendar", "http://alfi.soils.wisc.edu/cgi-bin/asig/doyCal.rb"%>.)</p>
+	defined as the first day after July 1 where the minimum temperature is below 32 F. (See our <%= link_to "day-of-year calendar", controller: 'weather', action: :doycal %>.)</p>
 <p>The first map shows the median DOY of first frost; for each map location, half the years were earlier than this date,
 	half later. The second and third map show the earliest DOY of frost in the dataset, and the latest, respectively.</p>
 	

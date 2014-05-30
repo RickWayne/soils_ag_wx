@@ -1,0 +1,42 @@
+<% @title = "US Insolation"%>
+
+<% content_for :title do %>
+  <%= @title %>
+<% end %>
+
+<% content_for :welcome do %>
+  <%= image_tag "equinox_090922_ladanyi.jpg",{:width => "231", :height => "156", :alt => "Sun"} %>
+  <h2><%= @title %></h2>
+  <p>UW Space Sciences' model provides excellent insolation estimates during most of the year (snow cover
+    looks like clouds to the satellite).</p>
+<% end %>
+
+<h2><%= @title %> (click maps to enlarge)</h2>
+<p/>
+<table>
+  <tr>
+    <th align="center">Western US</th><th align="center">Eastern US</th>
+  </tr>
+  <tr>
+    <td>
+      <%= link_to image_tag('sun_water/WEST/yestWESTinsol.gif',width: 280),
+                             image_path('sun_water/WEST/yestWESTinsol.gif')%>
+      <br/>
+      <%= link_to 'Download Western-US data in ASCII format', image_path('sun_water/WEST/yestWESTinsol.asc') %>
+      
+    </td>
+    <td>
+      <%= link_to image_tag('sun_water/EAST/yestEASTinsol.gif', width: 280), 
+                            image_path('sun_water/EAST/yestEASTinsol.gif')%>
+      <br/>
+      <%= link_to 'Download Eastern-US data in ASCII format', image_path('sun_water/EAST/yestEASTinsol.asc') %>
+      
+    </td>
+  </tr>
+</table>
+
+
+  <!-- <H4>For previous days, access the archive <a name="previous" href="http://alfi.soils.wisc.edu/cgi-bin/asig/InsolAccessPage.rb?reportType=EAST#today">here</a>)</H4>
+
+  </H4> -->
+  
