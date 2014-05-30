@@ -68,24 +68,6 @@ module WeatherHelper
     END
   end
   
-  # def webcam_archive_link(title,opts={},tag_opts={})
-  #   opts = opts_with_defaults(opts,{:days_ago => 0, :movie => false})
-  #   theday = opts[:days_ago].days.ago
-  #   year = theday.year
-  #   month = sprintf("%02d",theday.month)
-  #   day = sprintf("%02d",theday.day)
-  #   if opts[:movie]
-  #     movie = 'movie.html'
-  #   else
-  #     movie = ''
-  #   end
-  #   if tag_opts
-  #     tag_opt_str = tag_opts.inject('') {|str,pair| str += " #{pair[0].to_s}='#{pair[1]}'"}
-  #   end
-  #   "<a href='http://alfi.soils.wisc.edu/~asig/webcam/archive/" +
-  #     "#{year}/#{month}/#{day}/#{movie}'#{tag_opt_str}>#{title}</a>"
-  # end
-  
   # FIXME: Magic Numbers!
   def latitudes
     (42.0..50.0).step(0.4).collect {|lat| [lat,lat] }

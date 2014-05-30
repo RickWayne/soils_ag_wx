@@ -48,6 +48,7 @@ SoilsAgWx::Application.routes.draw do
   get "thermal_models/degree_days"
   get "thermal_models/corn"
   get "thermal_models/corn_dev"
+  get "thermal_models/cranberry"
   get "thermal_models/ecb"
   get "thermal_models/alfalfa"
   get "thermal_models/corn_stalk_borer"

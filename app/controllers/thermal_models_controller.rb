@@ -16,6 +16,9 @@ class ThermalModelsController < ApplicationController
   def corn_dev
   end
 
+  def cranberry
+  end
+
   def ecb
   end
 

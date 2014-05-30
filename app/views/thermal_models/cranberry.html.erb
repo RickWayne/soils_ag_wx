@@ -1,0 +1,16 @@
+<% title = 'Cranberry Crop Development' %>
+
+<% content_for :welcome do %>
+  <h2><%= title %></h2>
+  <%= image_tag 'Cranb.Harvest-2.jpeg', width: 231 %>
+<% end %>
+
+<H2>Cranberry Crop Development</H2>
+<H4>Introduction</H4>
+<p>Thermal time (degree-day) totals help anticipate development of the cranberry 
+crop.  Degree-days are calculated using the "Modified base 45 F" method, with 
+a starting date of April 1.
+</p>
+ 
+<%= image_tag "ddgifs/WIMNDDModB45_91.png", title: "Yesterday's April 1 DD map of WI" %>
+<p><%= link_to "In Black and White", image_path("ddgifs/WIMNDDModB45_91_bw.png") %></p>
