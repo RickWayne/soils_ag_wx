@@ -35,18 +35,59 @@
   var googleProj;
   var latLongProj;
   var AUTH_TOKEN = '<%= form_authenticity_token %>';
+  var createURL;
 
   
   function createSubscriptionURLFrom(baseURL) {
     controllerPart = baseURL.substr(0,baseURL.lastIndexOf('/')); // e.g. http://host/foo/bar/subscribers
     return controllerPart.substr(0,controllerPart.lastIndexOf('/')) + '/subscriptions';
   }
+  
+  function select_value(id) {
+    var e = document.getElementById(id);
+    return(e.options[e.selectedIndex].value);
+  }
+  
+  function create_subscription_from_selects() {
+    latitude  = select_value("latitude");
+    longitude = select_value("longitude");
+    do_ajax(latitude,longitude);
+  }
 
+  function do_ajax(latitude,longitude) {
+    // get the subscriber ID
+    var subscriber_id = document.getElementById('subscriber_id').value;
+    // get the desired product
+    var e = document.getElementById("product");
+    var product_id = e.options[e.selectedIndex].value;
+    if (product_id == -1) {
+      alert('Please select a product first');
+      return;
+    }
+    $.ajax(
+      {
+        type: "POST",
+        url: createURL + "?&authenticity_token=" + AUTH_TOKEN,
+        async: false,
+        data: {
+          'subscription[latitude]':latitude,'subscription[longitude]':longitude,
+          'subscription[subscriber_id]':subscriber_id,
+          'subscription[product_id]':product_id,
+          format:'html'},
+        dataType: 'html',
+        success: function(html)
+        {
+          sr = document.getElementById('subscribed');
+          sr.innerHTML = html;
+          // $('#summary_results').innerHTML = html;
+        }
+      });
+  }
   function init(baseURL) {
     var googleProj = new OpenLayers.Projection("EPSG:900913");
     var latLongProj = new OpenLayers.Projection("EPSG:4326");
     
-    var createURL = createSubscriptionURLFrom(baseURL);
+    createURL = createSubscriptionURLFrom(baseURL);
 
   	ll = new OpenLayers.LonLat(-98.0, 42.0);
   	ll.transform(latLongProj,googleProj);
@@ -95,38 +136,12 @@
         if (wiMnBounds.containsLonLat(lonlat)) {
           var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
           point.transform(googleProj,latLongProj);
-          // get the subscriber ID
-          var subscriber_id = document.getElementById('subscriber_id').value;
-          // get the desired product
-          var e = document.getElementById("product");
-          var product_id = e.options[e.selectedIndex].value;
-          if (product_id == -1) {
-            alert('Please select a product first');
-            return;
-          }
           var ok=confirm("Subscribe to "+point.x+", "+point.y+"?");
           if (ok==true) {
-            $.ajax(
-              {
-                type: "POST",
-                url: createURL + "?&authenticity_token=" + AUTH_TOKEN,
-                async: false,
-                data: {
-                  'subscription[latitude]':point.y,'subscription[longitude]':point.x,
-                  'subscription[subscriber_id]':subscriber_id,
-                  'subscription[product_id]':product_id,
-                  format:'html'},
-                dataType: 'html',
-                success: function(html)
-                {
-                  sr = document.getElementById('subscribed');
-                  sr.innerHTML = html;
-                  // $('#summary_results').innerHTML = html;
-                }
-              });
-            } else {
-              alert('Subscription cancelled');
-            }
+            do_ajax(point.y,point.x);
+          } else {
+            alert('Subscription cancelled');
+          }
         } else {
           alert('Point is outside our data. Please choose a point closer to the center of the map.');
         }
@@ -172,11 +187,15 @@
 <input type="hidden" id="subscriber_id" value="<%= @subscriber[:id] %>"/>
 
 <div id='subscribed'>
-  <%= render partial: 'partials/subscriptions' %>
 </div>
 <h3>How To Subscribe</h3>
-<p>To register for a new automated product email, select the desired product below. Then, click on the map to specify your lat/long coordinates.</p>
+<p>To register for a new automated product email, select the desired product below. Then, use the selectors below to specify your lat/long coordinates, OR just click on the map.</p>
 <select id="product">
   <%= product_select_options(@products) %>
 </select>
+<br/>
+  <%= select_tag :latitude, options_for_select(latitudes) %> <label for="latitude"> Latitude</label>
+  <%= select_tag :longitude, options_for_select(longitudes) %><label for="longitude"> West longitude</label>
+  <input type='submit' onClick="create_subscription_from_selects();" value="Click to subscribe to lat/long displayed"/><br/>
+  <p>OR click on the map below</p>
 </p><div id="map"></div>
