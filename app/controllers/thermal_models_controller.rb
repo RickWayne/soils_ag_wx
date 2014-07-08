@@ -73,7 +73,9 @@ class ThermalModelsController < ApplicationController
     @upper_temp = params[:upper_temp] == 'None' ? nil: params[:upper_temp].to_f
     mins = WiMnDMinTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
     maxes = WiMnDMaxTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
+    aDate = Date.parse('2011-01-25')
     @data = calc_dd_series_for(@method,@start_date,@end_date,@longitude,@latitude,mins,maxes,@base_temp,@upper_temp)
+    @param = "#{@method} method DDs#{@base_temp ? ' Base temp ' + sprintf("%0.1f",@base_temp) : ''}#{@upper_temp ? ' Upper temp ' + sprintf("%0.1f",@upper_temp) : ''} "
     if params[:seven_day]
       if (all_dates = @data.keys.sort) && all_dates.size > 6
         @data = all_dates[-7..-1].inject({}) {|hash,date| hash.merge({date => @data[date]})}
@@ -216,13 +218,17 @@ class ThermalModelsController < ApplicationController
   
   def calc_dd_series_for(method,start_date,end_date,longitude,latitude,mins,maxes,base_temp,upper_temp)
     dd_accum = 0.0
-    data = mins.inject({}) do |hash,(date,min)|
-      if min.nil? || maxes[date].nil?
+    data = {}
+    mins.keys.sort.each do |date|
+      min = mins[date]
+      max = maxes[date]
+      if min.nil? || max.nil?
         logger.warn "#{date}, #{longitude}, #{latitude}, #{mins.inspect}, #{maxes[date].inspect}"
         raise 'cannot continue, nil min or max'
       end
       min = to_fahrenheit(min)
       max = to_fahrenheit(maxes[date])
+      dd = 0.0
       case method
       when 'Simple'
         dd = rect_DD(min,max,base_temp).round
@@ -232,7 +238,7 @@ class ThermalModelsController < ApplicationController
         dd = sine_DD(min,max,base_temp).round
       end
       dd_accum += dd || 0.0
-      hash.merge({date => dd_accum})
+      data[date] = dd_accum
     end
     data
   end

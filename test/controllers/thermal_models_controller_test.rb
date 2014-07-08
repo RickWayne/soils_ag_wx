@@ -105,7 +105,92 @@ class ThermalModelsControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
+  
+  LONG_SYM = :w860
+  LONGI = -86.0
+  LATITUDE = 42.0
+  N_DAYS = 180
+  YEAR = 2011
+  BASE = 50
+  
+  def create_rising_temperatures
+    WiMnDMinTAir.delete_all
+    WiMnDMaxTAir.delete_all
+    (1..N_DAYS).each do |doy|
+      date = Date.civil(YEAR,1,1) + (doy - 1)
+      WiMnDMinTAir.create! date: date, latitude: LATITUDE, LONG_SYM => doy.to_f / 10.0
+      WiMnDMaxTAir.create! date: date, latitude: LATITUDE, LONG_SYM => (doy.to_f / 10.0) + 2.0
+    end
+  end
+  
+  test "rising-temp DDs should inflect above zero on April 3" do
+    create_rising_temperatures
+    assert_in_delta(9.3, WiMnDMinTAir.where(date: '2011-04-03', latitude: LATITUDE).first[LONG_SYM], 2 ** -20)
+    assert_in_delta(11.3, WiMnDMaxTAir.where(date: '2011-04-03', latitude: LATITUDE).first[LONG_SYM], 2 ** -20)
+    get :get_dds, 
+      grid_date: {"start_date(1i)" => YEAR, "start_date(2i)" => 1, "start_date(3i)" => 1,
+      "end_date(1i)" => YEAR, "end_date(2i)" => 6, "end_date(3i)" => 29},
+      method: 'Simple', base_temp: BASE,
+      latitude: LATITUDE, longitude: LONGI, format: :csv
+    assert_response :success
+    assert_equal(N_DAYS, WiMnDMinTAir.count,WiMnDMinTAir.all.collect do |grid|
+      {date: grid.date, latitude: grid.latitude, LONG_SYM => grid[LONG_SYM], 'max' => WiMnDMaxTAir.where(date: grid.date, latitude: LATITUDE).first[LONG_SYM]}
+    end.join("\n"))
+    lines = response.body.split("\n")
+    assert_equal N_DAYS+1, lines.count, "Should return a header line and N_DAYS (#{N_DAYS}) DD lines"
+    # Simple method should get above zero at DOY 93: ((9.3 + 11.3) / 2.0) - 10 == 0.3 C, rounds to 1 F
+    (1..92).each { |doy| assert lines[doy] =~ /,0.0$/, "unexpected nonzero DD in line for DOY #{doy}: #{lines[doy]}"  }
+    (93..N_DAYS).each { |doy| assert lines[doy] !~ /,0.0$/, "unexpected zero DD in line DOY #{doy}: #{lines[doy]}"  }
+  end
+  
+  def create_stable_temperatures
+    WiMnDMinTAir.delete_all
+    WiMnDMaxTAir.delete_all
+    (1..N_DAYS).each do |doy|
+      date = Date.civil(YEAR,1,1) + (doy - 1)
+      # Simple, Base 50, create a day that will yield 10 DDs
+      WiMnDMinTAir.create! date: date, latitude: LATITUDE, LONG_SYM => 12.222 # 54.0 F
+      WiMnDMaxTAir.create! date: date, latitude: LATITUDE, LONG_SYM => 13.333 # 56.0 F
+    end
+  end
 
+  test "accumulation of same temperature adds up correctly" do
+    create_stable_temperatures
+    get :get_dds, 
+      grid_date: {"start_date(1i)" => YEAR, "start_date(2i)" => 1, "start_date(3i)" => 1,
+      "end_date(1i)" => YEAR, "end_date(2i)" => 6, "end_date(3i)" => 29},
+      method: 'Simple', base_temp: BASE,
+      latitude: LATITUDE, longitude: LONGI, format: :csv
+    lines = response.body.split("\n")[1..-1] # skip the header line
+    assert(lines[0] =~ /,5.0$/,lines[0])
+    accum = N_DAYS * 5.0
+    last_dd = lines[-1].split(",")[-1].to_f
+    assert_in_delta(accum, last_dd, 2 ** -20)
+  end
+  
+  def create_stable_with_missing_day
+    create_stable_temperatures
+    assert_equal(N_DAYS, WiMnDMinTAir.count)
+    WiMnDMinTAir.where(date: '2011-03-01').destroy_all
+    WiMnDMaxTAir.where(date: '2011-03-01').destroy_all
+    assert_equal(N_DAYS-1, WiMnDMaxTAir.count)
+  end
+  
+  test "same-temp accumulation works when one day is missing" do
+    create_stable_with_missing_day
+    get :get_dds, 
+      grid_date: {"start_date(1i)" => YEAR, "start_date(2i)" => 1, "start_date(3i)" => 1,
+      "end_date(1i)" => YEAR, "end_date(2i)" => 6, "end_date(3i)" => 29},
+      method: 'Simple', base_temp: BASE,
+      latitude: LATITUDE, longitude: LONGI, format: :csv
+    lines = response.body.split("\n")[1..-1] # skip the header line
+    assert(lines[0] =~ /,5.0$/,lines[0])
+    # One day missing, so one less accumulation of 5.0
+    accum = (N_DAYS - 1) * 5.0
+    last_dd = lines[-1].split(",")[-1].to_f
+    assert_in_delta(accum, last_dd, 2 ** -20)
+  end
+  
   def format_for(arg)
     @controller.send :format_for, arg
   end
