@@ -71,8 +71,30 @@
   <%= radio_button_tag(:format,'csv') %>
   <%= label_tag(:format_csv, "Download directly to a CSV file")%>
 </p>
-<P><input type="submit" value="Download Data">&nbsp&nbsp<input type="reset" value="Clear All Checkboxes">
+<P>
+  <script>
+    var checked;
+    var checkedButtonPrompt = "Clear all parameter checkboxes";
+    var uncheckedButtonPrompt = "All parameters (check every box)";
+    $( document ).ready(function() {
+      checked = false;
+      checkAll(false); // set 'em all on to start
+      $('#toggle_button').html(uncheckedButtonPrompt);
+    });
+    
+    function checkAll(on_or_off) {
+      $('input:checkbox').prop('checked', on_or_off);
+    }
+    
+    function toggle() {
+      checked = !checked;
+      checkAll(checked);
+      prompt = uncheckedButtonPrompt;
+      if (checked) {
+        prompt = checkedButtonPrompt;
+      }
+      $('#toggle_button').html(prompt);
+    }
+  </script>
+  <input type="submit" value="Download Data"><% end %><button onclick="toggle()" id="toggle_button"/>
 
-    <%= submit_tag 'Download' %>
-
-<% end %>
