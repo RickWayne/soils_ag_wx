@@ -3,6 +3,9 @@ require 'agwx_biophys'
 class ThermalModelsController < ApplicationController
   include GridController
   include AgwxBiophys::DegreeDays
+  
+  skip_before_filter :verify_authenticity_token, only: :get_dds
+
   def index
   end
 

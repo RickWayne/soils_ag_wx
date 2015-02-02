@@ -1,5 +1,6 @@
 require 'net/http'
-RRAF_IMAGE_URL = '/geoserver/wms?LAYERS=mmas%3Arf_map_0&STYLES=&SRS=EPSG%3A900913&FORMAT=image%2Fgif&TILED=false&TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&BBOX=-10400000.0,5150000,-9680000.0,5950000.0&WIDTH=512&HEIGHT=512'
+RRAF_IMAGE_URL = '/geoserver/wms?LAYERS=mmas%3Arf_map_0&STYLES=&SRS=EPSG%3A900913&FORMAT=image%2Fpng&TILED=false&TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&_OLSALT=0.4195735566318035&BBOX=-10224913.932187,5547486.0678125,-9911827.864375,5860572.135625&WIDTH=256&HEIGHT=256
+'
 MADISON_POPUP_URL = '/geoserver/wms?REQUEST=GetFeatureInfo&EXCEPTIONS=application%2Fvnd.ogc.se_xml&BBOX=-10480441.927412%2C5205663.525481%2C-9608448.308856%2C5988378.695012&X=435&Y=537&INFO_FORMAT=text%2Fplain&QUERY_LAYERS=mmas%3Arf_map_0&FEATURE_COUNT=50&Layers=mmas%3Arf_map_0&Styles=&Srs=EPSG%3A900913&WIDTH=713&HEIGHT=640&format=image%2Fpng'
 class HeartbeatController < ApplicationController
   def index
@@ -57,34 +58,38 @@ class HeartbeatController < ApplicationController
   end
 
   def webapps
+    # require 'net/http'
     @apps = {
       # 'wisp'      => { server: 'wisp.cals.wisc.edu',  url: '/'},
-      '590 page'       => { server: 'gis.soils.wisc.edu',  url: '/app/maps'},
-      'RRAF page'      => { server: 'gis.soils.wisc.edu',  url: '/app/events/runoff_forecast'},
-      'RRAF Map Tile'  => { server: 'gis.soils.wisc.edu',  url: RRAF_IMAGE_URL},
-      'RRAF Popup'     => { server: 'gis.soils.wisc.edu',  url: MADISON_POPUP_URL},
+      'RRAF page'      => { server: 'www.manureadvisorysystem.wi.gov',  url: '/app/events/runoff_forecast'},
+      'RRAF Map Tile'  => { server: 'www.manureadvisorysystem.wi.gov',  url: RRAF_IMAGE_URL},
+      'RRAF Popup'     => { server: 'www.manureadvisorysystem.wi.gov',  url: MADISON_POPUP_URL},
     }
-    @urls = @apps.inject({}) do |hash,(key,param_hash)|
-      # puts "*********************"
-      # puts hash.inspect
-      # puts key.inspect
-      # puts param_hash.inspect
-      hash.merge({key => "http://#{param_hash[:server]}/#{param_hash[:url]}"})
-      # {'wisp' => 'http://wisp.cals.wisc.edu//', '590 page' => etc.}
+    logger.debug "\n\n\n***************"
+    @apps.each do |key,params|
+      url = URI.parse("http://#{params[:server]}#{params[:url]}")
+      req = Net::HTTP::Get.new(url.to_s)
+      begin
+        res = Net::HTTP.start(url.host, url.port) {|http|
+          http.request(req)
+        }
+        # puts "Got response back from #{url.to_s}: #{res.body}"
+        if res.code == "200"
+          params[:status] = "OK"
+          if res['content-type'] == 'image/png'
+            params[:result] = Base64::encode64(res.body)
+          else
+            params[:result] = res.body
+          end
+        else
+          params[:status] = res.code
+        end
+      rescue Exception => e
+        params[:status] = "Exception"
+        params[:result] = e.to_s
+      end
     end
-    
-    # @webapp_results = apps.inject({}) do |hash,(key,addr_hash)|
-    #   begin
-    #     h = Net::HTTP.new(addr_hash[:server],80)
-    #     resp = h.get(addr_hash[:url])
-    #     raise "resp nil" unless resp
-    #   rescue Exception => e
-    #     logger.warn "Heartbeat#webapps: " + e.to_s
-    #     code = 500
-    #   end
-    #   hash.merge({key => resp.code.to_i == 200})
-    # end
-    # render partial: 'webapps', layout: 'application.html.erb'
+    render partial: 'webapps'
   end
   
 end
