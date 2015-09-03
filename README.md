@@ -1,5 +1,23 @@
 # AgWeather
 
+## Getting Started
+
+```bash
+# create database configuration (copy from template)
+cp config/database.yml{.example,}
+
+# create the databases
+bundle exec rake db:create db:migrate db:seed db:test:prepare
+
+# run the server!
+bundle exec rails server
+```
+
+## Running Tests
+```bash
+bundle exec rake test
+```
+
 ## Migration Notes
 When migrating from MySQL to PostgreSQL, need to translate:
 
