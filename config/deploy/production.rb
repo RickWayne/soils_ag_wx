@@ -1,5 +1,5 @@
-set :stage, :production
-set :deploy_to, "/home/asig/sites/soils_ag_wx"
+#set :stage, :production
+set :deploy_to, "/home/deploy/soils_ag_wx"
 
 # Simple Role Syntax
 # ==================
