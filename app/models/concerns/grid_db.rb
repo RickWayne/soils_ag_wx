@@ -1,7 +1,6 @@
 module GridDB
   MIN_LATITUDE = 42.0 # FIXME: Should derive this from the Grid file, really
   STEP = 0.4 # FIXME: Likewise!
-  ENDPOINT_BASE_URL = ENV['AG_WEATHER_BASE_URL'] || 'http://localhost:3000'
 
   require 'agwx_grids'
   # Using http://stackoverflow.com/questions/10692961/inheriting-class-methods-from-mixins
@@ -18,11 +17,11 @@ module GridDB
     include AgwxGrids
 
     def evapotranspirations_url
-      "#{ENDPOINT_BASE_URL}/evapotranspirations"
+      "#{Endpoint::BASE_URL}/evapotranspirations"
     end
 
     def weather_url
-      "#{ENDPOINT_BASE_URL}/weather"
+      "#{Endpoint::BASE_URL}/weather"
     end
     
     def longitude_cols
