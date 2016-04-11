@@ -9,6 +9,15 @@ class SunWaterController < ApplicationController
   end
 
   def insol_us
+    begin
+      endpoint = "#{Endpoint::BASE_URL}/insolations/#{Time.now.yesterday.to_date.to_s}"
+      resp = HTTParty.get(endpoint, { timeout: 10 })
+      body = JSON.parse(resp.body)
+      @map_image = "#{Endpoint::HOST}#{body['map']}"
+    rescue Net::ReadTimeout
+      Rails.logger.error("Timeout on endpoint: #{endpoint}")
+      @map_image = ""
+    end
   end
 
   def insol_model

@@ -1,4 +1,4 @@
-<% @title = "US Insolation"%>
+<% @title = "Wisconsin Insolation"%>
 
 <% content_for :title do %>
   <%= @title %>
@@ -11,33 +11,12 @@
     looks like clouds to the satellite).</p>
 <% end %>
 
-<h2><%= @title %> (click maps to enlarge)</h2>
-<p>The insolation estimates are derived from two separate satellite images, and so are presented as two maps. Since the satellites are viewing from two different angles, there may be some variation between the images for the center of the country.
+<h2><%= @title %>
 </p>
-<table>
-  <tr>
-    <th align="center">Western US</th><th align="center">Eastern US</th>
-  </tr>
-  <tr>
-    <td>
-      <%= link_to image_tag('sun_water/WEST/yestWESTinsol.gif',width: 280),
-                             image_path('sun_water/WEST/yestWESTinsol.gif')%>
-      <br/>
-      <%= link_to 'Download Western-US data in ASCII format', image_path('sun_water/WEST/yestWESTinsol.asc') %>
-      
-    </td>
-    <td>
-      <%= link_to image_tag('sun_water/EAST/yestEASTinsol.gif', width: 280), 
-                            image_path('sun_water/EAST/yestEASTinsol.gif')%>
-      <br/>
-      <%= link_to 'Download Eastern-US data in ASCII format', image_path('sun_water/EAST/yestEASTinsol.asc') %>
-      
-    </td>
-  </tr>
-</table>
-
+<div>
+  <img src="<%= @map_image %>"  alt="Yesterday's Insolation Estimates" />
+</div>
 
   <!-- <H4>For previous days, access the archive <a name="previous" href="http://alfi.soils.wisc.edu/cgi-bin/asig/InsolAccessPage.rb?reportType=EAST#today">here</a>)</H4>
 
   </H4> -->
-  
