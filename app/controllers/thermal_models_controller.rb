@@ -3,14 +3,14 @@ require 'agwx_biophys'
 class ThermalModelsController < ApplicationController
   include GridController
   include AgwxBiophys::DegreeDays
-  
+
   skip_before_filter :verify_authenticity_token, only: :get_dds
 
   def index
   end
 
   def degree_days
-    @dd_methods = %w(Simple Modified Sine)
+    @dd_methods = %w(Average Modified Sine)
   end
 
   def corn
@@ -66,18 +66,22 @@ class ThermalModelsController < ApplicationController
 
   def frost_map
   end
-  
+
   def get_dds
     @method = params[:method]
     @start_date,@end_date = parse_dates(params['grid_date'])
+
     @latitude = params[:latitude].to_f
-    @longitude = params[:longitude].to_f
+    @longitude = params[:longitude].to_f * -1.0
     @base_temp = params[:base_temp].to_f
     @upper_temp = params[:upper_temp] == 'None' ? nil: params[:upper_temp].to_f
-    mins = WiMnDMinTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
-    maxes = WiMnDMaxTAir.daily_series(@start_date,@end_date,@longitude,@latitude)
-    aDate = Date.parse('2011-01-25')
-    @data = calc_dd_series_for(@method,@start_date,@end_date,@longitude,@latitude,mins,maxes,@base_temp,@upper_temp)
+
+    url = "#{Endpoint::BASE_URL}/degree_days?lat=#{@latitude}&long=#{@longitude}&start_date=#{@start_date}&method=#{@method.downcase}&base_temp=#{@base_temp}"
+    url += "&upper_temp=#{@upper_temp}" unless @upper_temp.nil?
+    response = HTTParty.get(url, { timeout: 5 })
+    body = JSON.parse(response.body)
+    @data = body.map { |h| [h['date'], h['value']] }.to_h
+
     @param = "#{@method} method DDs#{@base_temp ? ' Base temp ' + sprintf("%0.1f",@base_temp) : ''}#{@upper_temp ? ' Upper temp ' + sprintf("%0.1f",@upper_temp) : ''} "
     if params[:seven_day]
       if (all_dates = @data.keys.sort) && all_dates.size > 6
@@ -89,21 +93,21 @@ class ThermalModelsController < ApplicationController
       format.csv { render text: to_csv(@data,params[:method]) }
       format.json do
         hash = {title: 'Degree Days',method: @method, latitude: @latitude, longitude: @longitude, start_date: @start_date, end_date: @end_date}
-        render text: hash.merge({data: @data}).to_json
+        render text: @data
       end
     end
   end
-  
+
   def many_degree_days_for_date
     @stations = DegreeDayStation.all
     @regions = Region.sort_south_to_north(Region.all)
   end
-  
+
   def locations_for(ids)
     ids = ids.collect { |id| id.to_i }
     DegreeDayStation.all.select { |stn| ids.include? stn[:id]  }.inject({}) {|hash,stn| hash.merge({stn.abbrev => {'longitude' => stn.longitude, 'latitude' => stn.latitude, 'region' => stn.region }})}
   end
-  
+
   def format_for(date_param)
     # if nil passed in, silently ignore, setting up exception later
     if (date_param || '') =~ /^[\d]{2}\/[\d]{2}\/[\d]{4}$/ # It came from the calendar date input
@@ -113,7 +117,7 @@ class ThermalModelsController < ApplicationController
     end
     # otherwise, silently pass nil back, also setting up exception
   end
-  
+
   def date_for(date_param,default)
     if date_param # could just let the rescue clause work, but we'll trade a little code for efficiency
       begin
@@ -127,7 +131,7 @@ class ThermalModelsController < ApplicationController
       default
     end
   end
-  
+
   # parse the incoming start and end dates. If either is missing, use a sensible default (start of year and today). If the
   # year part of the date is missing, fill in with the current year.
   def parse_dd_mult_dates(p)
@@ -136,7 +140,7 @@ class ThermalModelsController < ApplicationController
       date_for(p['end_date'],Date.today)
     ]
   end
-  
+
   # Add a level of hierarchy atop the passed-in hash based on a block passed in.
   # So if you pass in {"4" => {:foo => 'bar', :baz => 'blah}, "5" => {:foo => 'bar', :baz => 'zing'}, "6'" => {:foo => 'woof', :baz => 'blah}}
   # and a block of {|thing| thing[:foo]},
@@ -153,7 +157,7 @@ class ThermalModelsController < ApplicationController
       ret_hash.merge(group_key => group)
     end
   end
-  
+
   def get_dds_many_locations
     locns_table = locations_for(params[:locations])
     min_max_series = {}
@@ -183,7 +187,7 @@ class ThermalModelsController < ApplicationController
       data_for_all_locations.merge({name => data_for_all_methods_one_location})
     end
     @locations = group_by(locns_table) {|stn| stn['region'] }
-    # {'DBQ' => 
+    # {'DBQ' =>
     #   {'1' => { 'params' =>  { 'method' =>  'Simple',  'base_temp' =>  40,  'upper_temp' =>  70},  'date' =>  @end_date,  'data' =>  dd_accum}}
     # }
     @permalink = permalink(params)
@@ -194,7 +198,7 @@ class ThermalModelsController < ApplicationController
   end
 
   private
-  
+
   # For permalinks, strip off a date's year if it's the current year, so that the param always works in future
   def strip_year_if_current(date_str)
     return nil unless date_str && date_str != ''
@@ -206,7 +210,7 @@ class ThermalModelsController < ApplicationController
     end
     date_str # Otherwise, just leave it unchanged
   end
-  
+
   # Prep a series of incoming parameters so that it's suitable for a permanent bookmark.
   def permalink(params)
     params.delete('authenticity_token')
@@ -218,7 +222,7 @@ class ThermalModelsController < ApplicationController
     end
     params
   end
-  
+
   def calc_dd_series_for(method,start_date,end_date,longitude,latitude,mins,maxes,base_temp,upper_temp)
     dd_accum = 0.0
     data = {}
@@ -245,20 +249,20 @@ class ThermalModelsController < ApplicationController
     end
     data
   end
-  
+
   # TODO: Write automated test for this little wanker!
   def fill_in_max_min_series(name,start_date,end_date,longitude,latitude,min_max_series)
     # Query out data for the whole year, so it's all there and only has to be done once
     start_date = Date.civil(start_date.year,1,1)
     end_date = Date.civil(end_date.year,12,31)
     # If we've already retrieved the min/max data for this location and year, don't query it again.
-    # First make an entry, if necessary, for the location 
+    # First make an entry, if necessary, for the location
     min_max_series[name] ||= {}
     # Then set the year, again if it's not already there.
-    min_max_series[name][start_date.year] ||= { 
+    min_max_series[name][start_date.year] ||= {
       mins: WiMnDMinTAir.daily_series(start_date,end_date,longitude,latitude),
       maxes: WiMnDMaxTAir.daily_series(start_date,end_date,longitude,latitude),
     }
   end
-  
+
 end

@@ -38,11 +38,14 @@
   Email :&nbsp;<%= text_field_tag 'subscriber[email]'%>
 <% end %>
 <br/ >
-<img src="<%= @map_image %>"  alt="Yesterday's ET Estimates" usemap: "latlong" />
-  <P> <a href="/soils-agwx-assets/uwex_agwx/sun_water/yestWIMNet.asc"> Download yesterday's entire grid of data in ASCII Format</a><br>
+<img src="<%= @map_image %>"  alt="Yesterday's ET Estimates" usemap="#latlong" />
+  <P> <a href="/soils-agwx-assets/uwex_agwx/sun_water/yestWIMNet.asc"> Download yesterday's entire grid of data in ASCII Format</a><br>
 
 <!-- <a href=http://emily.soils.wisc.edu/cgi-bin/aws/et_arch.pl?Region=WIMN>Earlier Wisconsin-Minnesota ET Maps</a>-->
 
 <!-- X: 34 to 512 Y: 181 to 616 -->
 <%= render partial: 'partials/gridmap'%>
 <p>If you have suggestions, feel free to email them to <a href="mailto:fewayne@wisc.edu">Rick Wayne.</a></p>
+
+
+
