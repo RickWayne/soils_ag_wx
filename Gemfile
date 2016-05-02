@@ -7,7 +7,7 @@ gem 'rails', '4.0.0'
 gem 'pg'
 
 # Use MySQL for sucking old data off Molly
-gem 'mysql'
+# gem 'mysql'
 
 # Use agwx_grids for uploading data from text grids to database
 gem 'agwx_grids', '>= 0.0.6'

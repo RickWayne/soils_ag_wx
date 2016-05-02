@@ -43,6 +43,21 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  # Get the last-uploaded date for a given model (only makes sense for AWON ones)
+  def last_for_model(stnid,model)
+    stnid_str = stnid || '4751'
+    stn_id = AwonStation.find_by_stnid(stnid_str)[:id]
+    rec = model.where(awon_station_id: stn_id).order('date','time').last
+    date = rec.date
+    minutes = rec.time % 100
+    hours = rec.time / 100
+    
+    @date_str = date.strftime("%Y-%m-%d")
+    time_str = sprintf("%02d:%02d:00",hours,minutes)
+    "#{@date_str} #{time_str}"
+  end
+
+
   private
   def set_tab_selected
     selects = {

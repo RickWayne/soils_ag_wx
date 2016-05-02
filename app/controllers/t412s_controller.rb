@@ -63,6 +63,12 @@ class T412sController < ApplicationController
     end
   end
 
+  def last
+    p = params.permit(:stnid)
+    stnid_str = p[:stnid] || '4751'
+    render json: last_for_model(stnid_str,T412)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_t412
